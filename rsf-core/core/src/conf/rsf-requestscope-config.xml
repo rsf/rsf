@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+  <!-- This file contains request scope beans which are specific to RSF -->
+
+  <!-- A request scope bean locator locating beans from THIS container! -->
+  <bean id="requestBeanLocator" factory-bean="RSACBeanLocator"
+    factory-method="getBeanLocator" />
+
+  <bean id="deadRequestBeanLocator" factory-bean="RSACBeanLocator"
+    factory-method="getDeadBeanLocator" />
+
+  <bean id="OTMParent"
+    class="uk.org.ponder.beanutil.support.ObstinateTravellingMap"
+    init-method="init" abstract="true">
+    <property name="beanModelAlterer" ref="DARApplier" />
+    <property name="generalLeafParser" ref="generalLeafParser" />
+    <property name="seed" ref="ELTargetBeanLocator" />
+  </bean>
+
+  <bean id="RSACLazarusList" class="uk.org.ponder.rsac.support.RSACLazarusList"
+    lazy-init="true">
+    <property name="RSACBeanLocator" ref="RSACBeanLocator" />
+  </bean>
+
+  <bean id="httpServletFactory"
+    class="uk.org.ponder.rsac.servlet.StaticHttpServletFactory" />
+
+  <bean id="httpServletRequest" factory-bean="httpServletFactory"
+    factory-method="getHttpServletRequest" />
+
+  <bean id="httpServletResponse" factory-bean="httpServletFactory"
+    factory-method="getHttpServletResponse" />
+
+  <bean id="earlyRequestParser"
+    class="uk.org.ponder.rsf.servlet.ServletEarlyRequestParser"
+    init-method="init">
+    <property name="httpServletRequest" ref="httpServletRequest" />
+    <property name="multipartResolver" ref="multipartResolver" />
+  </bean>
+
+  <bean id="requestLocale" factory-bean="httpServletRequest"
+    factory-method="getLocale" />
+
+  <bean id="requestTimeZone"
+    class="uk.org.ponder.springutil.TimeZoneFactory" />
+
+  <bean id="requestMap" factory-bean="earlyRequestParser"
+    factory-method="getRequestMap" />
+
+  <bean id="requestPathInfo" factory-bean="earlyRequestParser"
+    factory-method="getPathInfo" />
+
+  <bean id="requestType" factory-bean="earlyRequestParser"
+    factory-method="getRequestType" />
+
+  <!-- Instantiation of this bean will fail in environments where it
+  cannot be supported -->
+  <bean id="requestMethod" factory-bean="earlyRequestParser" 
+    factory-method="getRequestMethod" />
+ 
+
+  <bean id="requestEnvironmentType" factory-bean="earlyRequestParser"
+    factory-method="getEnvironmentType" />
+
+  <bean id="multipartMap" factory-bean="earlyRequestParser"
+    factory-method="getMultipartMap" />
+
+  <bean id="defaultViewParameters"
+    factory-bean="defaultViewInferrerManager"
+    factory-method="getViewParameters" />
+
+  <bean id="handlerResolver"
+    class="uk.org.ponder.rsf.processor.support.DefaultHandlerResolver">
+    <property name="renderHandler" ref="RSFRenderHandler" />
+    <property name="actionHandler" ref="RSFActionHandler" />
+  </bean>
+
+  <bean id="renderSystem" factory-bean="renderSystemResolver"
+    factory-method="getRenderSystem" />
+
+  <bean id="contentTypeInfo" factory-bean="contentTypeInfoFactory"
+    factory-method="getContentTypeInfo" />
+
+  <bean id="renderHandler" factory-bean="handlerResolver"
+    factory-method="getRenderHandler" />
+  <bean id="actionHandler" factory-bean="handlerResolver"
+    factory-method="getActionHandler" />
+
+  <bean id="autoBaseURLProvider"
+    class="uk.org.ponder.rsf.servlet.AutoBaseURLProvider"
+    init-method="init">
+    <property name="httpServletRequest">
+      <ref bean="httpServletRequestProxy" />
+    </property>
+  </bean>
+
+  <bean id="rootHandlerBeanBase" abstract="true"
+    class="uk.org.ponder.rsf.servlet.ServletRootHandlerBean"
+    init-method="handle">
+    <property name="requestType" ref="requestType" />
+    <property name="viewStateHandler" ref="viewStateHandler" />
+    <property name="outgoingParams" ref="outgoingParams" />
+    <property name="renderHandlerBracketer"
+      ref="renderHandlerBracketer" />
+    <property name="actionHandler" ref="actionHandler" />
+    <property name="handlerHook" ref="handlerHookHandler" />
+    <property name="contentTypeInfo" ref="contentTypeInfoProxy" />
+    <property name="fatalErrorHandler" ref="fatalErrorHandler" />
+    <property name="lazarusRedirector" ref="lazarusRedirector" />
+  </bean>
+
+  <bean id="rootHandlerBean" parent="rootHandlerBeanBase">
+    <property name="httpServletRequest" ref="httpServletRequest" />
+    <property name="httpServletResponse" ref="httpServletResponse" />
+  </bean>
+
+  <!-- An uncensored BeanLocator suitable to be the target of internal EL
+    expressions, filled out with any fallback beans -->
+  <bean id="ELTargetBeanLocator"
+    class="uk.org.ponder.beanutil.FallbackCapableBeanLocator">
+    <property name="beanLocator" ref="requestBeanLocator" />
+    <property name="fallbackBeans" ref="fallbackBeans" />
+  </bean>
+
+  <!-- The "ID-defunneller", required to correctly process submissions from entity
+    selection controls -->
+  <bean id="id-defunnel"
+    class="uk.org.ponder.rsf.state.entity.support.IDDefunnellingReshaper">
+    <property name="beanModelAlterer" ref="DARApplier" />
+    <property name="mappingContext" ref="ELMappingContext" />
+    <property name="requestBeanLocator" ref="ELTargetBeanLocator" />
+    <property name="entityNameInferrer" ref="entityNameInferrerManager" />
+    <property name="addressibleBeanModel"
+      ref="requestAddressibleBeanModel" />
+  </bean>
+
+<!-- The "real" ARIResult is called ARIResultConcrete - this bean is here only
+to intercept bindings -->
+  <bean id="ARIResult" class="uk.org.ponder.rsf.flow.support.ARIResultPenningReshaper">
+    <property name="beanModelAlterer" ref="DARApplier"/>
+    <property name="targettedMessageList" ref="targettedMessageList"/>
+  </bean>
+
+  <bean id="ELEvaluator" class="uk.org.ponder.beanutil.support.ELEvaluator">
+    <property name="beanLocator" ref="ELTargetBeanLocator" />
+    <property name="beanModelAlterer" ref="DARApplier" />
+  </bean>
+
+  <!-- The ViewParameters object giving rise to the current request. Highly
+    polymorphic, in general of some user-defined type. -->
+  <bean id="parsedViewParameters"
+    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="singleton" value="true" />
+    <property name="targetObject" ref="viewParametersParser" />
+    <property name="targetMethod" value="parse" />
+    <property name="arguments">
+      <list>
+        <ref local="requestPathInfo" />
+        <ref local="requestMap" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="viewParameters" factory-bean="viewParamsInterceptorManager"
+    factory-method="getAdjustedViewParameters">
+  </bean>
+
+  <bean id="postDecoder" class="uk.org.ponder.rsf.processor.support.PostDecoder"
+    init-method="init">
+    <property name="renderSystemDecoder" ref="renderSystem" />
+    <property name="requestMap" ref="requestMap" />
+    <property name="requestType" ref="requestType" />
+    <property name="fossilizedConverter" ref="fossilizedConverter" />
+  </bean>
+
+  <bean id="normalizedRequest" factory-bean="postDecoder"
+    factory-method="getNormalizedRequest" />
+
+  <bean id="outgoingMap" class="java.util.HashMap"></bean>
+
+  <!-- Marked as lazy-init because of late use from errorStateManager -->
+  <bean id="requestRSVC" factory-bean="postDecoder"
+    factory-method="getRequestRSVC" lazy-init="true" />
+
+  <bean id="versionCheckPolicy"
+    class="uk.org.ponder.rsf.state.support.NullVersionCheckPolicy" />
+
+
+  <bean id="beanInvalidationModel"
+    class="uk.org.ponder.mapping.ListBeanInvalidationModel" />
+
+  <bean id="RSVCApplier" class="uk.org.ponder.rsf.state.support.RSVCApplier">
+    <property name="versionCheckPolicy" ref="versionCheckPolicy" />
+    <property name="rootBeanLocator" ref="ELTargetBeanLocator" />
+    <property name="beanModelAlterer" ref="DARApplier" />
+    <property name="beanInvalidationModel" ref="beanInvalidationModel" />
+    <property name="beanGuardProcessor" ref="beanGuardProcessor" />
+    <property name="ignoreFossilizedValues"
+      ref="ignoreFossilizedValues" />
+    <property name="targettedMessageList" ref="targettedMessageList" />
+    <property name="dataConverterRegistry" ref="dataConverterRegistry" />
+    <property name="addressibleBeanModel"
+      ref="requestAddressibleBeanModel" />
+  </bean>
+
+  <bean id="beanInvalidationBracketer" factory-bean="RSVCApplier"
+    factory-method="getBracketer" />
+
+  <!-- A list of the targetted messages accumulated during this request cycle. -->
+  <bean id="targettedMessageList"
+    class="uk.org.ponder.messageutil.TargettedMessageList" />
+
+  <bean id="messageProcessorManager" class="uk.org.ponder.rsf.state.support.MessageProcessorManager">
+    <property name="messageProcessorList" ref="messageProcessorList"/>
+  </bean>
+
+  <bean id="TMLFixer" class="uk.org.ponder.rsf.state.support.TMLFixer" >
+    <property name="messageProcessorManager" ref="messageProcessorManager"/>
+  </bean>
+
+  <!--  requires input of requestRSVC in order to fix up errors at the
+    end of a cycle.-->
+  <bean id="errorStateManager"
+    class="uk.org.ponder.rsf.state.support.ErrorStateManager" init-method="init">
+    <property name="TSHolder" ref="bandgapStateHolder" />
+    <property name="viewParameters" ref="viewParameters" />
+    <property name="requestRSVC" ref="requestRSVC" />
+    <property name="targettedMessageList" ref="targettedMessageList" />
+    <property name="TMLFixer" ref="TMLFixer"/>
+  </bean>
+
+  <bean id="statePreservationManager"
+    class="uk.org.ponder.rsf.preservation.StatePreservationManager">
+    <property name="strategies" ref="statePreservationStrategies" />
+    <property name="startFlowStrategies"
+      ref="startFlowStatePreservationStrategies" />
+    <property name="endFlowStrategies"
+      ref="endFlowStatePreservationStrategies" />
+    <property name="writeableBeanLocator" ref="ELTargetBeanLocator" />
+    <property name="deadBeanLocator" ref="deadRequestBeanLocator" />
+    <property name="scopeStrategies" ref="scopePreservationStrategies" />
+  </bean>
+
+  <bean id="scopeLocks" factory-bean="statePreservationManager"
+    factory-method="getScopeLocks" lazy-init="true" />
+
+  <bean name="outgoingParams"
+    class="uk.org.ponder.rsf.components.ParameterList">
+  </bean>
+
+  <!-- A set of static renderers to be used for this request -->
+  <!-- TODO: this should really be at app scope, with a proxy for consumer -->
+  <bean id="staticRenderers"
+    class="uk.org.ponder.rsf.renderer.scr.StaticRendererCollection">
+    <property name="staticRenderers">
+      <list>
+        <ref bean="URLRewriteSCR" />
+        <ref bean="headCollectSCR" />
+        <ref bean="nullSCR" />
+        <ref bean="ignoreSCR" />
+        <ref bean="consumerStaticRenderers" />
+      </list>
+    </property>
+  </bean>
+
+  <!-- Given a TemplateResolver and a ViewParameters object, the Template
+    LoaderBean returns a template. This is a factory bean -->
+  <!-- Get rid of this and turn the TemplateResolver itself into a 
+    request-scope bean -->
+  <bean id="viewTemplate"
+    class="uk.org.ponder.rsf.templateresolver.support.TemplateLoaderBean">
+    <!-- EXTERNAL DEPENDENCY! The application supplies the template resolver -->
+    <property name="templateResolver" ref="viewTemplateResolver" />
+    <property name="viewParameters" ref="viewParameters" />
+  </bean>
+
+  <bean id="viewRender" class="uk.org.ponder.rsf.renderer.ViewRender">
+    <property name="viewTemplate" ref="viewTemplate" />
+    <property name="contentTypeInfo" ref="contentTypeInfo" />
+    <!-- This dependence is injected manually, since the alterationwrapper must
+      bracket restoration, and access to the model by fixup -->
+    <!--
+      <property name="view">
+      <ref local="view"/>
+      </property>-->
+    <property name="renderSystem" ref="renderSystem" />
+    <property name="messageRenderer" ref="messageRenderer" />
+    <property name="decoratorManager" ref="decoratorManager" />
+  </bean>
+
+  <bean id="flowStateManager"
+    class="uk.org.ponder.rsf.flow.support.FlowStateManager">
+    <property name="errorStateManager" ref="errorStateManager" />
+    <property name="statePreservationManager"
+      ref="statePreservationManager" />
+  </bean>
+
+  <bean id="RSFActionHandler"
+    class="uk.org.ponder.rsf.processor.support.RSFActionHandler"
+    lazy-init="true">
+    <property name="errorStateManager" ref="errorStateManager" />
+    <property name="ARIResolver" ref="ARIResolver" />
+    <property name="viewParameters" ref="viewParameters" />
+    <property name="requestRSVC" ref="requestRSVC" />
+    <property name="alterationWrapper" ref="collectedAlterationWrapper" />
+    <property name="RSVCApplier" ref="RSVCApplier" />
+    <property name="normalizedRequestMap" ref="normalizedRequest" />
+    <property name="statePreservationManager"
+      ref="statePreservationManager" />
+    <property name="actionErrorStrategy"
+      ref="actionErrorStrategyManager" />
+    <property name="flowStateManager" ref="flowStateManager" />
+    <property name="targettedMessageList" ref="targettedMessageList" />
+    <property name="actionResultInterceptor"
+      ref="actionResultInterceptorProcessor" />
+  </bean>
+
+  <!-- Always use this bean through the pea proxy, even in request scope - it
+    will not be available until the request is almost concluded. -->
+  <bean id="ARIResultConcrete" factory-bean="actionHandler"
+    factory-method="getARIResult" />
+
+  <!-- A useful "EL-target" bean to allow scopes to be destroyed via EL -->
+  <bean id="destroyScope"
+    class="uk.org.ponder.rsf.state.scope.support.ScopedBeanDestroyer" />
+
+  <bean id="destroyedScopeMap" class="java.util.HashMap" />
+
+  <!-- Begin beans for FlowLite -->
+
+  <bean id="flowLite-flowIDHolder"
+    class="uk.org.ponder.rsf.flow.FlowIDHolder">
+  </bean>
+
+  <bean id="flowLite-flowProxyBean"
+    class="uk.org.ponder.rsf.flow.lite.FlowActionProxyBean"
+    abstract="true">
+    <property name="reflectiveCache" ref="reflectiveCache" />
+    <property name="beanLocator" ref="requestBeanLocator" />
+    <property name="viewParameters" ref="viewParameters" />
+    <property name="flowIDHolder" ref="flowLite-flowIDHolder" />
+    <property name="errorHandler" ref="actionHandler" />
+  </bean>
+
+  <!-- End beans for FlowLite -->
+
+  <bean id="pageBasicProducer"
+    class="org.springframework.beans.factory.config.BeanReferenceFactoryBean">
+    <property name="targetBeanName" value="viewCollector" />
+  </bean>
+
+  <!-- Collects together all ViewProducers, and selects those appropriate for 
+    this request -->
+  <bean id="viewCollector"
+    class="uk.org.ponder.rsf.view.support.ViewCollector">
+    <property name="viewResolver" ref="viewResolver" />
+    <property name="viewParameters" ref="viewParameters" />
+    <property name="componentChecker" ref="viewTemplate" />
+  </bean>
+
+  <!--
+    <bean id="view" factory-bean="viewgenerator" factory-method="getView"/>
+  -->
+  <bean id="formModel"
+    class="uk.org.ponder.rsf.componentprocessor.BasicFormModel" />
+  <!-- Begin request scope "fixer" beans - manipulate component tree in between
+    generation and rendering -->
+
+  <!-- Used when operating an HTML-like form system whereby submitting controls
+    are defined by nesting within an element -->
+  <bean id="containmentFormFixer"
+    class="uk.org.ponder.rsf.componentprocessor.ContainmentFormChildFixer">
+    <property name="mappingContext" ref="ELMappingContext" />
+    <property name="viewParamsCodec" ref="viewParamsCodec" />
+    <property name="formModel" ref="formModel" />
+  </bean>
+
+  <bean id="formFixer"
+    class="uk.org.ponder.rsf.componentprocessor.DefaultFormFixer">
+    <property name="viewParameters" ref="viewParameters" />
+    <property name="viewStateHandler" ref="viewStateHandler" />
+    <property name="URLRewriter" ref="URLRewriter" />
+    <property name="outgoingParams" ref="outgoingParams" />
+    <property name="internalURLRewriter" ref="internalURLRewriter" />
+  </bean>
+
+  <bean id="valueFixer"
+    class="uk.org.ponder.rsf.componentprocessor.ValueFixer">
+    <property name="beanLocator" ref="ELTargetBeanLocator" />
+    <property name="modelAlterer" ref="DARApplier" />
+    <property name="fossilizedConverter" ref="fossilizedConverter" />
+    <property name="errorStateManager" ref="errorStateManager" />
+    <property name="renderFossilizedForms" ref="renderFossilizedForms" />
+    <property name="formModel" ref="formModel" />
+    <property name="dataConverterRegistry" ref="dataConverterRegistry" />
+    <property name="messageLocator" ref="messageLocator"/>
+  </bean>
+
+  <!-- End "fixer" beans" -->
+
+  <bean id="componentProcessorContributorParent"
+    class="uk.org.ponder.springutil.StaticTLAB" abstract="true">
+    <property name="targetPath"
+      value="viewProcessor.clientComponentProcessors" />
+  </bean>
+
+  <bean id="viewProcessor"
+    class="uk.org.ponder.rsf.componentprocessor.ViewProcessor">
+    <property name="mappingContext" ref="ELMappingContext" />
+    <property name="componentProcessors">
+      <list>
+        <!-- This must execute before formfixer-->
+        <ref bean="containmentFormFixer" />
+        <ref bean="formFixer" />
+        <ref bean="viewParamsFixer" />
+        <ref bean="bindingFixer" />
+        <ref bean="valueFixer" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="renderHandlerBracketer"
+    class="uk.org.ponder.rsf.processor.support.RenderHandlerBracketer"
+    lazy-init="true">
+    <property name="errorStateManager" ref="errorStateManager" />
+    <property name="viewExceptionStrategy"
+      ref="viewExceptionStrategyManager" />
+    <property name="viewParameters" ref="viewParameters" />
+    <property name="renderHandler" ref="renderHandler" />
+    <property name="redirectOnLevel1Error" ref="redirectOnLevel1Error" />
+  </bean>
+
+  <!-- achieve two things here with laziness - renderHandler is not resolved in non-POST requests,
+    and ALSO is not resolved until first use, to allow exception bracketing -->
+  <bean id="RSFRenderHandler"
+    class="uk.org.ponder.rsf.processor.support.RSFRenderHandler"
+    lazy-init="true">
+    <property name="errorStateManager" ref="errorStateManager" />
+    <property name="viewParameters" ref="viewParameters" />
+    <property name="viewGenerator" ref="viewGenerator" />
+    <property name="requestInvoker" ref="requestInvoker" />
+    <property name="viewProcessor" ref="viewProcessor" />
+    <property name="viewRender" ref="viewRender" />
+    <property name="targettedMessageList" ref="targettedMessageList" />
+    <property name="enableDebugRendering" ref="enableDebugRendering" />
+  </bean>
+
+  <!-- Beans for UVB (the Universal View Bus) -->
+
+  <bean id="UVBBean" class="uk.org.ponder.rsf.builtin.UVBBean">
+    <property name="requestBeanGetter" ref="ELEvaluator" />
+  </bean>
+
+  <bean id="UVBView" class="uk.org.ponder.rsf.builtin.UVBProducer">
+    <property name="UVBBean" ref="UVBBean" />
+    <property name="targettedMessageList" ref="targettedMessageList" />
+    <property name="messageLocator" ref="messageLocator" />
+    <property name="JSONProvider" ref="JSONProvider" />
+  </bean>
+</beans>

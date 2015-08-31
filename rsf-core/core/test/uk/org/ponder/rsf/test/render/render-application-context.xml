@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+  "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+  <!-- Control the location of the html templates (default: content/templates/) -->
+  <bean id="templateResolverStrategy" parent="CRITemplateResolverStrategy">
+    <property name="baseDirectory" value="" />
+    <property name="templateResourceBase" value="classpath:uk/org/ponder/rsf/test/render/" />
+  </bean>
+  
+  <bean id="messageSource" parent="messageSourceParent">
+    <property name="basename" value="classpath:uk/org/ponder/rsf/test/render/messages" />
+  </bean>
+  
+  <bean id="testString" class="java.lang.String">
+    <constructor-arg value="Referenced value"/>
+  </bean>
+</beans>

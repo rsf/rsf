@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+  <bean id="earlyRequestParser" 
+     class="uk.org.ponder.rsf.request.EarlyRequestParser" abstract="true" >
+  </bean>
+
+  <bean id="requestLocale" factory-bean="localeHolder" factory-method="getLocale" />
+    
+  <bean id="rootHandlerBean" 
+     parent="rootHandlerBeanBase" class="uk.org.ponder.rsf.bare.BareRootHandlerBean"/>
+     
+  <bean id="renderedMarkup" factory-bean="rootHandlerBean" factory-method="getMarkup" />
+  
+  <bean id="redirectTarget" factory-bean="rootHandlerBean" factory-method="getRedirectTarget" />
+  
+  <bean id="servletResponseFactory" class="uk.org.ponder.springutil.ServletResponseFactory" />
+  
+  <bean id="httpServletResponse" factory-bean="servletResponseFactory" factory-method="getHttpServletResponse" />
+</beans>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+  "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+  <bean class="uk.org.ponder.mapping.DataConverter">
+    <property name="targetPath" value="dateHolder.date" />
+    <property name="converter">
+      <bean class="uk.org.ponder.rsf.test.converter.DateConverter" />
+    </property>
+  </bean>
+
+<!--  Test definition for RSF-57 invalid path match issue -->
+  <bean class="uk.org.ponder.mapping.DataConverter">
+    <property name="targetPath" value="Profile.*.dob" />
+    <property name="converter">
+      <bean class="uk.org.ponder.rsf.test.converter.ExplosiveConverter" />
+    </property>
+  </bean>
+  
+  <bean class="uk.org.ponder.mapping.DataConverter">
+    <property name="targetPath" value="stringHolder.string" />
+    <property name="converterEL" value="booleanConverter.effectiveValue"/>
+  </bean>
+
+  <bean id="booleanConverter" class="uk.org.ponder.rsf.test.converter.BooleanConverterFactory"/>
+
+  <bean parent="requestAddressibleParent">
+    <property name="value" value="dateHolder, removeIds, profileOtherWorksBL, stringHolder" />
+  </bean>
+
+</beans>

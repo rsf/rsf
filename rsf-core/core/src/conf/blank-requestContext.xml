@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+<!-- The purpose of this file is to provide an "default" completion of
+  the request scope portion of 
+  RSF's Spring API, so that the project will validate self-consistently in,
+  for example, Spring IDE. Dependencies resolved here are ones that clients
+  might well want to override, as opposed to more core dependencies in the main
+  RSF configuration files. -->
+
+<beans>
+  <!-- A collection of static renderers that is expected to be dynamically
+    writeable - filters and the like might populate it before request handling
+    with consumer-specific rewriters. -->
+  <bean id="consumerStaticRenderers"
+    class="uk.org.ponder.rsf.renderer.scr.StaticRendererCollection">
+  </bean>
+ 
+  <!-- A null "consumertype" field in this object will be treated as an 
+    empty object. An "unreasonable bean". -->
+  <bean name="consumerInfo"
+    class="uk.org.ponder.webapputil.ConsumerInfo">
+  </bean>
+
+  <bean id="redirectOnLevel1Error"
+    class="uk.org.ponder.springutil.BooleanFactory">
+    <property name="value" value="true" />
+  </bean>
+  
+  <bean id="renderFossilizedForms"
+    class="uk.org.ponder.springutil.BooleanFactory">
+    <property name="value" value="true"/>
+  </bean>
+  
+  <!--  Don't use an alias for this since we imagine it will be overridden -->
+  <bean name="pageProducer" 
+    class="org.springframework.beans.factory.config.BeanReferenceFactoryBean">
+      <property name="targetBeanName" value="layoutCollector"/>
+  </bean>
+  
+  <bean id="layoutProducerParent" class="uk.org.ponder.rsf.view.LayoutProducerHolder" 
+     abstract="true">
+     <property name="viewGroupName" value="HTMLViewGroup" />
+  </bean>
+
+  <bean id="layoutCollectorTLAB" class="uk.org.ponder.springutil.ByClassTLAB" init-method="init">
+    <property name="RSACBeanLocator" ref="RSACBeanLocator"/>
+    <property name="targetClass" value="uk.org.ponder.rsf.view.LayoutProducerHolder"/>
+    <property name="targetPath" value="layoutCollector.holders"/>
+  </bean>
+
+  <bean id="layoutCollector" class="uk.org.ponder.rsf.view.support.LayoutCollector">
+    <property name="ELEvaluator" ref="ELEvaluator"/>
+    <property name="upstreamProducer" ref="viewCollector"/>
+    <property name="viewGroupResolver" ref="viewGroupResolver"/>
+    <property name="viewParameters" ref="viewParameters"/>
+  </bean>
+
+  <!-- TODO: Move all preservers and lists of them into application scope. -->
+  <bean id="defaultRSVCPreserver"
+    class="uk.org.ponder.rsf.preservation.RSVCPreservationStrategy">
+    <property name="requestRSVC" ref="requestRSVC" />
+    <property name="preservingBeans" ref="totalRequestAddressibleBeans" />
+    <property name="tokenStateHolder" ref="bandgapStateHolder" />
+    <property name="RSVCApplier" ref="RSVCApplier" />
+  </bean>
+
+  <bean id="requestFlowStatePreserver"
+    class="uk.org.ponder.rsf.preservation.InURLPreservationStrategy">
+    <property name="beanModelAlterer" ref="DARApplier" />
+    <property name="requestMap" ref="requestMap" />
+    <property name="preservingBeanSpecs" ref="URLPreservingBeanSpecs" />
+    <property name="outgoingParams" ref="outgoingParams" />
+  </bean>
+
+  <bean id="defaultBeanCopyPreserver"
+    class="uk.org.ponder.rsf.preservation.BeanCopyPreservationStrategy">
+    <property name="preservingBeans" ref="totalCopyPreservingBeans" />
+    <property name="tokenStateHolder" ref="flowTokenStateHolder" />
+    <property name="beanModelAlterer" ref="DARApplier" />
+  </bean>
+
+  <bean id="endFlowPreserver"
+    class="uk.org.ponder.rsf.preservation.BeanCopyPreservationStrategy">
+    <property name="preservingBeans" ref="totalCopyPreservingBeans" />
+    <property name="tokenStateHolder" ref="bandgapStateHolder" />
+    <property name="beanModelAlterer" ref="DARApplier" />
+  </bean>
+
+  <!-- Use this unless you are preserving the flowIDHolder by other means -->
+  <bean id="flowScopeFlowStatePreserver"
+    class="uk.org.ponder.rsf.preservation.BeanCopyPreservationStrategy">
+    <property name="tokenStateHolder" ref="flowTokenStateHolder" />
+    <property name="preservingBeans" ref="flowOnlyPreservingBeans" />
+    <property name="beanModelAlterer" ref="DARApplier" />
+  </bean>
+
+  <bean id="statePreservationStrategies"
+    class="uk.org.ponder.springutil.ListFactory">
+    <property name="list">
+      <list>
+        <ref bean="defaultBeanCopyPreserver" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="startFlowStatePreservationStrategies"
+    class="uk.org.ponder.springutil.ListFactory">
+    <property name="list">
+      <list>
+        <ref bean="flowScopeFlowStatePreserver" />
+        <ref bean="requestFlowStatePreserver" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="endFlowStatePreservationStrategies"
+    class="uk.org.ponder.springutil.ListFactory">
+    <property name="list">
+      <list>
+        <ref bean="endFlowPreserver" />
+      </list>
+    </property>
+  </bean>
+
+  <!-- The default alteration wrapper performs no ORM-specific bracketing
+    of alteration operations, unless a flow or scope is active, in which case 
+    it will block. -->
+  <bean id="scopeAlterationWrapper"
+    class="uk.org.ponder.rsf.flow.support.BasicScopedAlterationWrapper" lazy-init="true">
+    <property name="flowIDHolder" ref="flowLite-flowIDHolder" />
+    <property name="lockGetter" ref="inMemoryLockGetter" />
+    <property name="scopeLocks" ref="scopeLocks" />
+  </bean>
+
+  <!-- A template for BeanExploders -->
+  <bean id="beanExploder"
+    class="uk.org.ponder.beanutil.entity.BeanExploder"
+    abstract="true">
+    <property name="deepBeanCloner" ref="deepBeanCloner"/>
+    <property name="ELEvaluator" ref="ELEvaluator"/>
+  </bean>
+
+</beans>

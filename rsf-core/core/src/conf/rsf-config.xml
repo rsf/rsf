@@ -1,0 +1,941 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+  "http://www.springframework.org/dtd/spring-beans.dtd">
+<!-- This file is RSF-static configuration - common and invariant to 
+  all applications using RSF -->
+<beans>
+  <bean id="reflectiveCache"
+    class="uk.org.ponder.reflect.JDKReflectiveCache" />
+
+  <bean id="generalLeafParser"
+    class="uk.org.ponder.conversion.GeneralLeafParser" />
+
+  <bean id="XMLDefaultInferrer"
+    class="uk.org.ponder.saxalizer.mapping.DefaultMapperInferrer"
+    init-method="init">
+    <property name="containerTypeRegistry" ref="containerTypeRegistry" />
+    <property name="depluralize" value="true" />
+  </bean>
+
+  <bean id="protoSaxalizerMappingContext"
+    class="uk.org.ponder.saxalizer.SAXalizerMappingContext">
+    <property name="reflectiveCache" ref="reflectiveCache" />
+    <property name="generalLeafParser" ref="generalLeafParser" />
+    <property name="defaultInferrer" ref="XMLDefaultInferrer" />
+  </bean>
+
+  <bean id="containerTypeRegistry"
+    class="uk.org.ponder.saxalizer.mapping.ContainerTypeRegistry" />
+
+  <bean id="indexedPropertyAccessor"
+    class="uk.org.ponder.beanutil.support.IndexedPropertyAccessor">
+    <property name="containerTypeRegistry" ref="containerTypeRegistry" />
+  </bean>
+
+  <bean id="ELDefaultInferrer"
+    class="uk.org.ponder.saxalizer.mapping.DefaultMapperInferrer"
+    init-method="init">
+    <property name="containerTypeRegistry" ref="containerTypeRegistry" />
+    <property name="depluralize" value="false" />
+    <property name="inferAddMethods" value="false"/>
+  </bean>
+
+  <bean id="ELMappingContext"
+    class="uk.org.ponder.saxalizer.SAXalizerMappingContext">
+    <property name="reflectiveCache" ref="reflectiveCache" />
+    <property name="defaultInferrer" ref="ELDefaultInferrer" />
+    <property name="generalLeafParser" ref="generalLeafParser" />
+    <property name="indexedPropertyAccessor" ref="indexedPropertyAccessor" />
+  </bean>
+
+  <bean id="streamResolver"
+    class="uk.org.ponder.springutil.SpringStreamResolver">
+  </bean>
+
+  <bean id="entityResolverStash"
+    class="uk.org.ponder.saxalizer.support.EntityResolverStash">
+    <property name="streamResolver">
+      <ref bean="streamResolver" />
+    </property>
+    <property name="entityResolvers">
+      <list>
+        <bean class="uk.org.ponder.saxalizer.support.LocalEntityResolver">
+          <property name="ID">
+            <value>-//SPRING//DTD WEBFLOW//EN</value>
+          </property>
+          <property name="path">
+            <value>classpath:/dtd/spring-webflow.dtd</value>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="mappableXMLProvider"
+    class="uk.org.ponder.saxalizer.support.SAXalXMLProvider">
+    <constructor-arg>
+      <ref bean="protoSaxalizerMappingContext" />
+    </constructor-arg>
+    <property name="entityResolverStash" ref="entityResolverStash" />
+  </bean>
+
+  <bean id="mappingLoadManager"
+    class="uk.org.ponder.springutil.SpringXMLMappingLoader"
+    init-method="init">
+    <property name="SAXalizerMappingContext">
+      <ref bean="protoSaxalizerMappingContext" />
+    </property>
+    <property name="mappableXMLProvider" ref="mappableXMLProvider" />
+    <property name="containerTypeRegistry" ref="containerTypeRegistry" />
+  </bean>
+
+  <!--  lazy-init is fix for Spring 1.2.2+ "behaviour" whereby ABF.getType() 
+    will actually try to load the bean!!
+    http://opensource2.atlassian.com/projects/spring/browse/SPR-1116
+  -->
+  <bean id="XMLProvider" factory-bean="mappingLoadManager"
+    factory-method="getXMLProvider" lazy-init="true">
+  </bean>
+
+  <bean id="XMLMappingContext" factory-bean="mappingLoadManager"
+    factory-method="getSAXalizerMappingContext">
+  </bean>
+
+  <bean id="vectorCapableParser"
+    class="uk.org.ponder.conversion.VectorCapableParser">
+    <property name="scalarParser" ref="generalLeafParser" />
+    <property name="containerTypeRegistry" ref="containerTypeRegistry" />
+    <property name="reflectiveCache" ref="reflectiveCache"/>
+  </bean>
+
+  <bean id="JSONProvider" class="uk.org.ponder.json.support.JSONProvider">
+    <property name="mappingContext" ref="ELMappingContext"/>
+  </bean>
+
+  <bean id="generalConverter" class="uk.org.ponder.conversion.GeneralConverter" >
+    <property name="XMLProvider" ref="XMLProvider"/>
+    <property name="JSONProvider" ref="JSONProvider"/>
+    <property name="leafParser" ref="generalLeafParser"/>
+  </bean>
+
+  <bean id="DARApplier" class="uk.org.ponder.mapping.support.DARApplier">
+    <property name="generalConverter" ref="generalConverter"/>
+    <property name="mappingContext" ref="ELMappingContext" />
+    <property name="reflectiveCache" ref="reflectiveCache" />
+    <property name="vectorCapableParser" ref="vectorCapableParser" />
+  </bean>
+
+  <bean id="beanGuardProcessor"
+    class="uk.org.ponder.rsf.state.guards.BeanGuardProcessor">
+    <property name="beanModelAlterer" ref="DARApplier" />
+  </bean>
+
+  <bean id="deepBeanCloner"
+    class="uk.org.ponder.reflect.DeepBeanCloner">
+    <property name="mappingContext">
+      <ref bean="ELMappingContext" />
+    </property>
+    <property name="reflectiveCache" ref="reflectiveCache" />
+  </bean>
+
+  <bean id="fieldGetter"
+    class="uk.org.ponder.beanutil.support.BeanFieldResolver">
+    <property name="mappingContext">
+      <ref bean="ELMappingContext" />
+    </property>
+  </bean>
+
+  <bean id="constantReturn"
+    class="uk.org.ponder.beanutil.support.ConstantReturnInvoker" />
+
+  <bean id="targettedMessageListProxy" parent="RSACBridgeProxy">
+    <property name="targetBeanName" value="targettedMessageList" />
+  </bean>
+
+  <bean id="beanInvalidationBracketerProxy" parent="RSACBridgeProxy">
+    <property name="targetBeanName" value="beanInvalidationBracketer" />
+  </bean>
+
+
+  <bean class="uk.org.ponder.springutil.ByClassTLAB">
+    <property name="targetClass" value="uk.org.ponder.springutil.validator.ValidatorFactory"/>
+    <property name="targetPath" value="validatorCompostor.validators"/>
+  </bean>
+
+  <bean id="validatorCompostor" class="uk.org.ponder.springutil.validator.support.ValidatorCompostorImpl" init-method="init">
+    <property name="beanModelAlterer" ref="DARApplier"/>
+  </bean>
+
+  <bean id="validatorBuilderParent" class="uk.org.ponder.springutil.validator.support.ValidatorBuilder">
+    <property name="validatorCompostor" ref="validatorCompostor"/>
+  </bean>
+
+  <!-- Broken out as a separate bean to avoid cycle with RBL 
+    (to RSACErrorBridgeBracketer) -->
+  <bean id="ErrorBBTarget" class="uk.org.ponder.rsac.RSACErrorBridge"
+    lazy-init="true">
+    <property name="RSACBeanLocator" ref="RSACBeanLocator" />
+    <property name="TMLBeanName" value="targettedMessageList" />
+  </bean>
+
+  <bean id="RSACErrorBridgeBracketer"
+    class="uk.org.ponder.rsac.BeanFetchBracketer">
+    <property name="targetBeanName" value="rootHandlerBean" />
+    <property name="wrappingBean" value="ErrorBBTarget" />
+  </bean>
+
+  <bean id="RSACLazarusListProxy" parent="RSACBridgeProxy">
+    <property name="targetBeanName" value="RSACLazarusList" />
+  </bean>
+
+  <bean id="alterationWrapperParent"
+    class="uk.org.ponder.springutil.StaticTLAB" abstract="true">
+    <property name="targetPath"
+      value="collectedAlterationWrapper.wrappers" />
+  </bean>
+
+  <bean id="scopeAlterationWrapperProxy"
+    parent="alterationWrapperParent">
+    <property name="value">
+      <bean parent="RSACBridgeProxy">
+        <property name="targetBeanName" value="scopeAlterationWrapper" />
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="collectedAlterationWrapper"
+    class="uk.org.ponder.util.CollectingRunnableInvoker" />
+
+  <bean id="applicationContextBeanLocator"
+    class="uk.org.ponder.springutil.BeanFactoryBeanLocator" />
+
+  <bean id="dataConverterRegistry"
+    class="uk.org.ponder.mapping.support.DataConverterRegistry"
+    init-method="init">
+    <property name="ELEvaluator" ref="ELEvaluatorProxy" />
+  </bean>
+
+  <bean id="dataConverterTLAB"
+    class="uk.org.ponder.springutil.ByClassTLAB">
+    <property name="targetClass" value="uk.org.ponder.mapping.DataConverter" />
+    <property name="targetPath"  value="dataConverterRegistry.converters" />
+  </bean>
+
+  <bean parent="actionResultInterceptorParent">
+    <property name="value">
+      <bean parent="RSACBridgeProxy">
+        <property name="targetBeanName" value="ARIResult" />
+      </bean>
+    </property>
+  </bean>
+
+  <!-- ******    RSF-SPECIFIC DEFINITIONS BELOW HERE    *******    -->
+
+  <bean id="RSACResourceLocator"
+    class="uk.org.ponder.rsac.servlet.ServletRSACResourceLocator">
+  </bean>
+
+  <bean id="RSACBeanLocatorFactory"
+    class="uk.org.ponder.rsac.support.RSACBeanLocatorFactory">
+    <property name="RSACResourceLocator">
+      <ref local="RSACResourceLocator" />
+    </property>
+  </bean>
+
+  <bean id="RSACBeanLocator" factory-bean="RSACBeanLocatorFactory"
+    factory-method="getRSACBeanLocator" init-method="init">
+    <property name="mappingContext" ref="ELMappingContext" />
+    <property name="reflectiveCache" ref="reflectiveCache" />
+  </bean>
+
+  <bean id="fallbackBeans" factory-bean="RSACBeanLocator"
+    factory-method="getFallbackBeans" lazy-init="true">
+  </bean>
+
+  <bean id="entityNameInferrerManager"
+    class="uk.org.ponder.rsf.state.entity.support.EntityNameInferrerManager">
+  </bean>
+
+  <bean id="entityNameInferrerParent"
+    class="uk.org.ponder.springutil.StaticTLAB" abstract="true">
+    <property name="targetPath"
+      value="entityNameInferrerManager.inferrers" />
+  </bean>
+
+  <bean id="entityBeanLocatorParent"
+    class="uk.org.ponder.rsf.state.entity.support.StaticEntityBeanLocatorImpl"
+    abstract="true" init-method="init">
+    <property name="RSACBeanLocator" ref="RSACBeanLocator" />
+    <property name="beanModelAlterer" ref="DARApplier" />
+    <property name="reflectiveCache" ref="reflectiveCache" />
+  </bean>
+
+  <bean class="uk.org.ponder.springutil.ByClassTLAB">
+    <property name="targetClass"
+      value="uk.org.ponder.rsf.state.entity.support.StaticEntityBeanLocatorImpl" />
+    <property name="targetPath"
+      value="entityNameInferrerManager.inferrers" />
+  </bean>
+
+  <bean id="IDGenerator"
+    class="uk.org.ponder.hashutil.EighteenIDGenerator" />
+
+  <bean id="resourceLoader"
+    class="uk.org.ponder.springutil.ExtraContextResourceLoader" />
+
+  <bean id="requestLocaleProxy" parent="RSACLocaleBridge">
+    <property name="targetBeanName" value="requestLocale" />
+  </bean>
+
+  <bean id="RSFMappingLoader"
+    class="uk.org.ponder.rsf.mappings.RSFMappingLoader">
+    <property name="viewParamsLeafParser" ref="viewParamsLeafParser" />
+    <property name="rawViewParamsLeafParser" ref="rawViewParamsLeafParser"/>
+  </bean>
+
+  <bean id="fossilizedConverter"
+    class="uk.org.ponder.rsf.request.FossilizedConverter">
+    <property name="generalConverter" ref="generalConverter"/>
+  </bean>
+
+  <bean id="messageRenderer"
+    class="uk.org.ponder.rsf.renderer.message.MessageRenderer">
+    <property name="messageLocator" ref="messageLocator"/>
+  </bean>
+
+  <bean id="messageProcessorParent" class="uk.org.ponder.springutil.StaticTLAB" abstract="true" >
+    <property name="targetPath" value="messageProcessorList.list"/>
+  </bean>
+
+  <bean id="messageProcessorList" class="uk.org.ponder.springutil.ListFactory"/>
+
+  <bean id="bindingFixer"
+    class="uk.org.ponder.rsf.componentprocessor.BindingFixer">
+    <property name="fossilizedConverter" ref="fossilizedConverter"/>
+  </bean>
+
+  <bean id="viewParamsFixer"
+    class="uk.org.ponder.rsf.componentprocessor.ViewParamsFixer">
+    <property name="viewStateHandler" ref="viewStateHandler" />
+    <property name="internalURLRewriter" ref="internalURLRewriter" />
+    <property name="URLRewriter" ref="URLRewriter" />
+    <property name="environmentalInterceptor" ref="environmentalViewParamsInterceptorManager"/>
+    <property name="JSONProvider" ref="JSONProvider"/>
+  </bean>
+
+  <bean id="requestAddressibleParent"
+    class="uk.org.ponder.springutil.StaticTLAB" abstract="true">
+    <property name="targetPath"
+      value="totalRequestAddressibleBeans.collect" />
+  </bean>
+
+  <bean id="copyPreservingParent"
+    class="uk.org.ponder.springutil.StaticTLAB" abstract="true">
+    <property name="targetPath"
+      value="totalCopyPreservingBeans.collect" />
+  </bean>
+  <!-- 
+    We cannot register the PP in the container directly since any bean fetches
+    it causes triggers a Spring warning (admittedly at "INFO" level)
+    <bean id="TLABPostProcessor" class="uk.org.ponder.springutil.TLABPostProcessor">
+    <property name="mappingContext" ref="ELMappingContext"/>
+    </bean>
+  -->
+
+  <bean id="TLABPostProcessorLoader"
+    class="uk.org.ponder.springutil.TLABLoaderListener">
+    <property name="mappingContext" ref="ELMappingContext" />
+  </bean>
+
+  <bean id="totalRequestAddressibleBeans"
+    class="uk.org.ponder.springutil.StringListAggregatingFactory" />
+
+  <bean id="requestAddressibleBeanModel"
+    class="uk.org.ponder.beanutil.support.ListBeanPredicateModel">
+    <property name="paths" ref="totalRequestAddressibleBeans" />
+  </bean>
+
+  <bean id="totalCopyPreservingBeans"
+    class="uk.org.ponder.springutil.StringListAggregatingFactory" />
+
+
+  <bean id="TPIAggregator"
+    class="uk.org.ponder.rsf.template.TPIAggregator">
+    <property name="contentTypeInfoProxy" ref="contentTypeInfoProxy" />
+  </bean>
+
+  <bean id="templateParseInterceptorParent"
+    class="uk.org.ponder.springutil.StaticTLAB" abstract="true">
+    <property name="targetPath"
+      value="TPIAggregator.templateParseInterceptors" />
+  </bean>
+
+  <bean parent="templateParseInterceptorParent">
+    <property name="value">
+      <bean class="uk.org.ponder.rsf.template.RSFNamespaceRemovingTPI" />
+    </property>
+  </bean>
+
+  <bean parent="templateParseInterceptorParent">
+    <property name="value">
+      <bean class="uk.org.ponder.rsf.renderer.html.IDRelationRewriter" />
+    </property>
+  </bean>
+
+  <bean parent="templateParseInterceptorParent">
+    <property name="value">
+      <bean class="uk.org.ponder.rsf.renderer.html.FormRelabellingTPI" />
+    </property>
+  </bean>
+
+  <bean id="autoTemplateContributorTLAB"
+    class="uk.org.ponder.springutil.ByClassTLAB">
+    <property name="targetPath"
+      value="viewTemplateResolver.templateResolverStrategies" />
+    <property name="targetClass"
+      value="uk.org.ponder.rsf.templateresolver.TemplateResolverStrategy" />
+  </bean>
+
+
+  <!-- A basic "internal" (to this webapp) template contributor -->
+  <bean id="templateContributorParent"
+    class="uk.org.ponder.rsf.templateresolver.support.StaticTemplateResolverStrategy"
+    abstract="true">
+    <property name="rootResolverPriority" value="0" />
+    <property name="baseDirectory" ref="defaultTemplatePath" />
+    <property name="expected" value="true" />
+  </bean>
+
+  <bean id="templateExpander"
+    class="uk.org.ponder.rsf.expander.TemplateExpander">
+    <property name="DARApplier" ref="DARApplier" />
+    <property name="deepBeanCloner" ref="deepBeanCloner" />
+    <property name="safeBeanLocator" ref="ELTargetBeanLocatorProxy" />
+  </bean>
+
+  <bean id="staticRenderersProxy" parent="RSACBridgeProxy">
+    <property name="targetBeanName" value="staticRenderers" />
+  </bean>
+
+  <bean id="contentTypeInfoFactory"
+    class="uk.org.ponder.rsf.content.ContentTypeInfoFactory">
+    <property name="contentTypeInfoMap" ref="contentTypeInfoMap" />
+    <property name="viewParameters" ref="anyViewParametersProxy" />
+    <property name="reflectiveCache" ref="reflectiveCache" />
+  </bean>
+
+  <bean id="contentTypeInfoProxy" parent="RSACBridgePeaProxy">
+    <property name="targetBeanName" value="contentTypeInfo" />
+  </bean>
+
+  <bean id="contentTypeResolverTLAB"
+    class="uk.org.ponder.springutil.StaticTLAB" abstract="true">
+    <property name="targetPath"
+      value="contentTypeInfoFactory.contentTypeResolvers" />
+  </bean>
+
+  <!-- Backwards compatibility for old users of contentTypeResolver -->
+  <bean parent="contentTypeResolverTLAB">
+    <property name="value" ref="contentTypeResolver" />
+  </bean>
+
+  <bean id="requestTypeProxy" parent="RSACStringBridge">
+    <property name="targetBeanName" value="requestType" />
+  </bean>
+  
+  <bean id="requestMethodProxy" parent="RSACStringBridge">
+    <property name="targetBeanName" value="requestMethod" />
+  </bean>
+
+  <bean id="renderSystemResolver"
+    class="uk.org.ponder.rsf.renderer.RenderSystemResolver">
+    <property name="contentTypeInfo" ref="contentTypeInfoProxy" />
+    <property name="renderSystemMap" ref="renderSystemMap" />
+  </bean>
+
+  <bean id="BasicHTMLRenderSystem"
+    class="uk.org.ponder.rsf.renderer.html.BasicHTMLRenderSystem">
+    <property name="staticRenderers" ref="staticRenderersProxy" />
+    <property name="decoratorManager" ref="decoratorManager" />
+    <property name="componentRenderer">
+      <bean
+        class="uk.org.ponder.rsf.renderer.html.BasicHTMLComponentRenderer">
+        <property name="staticRenderers" ref="staticRenderersProxy" />
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="decoratorManager"
+    class="uk.org.ponder.rsf.renderer.decorator.DecoratorManager">
+    <property name="contentTypeInfo" ref="contentTypeInfoProxy" />
+  </bean>
+
+  <bean id="ELTargetBeanLocatorProxy" parent="RSACBridgeProxy">
+    <property name="targetBeanName" value="ELTargetBeanLocator" />
+  </bean>
+
+  <bean id="ELEvaluatorProxy" parent="RSACBridgeProxy">
+    <property name="targetBeanName" value="ELEvaluator" />
+  </bean>
+
+  <bean id="consumerInfoProxy" parent="RSACBridgePeaProxy">
+    <property name="targetBeanName" value="consumerInfo" />
+  </bean>
+
+  <bean id="autoComponentProducerManager"
+    class="uk.org.ponder.rsf.view.support.AutoComponentProducerManager"
+    init-method="init">
+    <property name="reflectiveCache" ref="reflectiveCache" />
+    <property name="RSACBeanLocator" ref="RSACBeanLocator" />
+  </bean>
+
+  <bean id="viewGenerator"
+    class="uk.org.ponder.rsf.view.support.ViewGenerator">
+    <!-- The default pageProducer is the ViewCollection -->
+    <property name="pageProducer" ref="pageProducerProxy" />
+    <property name="navigationCaseReceiver" ref="navigationCasePooler" />
+    <property name="XMLProvider" ref="XMLProvider" />
+    <property name="viewParamsProxy" ref="viewParametersProxy" />
+  </bean>
+
+  <bean id="HTMLViewGroup" class="uk.org.ponder.rsf.view.ViewGroup">
+    <property name="contentTypeSpec" value="HTML, HTML-FRAGMENT"/>
+  </bean>
+
+  <bean id="viewGroupResolver" class="uk.org.ponder.rsf.view.support.ViewGroupResolver">
+    <property name="contentTypeResolver" ref="contentTypeInfoFactory"/>
+  </bean>
+
+  <bean id="pageProducerProxy" parent="RSACBridgeProxy">
+    <property name="targetBeanName" value="pageProducer" />
+    <property name="targetClass"
+      value="uk.org.ponder.rsf.producers.NullaryProducer" />
+  </bean>
+
+  <bean id="httpServletRequestProxy" parent="RSACBridgeProxy">
+    <property name="targetBeanName" value="httpServletRequest" />
+  </bean>
+
+  <bean id="httpServletResponseProxy" parent="RSACBridgeProxy">
+    <property name="targetBeanName" value="httpServletResponse" />
+  </bean>
+
+  <bean id="handlerHookHandler"
+    class="uk.org.ponder.rsf.processor.support.HandlerHookHandler" />
+
+  <bean id="handlerHookParent"
+    class="uk.org.ponder.springutil.StaticTLAB" abstract="true">
+    <property name="targetPath" value="handlerHookHandler.handlers" />
+  </bean>
+  
+  <bean id="redirectingHandlerHookParent"
+    class="uk.org.ponder.springutil.StaticTLAB" abstract="true">
+    <property name="targetPath" value="handlerHookHandler.redirectingHandlers" />
+  </bean>
+
+  <bean id="requestInvoker" class="uk.org.ponder.rsf.processor.support.RequestInvoker" >
+    <property name="alterationWrapper" ref="collectedAlterationWrapper" />
+    <property name="statePreservationManager">
+      <bean parent="RSACBridgeProxy">
+        <property name="targetBeanName" value="statePreservationManager"/>
+      </bean>
+    </property>
+    <property name="viewParametersProxy" ref="viewParametersProxy"/>
+  </bean>
+
+  <!-- *** Definitions for ViewParameters and URL handling *** -->
+
+  <bean id="autoBaseURLProviderProxy" parent="RSACBridgeProxy">
+    <property name="targetBeanName" value="autoBaseURLProvider" />
+  </bean>
+  <!-- This is now a request-scope bean defined in core RSF to use the auto-provider.
+    Override it with the following definition in your own requestScopeConfig and define
+    the two URL values above in order to use static URL determination -->
+  <bean id="staticBaseURLProvider" abstract="true"
+    class="uk.org.ponder.rsf.viewstate.support.StaticBaseURLProvider">
+    <!-- CONFIG The URL under which RSF-rendered pages served directly 
+      will be made visible -->
+    <property name="baseURL">
+      <ref bean="directUIBaseURL" />
+    </property>
+    <!-- CONFIG The URL under which static resources will be made visible -->
+    <property name="resourceBaseURL">
+      <ref bean="directUIResourceBaseURL" />
+    </property>
+  </bean>
+
+  <bean id="viewParametersProxy" parent="RSACBridgePeaProxy">
+    <property name="targetBeanName" value="viewParameters" />
+    <!-- Enough information to find the get() method -->
+    <property name="targetClass"
+      value="uk.org.ponder.rsf.viewstate.ViewParameters" />
+  </bean>
+  
+  <bean id="anyViewParametersProxy" parent="RSACBridgePeaProxy">
+    <property name="targetBeanName" value="viewParameters" />
+    <!-- Enough information to find the get() method -->
+    <property name="targetClass"
+      value="uk.org.ponder.rsf.viewstate.AnyViewParameters" />
+  </bean>
+
+  <bean id="parsedViewParametersProxy" parent="RSACBridgePeaProxy">
+    <property name="targetBeanName" value="parsedViewParameters" />
+    <!-- Enough information to find the get() method -->
+    <property name="targetClass"
+      value="uk.org.ponder.rsf.viewstate.ViewParameters" />
+  </bean>
+
+  <bean id="defaultViewParametersProxy" parent="RSACBridgePeaProxy">
+    <property name="targetBeanName" value="defaultViewParameters" />
+    <!-- Enough information to find the get() method -->
+    <property name="targetClass"
+      value="uk.org.ponder.rsf.viewstate.ViewParameters" />
+  </bean>
+
+  <bean id="viewParamsMappingInfoManager"
+    class="uk.org.ponder.rsf.viewstate.support.ViewParamsMappingInfoManager">
+    <property name="reflectiveCache" ref="reflectiveCache" />
+    <property name="SAXalizerMappingContext" ref="ELMappingContext" />
+  </bean>
+
+  <bean id="viewParamsCodec"
+    class="uk.org.ponder.rsf.viewstate.support.ViewParamsCodecManager">
+  </bean>
+
+  <bean id="viewParamsCodecParent"
+    class="uk.org.ponder.springutil.StaticTLAB" abstract="true">
+    <property name="targetPath"
+      value="viewParamsCodec.viewParamsCodecs" />
+  </bean>
+
+  <bean id="defaultCodecContributor" parent="viewParamsCodecParent">
+    <property name="value" ref="viewParamsMapper" />
+  </bean>
+
+  <bean id="viewParamsMapper"
+    class="uk.org.ponder.rsf.viewstate.support.ViewParamsMapper">
+    <property name="beanModelAlterer" ref="DARApplier" />
+    <property name="VPMappingInfoManager"
+      ref="viewParamsMappingInfoManager" />
+  </bean>
+
+  <bean id="siteMapParent"
+    class="uk.org.ponder.rsf.viewstate.support.XMLSiteMapLoader"
+    parent="XMLFactoryBean" abstract="true">
+    <property name="location" value="/WEB-INF/sitemap.xml" />
+    <property name="viewParametersReceiver" ref="viewParamsRegistry" />
+  </bean>
+
+  <bean id="viewParamsRegistrarParent"
+    class="uk.org.ponder.rsf.viewstate.support.ViewParamsRegistrar"
+    init-method="init" abstract="true">
+    <property name="reflectiveCache" ref="reflectiveCache" />
+    <property name="viewParametersReceiver" ref="viewParamsRegistry" />
+  </bean>
+
+  <bean id="viewParamsInterceptorManager"
+    class="uk.org.ponder.rsf.viewstate.support.ViewParamsInterceptorManager">
+    <property name="viewParameters" ref="parsedViewParametersProxy" />
+  </bean>
+
+  <bean id="viewParamsInterceptorParent"
+    class="uk.org.ponder.springutil.StaticTLAB" abstract="true">
+    <property name="targetPath"
+      value="viewParamsInterceptorManager.interceptors" />
+  </bean>
+
+  <bean id="environmentalViewParamsInterceptorManager" 
+    class="uk.org.ponder.rsf.viewstate.support.ViewParamsInterceptorManager">
+  </bean>
+
+  <bean id="environmentalViewParamsInterceptorParent"
+    class="uk.org.ponder.springutil.StaticTLAB" abstract="true">
+    <property name="targetPath"
+      value="environmentalViewParamsInterceptorManager.interceptors" />
+  </bean>
+
+  <bean id="defaultViewInferrerManager"
+    class="uk.org.ponder.rsf.viewstate.support.DefaultViewInferrerManager" />
+
+  <bean id="defaultViewInferrerParent"
+    class="uk.org.ponder.springutil.StaticTLAB" abstract="true">
+    <property name="targetPath"
+      value="defaultViewInferrerManager.inferrers" />
+  </bean>
+
+  <bean id="viewDefaultViewContributor"
+    parent="defaultViewInferrerParent">
+    <property name="value" ref="viewParamsRegistry" />
+    <property name="bindAfter" value="*" />
+  </bean>
+
+  <bean id="viewParamsValidator" class="uk.org.ponder.rsf.viewstate.support.ViewParamsValidator" >
+    <property name="beanModelAlterer" ref="DARApplier"/>
+    <property name="VPMappingInfoManager" ref="viewParamsMappingInfoManager"/>
+    <property name="productionMode" ref="RSF-productionMode"/>
+  </bean>
+
+  <bean id="viewParamsRegistry"
+    class="uk.org.ponder.rsf.viewstate.support.ViewParamsRegistryImpl"
+    init-method="init">
+    <property name="reflectiveCache" ref="reflectiveCache" />
+    <property name="deepBeanCloner" ref="deepBeanCloner" />
+    <property name="defaultExemplar" ref="viewParamsExemplar" />
+    <property name="viewParamsValidator" ref="viewParamsValidator"/>
+  </bean>
+  
+  <bean id="viewInfoDistributor" class="uk.org.ponder.rsf.view.support.ViewInfoDistributor" >
+    <property name="viewParametersReceiver" ref="viewParamsRegistry" />
+    <property name="navigationCaseReceiver" ref="navigationCasePooler" />
+    <property name="contentTypeReceiver" ref="contentTypeInfoFactory" />
+  </bean>
+
+  <bean id="lazarusRedirector"
+    class="uk.org.ponder.rsf.request.LazarusRedirector">
+    <property name="lazarusListReceiver" ref="RSACLazarusListProxy" />
+    <property name="viewParamsMapper" ref="viewParamsMapper" />
+    <property name="requestLocale" ref="requestLocaleProxy"/>
+  </bean>
+
+  <!--  Lazy loading needed to break dependence cycle - SiteMap via BasicViewParamsParser
+    REQUIRES mapping to be loaded already!! -->
+  <bean id="viewParamsLeafParser"
+    class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="targetSource">
+      <bean
+        class="org.springframework.aop.target.LazyInitTargetSource">
+        <property name="targetBeanName">
+          <idref local="viewParamsLeafParserTarget" />
+        </property>
+      </bean>
+    </property>
+    <property name="proxyTargetClass" value="true" />
+  </bean>
+
+ <!--  Similar cyclic reference at startup -->
+  <bean id="rawViewParamsLeafParser"
+    class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="targetSource">
+      <bean
+        class="org.springframework.aop.target.LazyInitTargetSource">
+        <property name="targetBeanName">
+          <idref local="rawViewParamsLeafParserTarget" />
+        </property>
+      </bean>
+    </property>
+    <property name="proxyTargetClass" value="true" />
+  </bean>
+
+  <bean id="viewParamsLeafParserTarget"
+    class="uk.org.ponder.rsf.viewstate.support.ViewParamsLeafParser">
+    <property name="viewParamsCodec" ref="viewParamsCodec" />
+    <property name="viewParametersParser" ref="viewParametersParser" />
+  </bean>
+  
+  <bean id="rawViewParamsLeafParserTarget" class="uk.org.ponder.rsf.viewstate.support.RawViewParamsLeafParser" >
+    <property name="URLRewriter" ref="URLRewriter"/>
+  </bean>
+  <!-- 
+    <bean id="viewStateHandlerProxy" parent="RSACBridgeProxy">
+    <property name="targetBeanName">
+    <idref bean="viewStateHandler" />
+    </property>
+    </bean>
+  -->
+
+  <bean id="URLRewriter"
+    class="uk.org.ponder.rsf.viewstate.URLRewriter">
+    <property name="viewStateHandler" ref="viewStateHandler" />
+  </bean>
+
+  <!-- *** Data Views *** -->
+
+  <bean id="dataViewHandler" class="uk.org.ponder.rsf.servlet.DataViewHandlerImpl">
+    <property name="contentTypeInfoProxy" ref="contentTypeInfoProxy"/>
+    <property name="generalConverter" ref="generalConverter"/>
+    <property name="responseProxy" ref="httpServletResponseProxy"/>
+    <property name="requestProxy" ref="httpServletRequestProxy"/>
+    <property name="JSONProvider" ref="JSONProvider"/>
+  </bean>
+
+  <bean id="dataViewCollector" class="uk.org.ponder.rsf.view.support.DataViewCollector" 
+    init-method="init">
+    <property name="reflectiveCache" ref="reflectiveCache"/>
+    <property name="RSACBeanLocator" ref="RSACBeanLocator"/>
+    <property name="viewInfoDistributor" ref="viewInfoDistributor"/>
+  </bean>
+  
+  <bean id="dataViewPredicate" class="uk.org.ponder.rsf.view.support.DataViewPredicate" >
+    <property name="dataViewCollector" ref="dataViewCollector"/>
+  </bean>
+
+  <bean id="dataViewHandlerHook" class="uk.org.ponder.rsf.view.support.DataViewHandlerHook">
+    <property name="dataViewCollector" ref="dataViewCollector"/>
+    <property name="dataViewHandler" ref="dataViewHandler"/>
+    <property name="viewParametersProxy" ref="anyViewParametersProxy"/>
+    <property name="requestInvoker" ref="requestInvoker"/>
+    <property name="requestTypeProxy" ref="requestTypeProxy"/>
+    <property name="viewExceptionStrategy" ref="viewExceptionStrategyManager"/>
+  </bean>
+
+  <bean parent="redirectingHandlerHookParent">
+    <property name="valueRef" value="dataViewHandlerHook"/>
+  </bean>
+
+  <!-- *** Standard framework SCR definitions *** -->
+
+  <bean id="URLRewriteSCR"
+    class="uk.org.ponder.rsf.renderer.html.URLRewriteSCR">
+    <property name="contextBaseProvider" ref="contextURLProvider" />
+    <property name="URLRewriter" ref="URLRewriter" />
+  </bean>
+
+  <bean id="headCollectSCR"
+    class="uk.org.ponder.rsf.renderer.html.HeadCollectingSCR">
+    <property name="URLRewriteSCR" ref="URLRewriteSCR" />
+  </bean>
+
+  <bean id="nullSCR"
+    class="uk.org.ponder.rsf.renderer.scr.NullRewriteSCR" />
+
+  <bean id="ignoreSCR"
+    class="uk.org.ponder.rsf.renderer.scr.IgnoreRewriteSCR" />
+
+  <bean id="listenerConnector"
+    class="uk.org.ponder.iocevent.BeetleConnector" />
+
+  <bean id="XMLFactoryBean"
+    class="uk.org.ponder.springutil.XMLFactoryBean" abstract="true">
+    <property name="XMLProvider" ref="XMLProvider" />
+    <property name="reflectiveCache" ref="reflectiveCache" />
+  </bean>
+
+  <!--  The core parent definitions for the different kinds of RSAC proxies -->
+
+  <bean id="RSACBridgeProxy" class="uk.org.ponder.rsac.RSACBridgeProxy"
+    abstract="true">
+    <property name="RSACBeanLocator" ref="RSACBeanLocator" />
+  </bean>
+
+  <bean id="RSACBridgePeaProxy"
+    class="uk.org.ponder.rsac.RSACBridgeProxy" abstract="true">
+    <property name="RSACBeanLocator" ref="RSACBeanLocator" />
+    <property name="pea" value="true" />
+  </bean>
+
+  <bean id="RSACStringBridge"
+    class="uk.org.ponder.rsac.RSACStringBridge" abstract="true">
+    <property name="RSACBeanLocator" ref="RSACBeanLocator" />
+  </bean>
+
+  <bean id="RSACLocaleBridge"
+    class="uk.org.ponder.rsac.RSACLocaleBridge" abstract="true">
+    <property name="RSACBeanLocator" ref="RSACBeanLocator" />
+  </bean>
+
+  <bean id="writeGuardParent"
+    class="uk.org.ponder.rsf.state.guards.BeanGuard" abstract="true">
+    <property name="guardMode" value="WRITE" />
+  </bean>
+
+  <bean id="requiredValueGuard"
+    class="uk.org.ponder.rsf.state.guards.support.RequiredValueGuard" />
+
+  <!-- Definitions for flows, scopes and errors -->
+
+  <bean id="ARIResultProxy" parent="RSACBridgePeaProxy">
+    <property name="targetBeanName" value="ARIResultConcrete" />
+  </bean>
+
+  <bean id="actionResultInterceptorParent"
+    class="uk.org.ponder.springutil.StaticTLAB" abstract="true">
+    <property name="targetPath"
+      value="actionResultInterceptorProcessor.interceptors" />
+  </bean>
+
+  <bean id="actionResultInterceptorProcessor"
+    class="uk.org.ponder.rsf.flow.support.ARI2Processor">
+    <property name="mappingViewResolver" ref="viewResolver" />
+  </bean>
+
+  <bean id="viewExceptionStrategyManager"
+    class="uk.org.ponder.rsf.flow.errors.ViewExceptionStrategyManager">
+  </bean>
+
+  <bean id="viewExceptionStrategyParent"
+    class="uk.org.ponder.springutil.StaticTLAB" abstract="true">
+    <property name="targetPath"
+      value="viewExceptionStrategyManager.strategyList" />
+  </bean>
+
+  <bean id="actionErrorStrategyManager"
+    class="uk.org.ponder.rsf.flow.errors.ActionErrorStrategyManager">
+    <property name="mergeStrategies" ref="XMLActionErrorStrategies" />
+    <property name="targettedMessageList"
+      ref="targettedMessageListProxy" />
+  </bean>
+
+  <bean id="actionErrorStrategyParent"
+    class="uk.org.ponder.springutil.StaticTLAB" abstract="true">
+    <property name="targetPath"
+      value="actionErrorStrategyManager.strategyList" />
+  </bean>
+
+  <bean id="XMLActionErrorStrategyParent" parent="XMLFactoryBean"
+    abstract="true">
+    <property name="objectType">
+      <value>
+        uk.org.ponder.rsf.flow.errors.ActionErrorStrategyManager
+      </value>
+    </property>
+  </bean>
+
+  <bean id="beanScopeParent"
+    class="uk.org.ponder.rsf.state.scope.support.ScopedBeanManager"
+    abstract="true">
+    <property name="tokenStateHolder" ref="flowTokenStateHolder" />
+    <property name="destroyedScopeMap" ref="destroyedScopeMapProxy" />
+  </bean>
+
+  <bean id="destroyedScopeMapProxy" parent="RSACBridgeProxy">
+    <property name="targetBeanName" value="destroyedScopeMap" />
+  </bean>
+
+  <bean id="flowOnlyPreservingBeans"
+    class="uk.org.ponder.springutil.StringListFactory">
+    <property name="strings">
+      <value>flowLite-flowIDHolder</value>
+    </property>
+  </bean>
+
+  <bean id="flowLite-flowIDHolderProxy" parent="RSACBridgeProxy">
+    <property name="targetBeanName" value="flowLite-flowIDHolder" />
+  </bean>
+
+  <bean id="flowLite-flowDefinitionParent" parent="XMLFactoryBean"
+    class="uk.org.ponder.rsf.flow.lite.XMLFlowFactoryBean"
+    abstract="true">
+    <property name="objectType"
+      value="uk.org.ponder.rsf.flow.lite.Flow" />
+  </bean>
+
+  <bean id="navigationCasePooler"
+    class="uk.org.ponder.rsf.flow.jsfnav.support.NavigationCasePooler">
+    <property name="reflectiveCache" ref="reflectiveCache" />
+  </bean>
+
+
+  <!-- UVBBean forms a flow -->
+  <bean parent="copyPreservingParent">
+    <property name="value" value="UVBBean" />
+  </bean>
+
+  <bean parent="requestAddressibleParent">
+    <property name="value" value="UVBBean" />
+  </bean>
+  
+  <bean parent="writeGuardParent">
+    <property name="guardedPath" value="UVBBean.paths"/>
+    <property name="guardMethod" value="UVBBean.populate"/>
+  </bean>
+</beans>

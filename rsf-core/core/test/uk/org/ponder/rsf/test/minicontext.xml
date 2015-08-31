@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+  <bean id="reflectiveCache" class="uk.org.ponder.reflect.JDKReflectiveCache" />
+
+  <bean id="generalLeafParser" class="uk.org.ponder.conversion.GeneralLeafParser" />
+
+  <bean id="XMLDefaultInferrer"
+    class="uk.org.ponder.saxalizer.mapping.DefaultMapperInferrer"
+    init-method="init">
+    <property name="containerTypeRegistry" ref="containerTypeRegistry" />
+    <property name="depluralize" value="true" />
+  </bean>
+
+  <bean id="protoSaxalizerMappingContext"
+    class="uk.org.ponder.saxalizer.SAXalizerMappingContext">
+    <property name="reflectiveCache" ref="reflectiveCache" />
+    <property name="generalLeafParser" ref="generalLeafParser" />
+    <property name="defaultInferrer" ref="XMLDefaultInferrer" />
+  </bean>
+
+  <bean id="streamResolver"
+    class="uk.org.ponder.springutil.SpringStreamResolver">
+  </bean>
+
+  <bean id="entityResolverStash"
+    class="uk.org.ponder.saxalizer.support.EntityResolverStash">
+    <property name="streamResolver">
+      <ref bean="streamResolver" />
+    </property>
+    <property name="entityResolvers">
+      <list>
+        <bean class="uk.org.ponder.saxalizer.support.LocalEntityResolver">
+          <property name="ID">
+            <value>-//SPRING//DTD WEBFLOW//EN</value>
+          </property>
+          <property name="path">
+            <value>classpath:/dtd/spring-webflow.dtd</value>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="mappableXMLProvider"
+    class="uk.org.ponder.saxalizer.support.SAXalXMLProvider">
+    <constructor-arg>
+      <ref bean="protoSaxalizerMappingContext" />
+    </constructor-arg>
+    <property name="entityResolverStash" ref="entityResolverStash" />
+  </bean>
+
+  <bean id="mappingLoadManager"
+    class="uk.org.ponder.springutil.SpringXMLMappingLoader"
+    init-method="init">
+    <property name="SAXalizerMappingContext">
+      <ref bean="protoSaxalizerMappingContext" />
+    </property>
+    <property name="mappableXMLProvider" ref="mappableXMLProvider" />
+    <property name="containerTypeRegistry" ref="containerTypeRegistry" />
+  </bean>
+  
+  <bean id="RSFMappingLoader"
+    class="uk.org.ponder.rsf.mappings.RSFMappingLoader">
+<!--     <property name="viewParamsLeafParser" ref="viewParamsLeafParser" /> -->
+  </bean>
+
+  <bean id="indexedPropertyAccessor"
+    class="uk.org.ponder.beanutil.support.IndexedPropertyAccessor">
+    <property name="containerTypeRegistry" ref="containerTypeRegistry" />
+  </bean>
+
+  <bean id="ELDefaultInferrer"
+    class="uk.org.ponder.saxalizer.mapping.DefaultMapperInferrer"
+    init-method="init">
+    <property name="containerTypeRegistry" ref="containerTypeRegistry" />
+    <property name="depluralize" value="false" />
+  </bean>
+
+  <bean id="ELMappingContext"
+    class="uk.org.ponder.saxalizer.SAXalizerMappingContext">
+    <property name="reflectiveCache" ref="reflectiveCache" />
+    <property name="defaultInferrer" ref="ELDefaultInferrer" />
+    <property name="generalLeafParser" ref="generalLeafParser" />
+    <property name="indexedPropertyAccessor"
+      ref="indexedPropertyAccessor" />
+  </bean>
+
+  <!--  lazy-init is fix for Spring 1.2.2+ "behaviour" whereby ABF.getType() 
+    will actually try to load the bean!!
+    http://opensource2.atlassian.com/projects/spring/browse/SPR-1116
+  -->
+  <bean id="XMLProvider" factory-bean="mappingLoadManager"
+    factory-method="getXMLProvider" lazy-init="true">
+  </bean>
+
+  <bean id="containerTypeRegistry"
+    class="uk.org.ponder.saxalizer.mapping.ContainerTypeRegistry" />
+
+  <bean id="vectorCapableParser"
+    class="uk.org.ponder.conversion.VectorCapableParser">
+    <property name="scalarParser" ref="generalLeafParser" />
+    <property name="containerTypeRegistry" ref="containerTypeRegistry" />
+  </bean>
+
+  <bean id="JSONProvider" class="uk.org.ponder.json.support.JSONProvider">
+    <property name="mappingContext" ref="ELMappingContext"/>
+  </bean>
+
+  <bean id="generalConverter" class="uk.org.ponder.conversion.GeneralConverter" >
+    <property name="XMLProvider" ref="XMLProvider"/>
+    <property name="JSONProvider" ref="JSONProvider"/>
+    <property name="leafParser" ref="generalLeafParser"/>
+  </bean>
+
+  <bean id="DARApplier" class="uk.org.ponder.mapping.support.DARApplier">
+    <property name="generalConverter" ref="generalConverter"/>
+    <property name="mappingContext" ref="ELMappingContext" />
+    <property name="reflectiveCache" ref="reflectiveCache" />
+    <property name="vectorCapableParser" ref="vectorCapableParser" />
+  </bean>
+
+  <bean id="XMLFactoryBean"
+    class="uk.org.ponder.springutil.XMLFactoryBean" abstract="true">
+    <property name="XMLProvider" ref="XMLProvider" />
+    <property name="reflectiveCache" ref="reflectiveCache" />
+  </bean>
+
+  <bean id="flowLite-flowDefinitionParent" parent="XMLFactoryBean"
+    class="uk.org.ponder.rsf.flow.lite.XMLFlowFactoryBean"
+    abstract="true">
+    <property name="objectType"
+      value="uk.org.ponder.rsf.flow.lite.Flow" />
+  </bean>
+
+  <bean id="numberGuessFlowDef" parent="flowLite-flowDefinitionParent">
+    <property name="location">
+      <value>classpath:uk/org/ponder/rsf/test/flow/numberGuess-flow.xml</value>
+    </property>
+  </bean>
+
+  <bean id="viewtree" parent="XMLFactoryBean" class="uk.org.ponder.rsf.view.XMLComponentFactoryBean">
+    <property name="location">
+      <value>classpath:uk/org/ponder/rsf/test/flow/enterGuess.xml</value>
+    </property>
+  </bean>
+
+  <bean id="viewParamsExemplar"
+    class="uk.org.ponder.rsf.viewstate.SimpleViewParameters">
+  </bean>
+
+</beans>
