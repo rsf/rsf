@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+	  <groupId>org.sonatype.oss</groupId>
+	  <artifactId>oss-parent</artifactId>
+	  <version>7</version>
+  </parent>
+  <artifactId>ponderutilcore</artifactId>
+  <packaging>jar</packaging>
+  <name>PonderUtilCore</name>
+  <groupId>uk.org.ponder</groupId>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.scm.id>rsf-github</project.scm.id>
+
+  </properties>
+  <organization>
+    <name>CARET, University of Cambridge</name>
+    <url>http://www.caret.cam.ac.uk/</url>
+  </organization>
+  <inceptionYear>2005</inceptionYear>
+  <url>http://ponder.org.uk/</url>
+  <description>
+    PonderUtilCore is a low-level Java library for Serialization and
+    Primitive type manipulation
+  </description>
+  <version>1.2.6-SNAPSHOT</version>
+
+  <!-- development team -->
+  <developers>
+    <developer>
+      <id>amb26</id>
+      <name>Antranig Basman</name>
+      <email>antranig@caret.cam.ac.uk</email>
+      <roles>
+        <role>Project Manager</role>
+        <role>Architect</role>
+        <role>Developer</role>
+      </roles>
+      <url>http://ponder.org.uk/</url>
+      <organization>CARET</organization>
+      <organizationUrl>http://www.caret.cam.ac.uk/</organizationUrl>
+      <timezone>0</timezone>
+    </developer>
+    <developer>
+      <id>swg27</id>
+      <name>Steven Githens</name>
+      <email>sgithens@caret.cam.ac.uk</email>
+      <roles>
+        <role>Developer</role>
+      </roles>
+      <url>http://githens.org/</url>
+      <organization>CARET</organization>
+      <organizationUrl>http://www.caret.cam.ac.uk/</organizationUrl>
+      <timezone>-6</timezone>
+    </developer>
+  </developers>
+
+  <repositories>
+    <repository>
+      <id>sakai-maven</id>
+      <name>Sakai Maven Repo</name>
+      <url>https://source.sakaiproject.org/maven2</url>
+    </repository>
+  </repositories>
+
+  <!-- define source code repository -->
+  <scm>
+    <connection>scm:git:git://github.com/rsf/PonderUtilCore.git</connection>
+    <developerConnection>scm:git:https://github.com/rsf/PonderUtilCore.git</developerConnection>
+    <url>scm:git:https://github.com/rsf/PonderUtilCore.git</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+    </plugins>
+    <sourceDirectory>src</sourceDirectory>
+    <testSourceDirectory>test</testSourceDirectory>
+    <resources>
+      <resource>
+        <directory>.</directory>
+        <includes>
+          <include>*.TXT</include>
+          <include>src/**/*.java</include>
+        </includes>
+        <filtering>false</filtering>
+      </resource>
+      <resource>
+        <directory>src</directory>
+        <includes>
+          <include>*.xml</include>
+        </includes>
+        <filtering>false</filtering>
+      </resource>
+    </resources>
+    <extensions>
+        <!-- Enable the use of external ssh for deploys -->
+           <extension>
+           <groupId>org.apache.maven.wagon</groupId>
+           <artifactId>wagon-ssh-external</artifactId>
+           <version>2.0</version>
+           </extension>
+    </extensions>
+  </build>
+  <dependencies>
+	  <dependency>
+		  <groupId>log4j</groupId>
+		  <artifactId>log4j</artifactId>
+		  <version>1.2.14</version>
+	  </dependency>
+	  <dependency>
+		  <groupId>junit</groupId>
+		  <artifactId>junit</artifactId>
+		  <version>3.8.2</version>
+	  </dependency>
+  </dependencies>
+</project>
+
