@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!-- The "request scope application context" file  -->
+
+<beans>
+  <bean id="brokenDateTransit" parent="beanExploder">
+    <property name="factory">
+      <bean class="uk.org.ponder.dateutil.BrokenDateTransit">
+        <property name="mode" value="Full" />
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="fieldDateTransit" parent="beanExploder">
+    <property name="factory">
+      <bean class="uk.org.ponder.dateutil.StandardFieldDateTransit"
+        init-method="init">
+        <property name="locale" ref="requestLocale" />
+        <property name="timeZone" ref="requestTimeZone"/>
+      </bean>
+    </property>
+  </bean>
+
+  <bean name="monthBean" class="uk.org.ponder.dateutil.MonthBean"
+    init-method="init">
+    <property name="locale" ref="requestLocale" />
+  </bean>
+
+  <!-- ***** BEGIN Component Evolvers ****** -->
+  <bean id="fieldDateInputEvolver" 
+     class="uk.ac.cam.caret.rsf.evolverimpl.FieldDateInputEvolver" singleton="false">
+    <property name="JSEmitter" ref="dateSymbolJSEmitter" />
+    <property name="requestBeanGetter" ref="ELEvaluator" />
+    <property name="transitBase" value="fieldDateTransit" />
+  </bean>
+
+  <bean id="brokenDateInputEvolver" 
+    class="uk.ac.cam.caret.rsf.evolverimpl.BrokenDateInputEvolver">
+    <property name="requestBeanGetter" ref="ELEvaluatorProxy" />
+    <property name="monthBeanName" value="monthBean" />
+    <property name="yearList" value="2002, 2003, 2004, 2005, 2006, 2007" />
+  </bean>
+
+  <bean id="plainTextInputEvolver"
+    class="uk.org.ponder.rsf.evolvers.support.PlainTextInputEvolver" />
+    
+  <bean id="standardDoubleSelectEvolver"
+    class="uk.ac.cam.caret.rsf.evolverimpl.StandardDoubleSelectEvolver"/>
+    
+  <bean id="plainSelectEvolver"
+    class="uk.org.ponder.rsf.evolvers.support.PlainSelectEvolver" />
+
+  <bean id="standardDynamicListInputEvolver"
+    class="uk.ac.cam.caret.rsf.evolverimpl.StandardDynamicListInputEvolver" 
+    singleton="false">
+    <property name="requestBeanGetter" ref="ELEvaluator"/>
+  </bean>
+  <!-- ***** END Component Evolvers ****** -->
+
+</beans>
