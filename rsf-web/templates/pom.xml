@@ -1,34 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <properties>
-    <deploy.webappname>RSFComponents-templates</deploy.webappname>
-  </properties>
   <parent>
-     <groupId>uk.org.ponder.pure-poms</groupId>
-     <artifactId>rsf-components-base</artifactId>
-     <version>0.8.1-SNAPSHOT</version>
-     <relativePath>../</relativePath>
+    <groupId>uk.org.ponder.rsf</groupId>
+    <artifactId>rsf-web</artifactId>
+    <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>uk.org.ponder.rsfutil</groupId>
-  <artifactId>RSFComponents-templates</artifactId>
-  <version>0.8.1-SNAPSHOT</version>
-  <name>RSFComponents Templates</name>
-  
-
-  <repositories>
-    <repository>
-      <id>CARET-Maven2</id>
-      <name>CARET Maven 2 Repository</name>
-      <url>http://www2.caret.cam.ac.uk/maven2</url>
-    </repository>
-  </repositories>
+  <groupId>uk.org.ponder.rsf</groupId>
+  <artifactId>rsf-web-templates</artifactId>
+  <packaging>war</packaging>
   <organization>
     <name>CARET</name>
     <url>http://www.caret.cam.ac.uk</url>
   </organization>
   <inceptionYear>2005</inceptionYear>
-  <packaging>war</packaging>
   <build>
     <plugins>
       <plugin>
@@ -38,13 +23,5 @@
         </configuration>
       </plugin>
     </plugins>
-     <extensions>
-         <!-- Enable the use of external ssh for deploys -->
-         <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh-external</artifactId>
-                <version>2.0</version>
-          </extension>
-    </extensions>
   </build>
 </project>

@@ -2,19 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>uk.org.ponder.pure-poms</groupId>
-    <artifactId>standard-jar</artifactId>
-    <version>POM-7-SNAPSHOT</version>
+    <groupId>uk.org.ponder.rsf</groupId>
+    <artifactId>rsf-core</artifactId>
+    <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>j-servletutil</artifactId>
-  <packaging>jar</packaging>
-  <name>J-ServletUtil</name>
-  <groupId>uk.org.ponder</groupId>
+  <artifactId>rsf-core-servletutil</artifactId>
+  <groupId>uk.org.ponder.rsf</groupId>
   <properties>
-    <ponderutilcore.version>1.2.6-SNAPSHOT</ponderutilcore.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jservletutil.version>1.2.6-SNAPSHOT</jservletutil.version>
-    <project.scm.id>rsf-github</project.scm.id>
   </properties>
   <organization>
     <name>CARET, University of Cambridge</name>
@@ -26,23 +21,6 @@
     Libraries for abstracting over servlet dispatch, Spring utilities
     including fast request scope container (aka RSAC)
   </description>
-  <version>1.2.6-SNAPSHOT</version>
-  <repositories>
-    <repository>
-      <id>sakai-maven2</id>
-      <name>Sakai Maven 2 Repository</name>
-      <url>https://source.sakaiproject.org/maven2</url>
-    </repository>
-    <repository>
-      <id>sakai-maven2-snaphsots</id>
-      <name>Sakai Maven 2 Repository</name>
-      <url>https://source.sakaiproject.org/maven2-snapshots</url>
-      <snapshots>
-	<enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-
   <developers>
     <developer>
       <id>amb26</id>
@@ -59,34 +37,21 @@
       <timezone>0</timezone>
     </developer>
   </developers>
-
-  <!-- define source code repository -->
-  <scm>
-    <connection>scm:git:git://github.com/rsf/ServletUtil.git</connection>
-	<developerConnection>scm:git:https://github.com/rsf/ServletUtil.git</developerConnection>
-    <url>https://github.com/rsf/ServletUtil.git</url>
-    <tag>HEAD</tag>
-  </scm>
-
   <dependencies>
     <dependency>
-      <groupId>uk.org.ponder</groupId>
-      <artifactId>ponderutilcore</artifactId>
-      <version>${ponderutilcore.version}</version>
-      <type>jar</type>
+      <groupId>uk.org.ponder.rsf</groupId>
+      <artifactId>rsf-core-ponderutilcore</artifactId>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <version>2.3</version>
-      <type>jar</type>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-aop</artifactId>
       <version>3.1.2.RELEASE</version>
-      <type>jar</type>
       <exclusions>
         <exclusion>
           <!-- Exclude commons-logging, which ALSO attempts to bring in javax.servlet -->
@@ -99,7 +64,6 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
       <version>3.1.2.RELEASE</version>
-      <type>jar</type>
       <exclusions>
         <exclusion>
           <!-- Exclude commons-logging, which ALSO attempts to bring in javax.servlet -->
@@ -107,13 +71,12 @@
           <artifactId>commons-logging</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>  
+    </dependency>
     <!-- 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring</artifactId>
       <version>3.1.2.RELEASE</version>
-      <type>jar</type>
       <exclusions>
         <exclusion>
           <groupId>commons-logging</groupId>
@@ -134,7 +97,6 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
       <version>3.1.2.RELEASE</version>
-      <type>jar</type>
       <scope>provided</scope>
     </dependency>
     <!--  Keep this synchronized with the Spring dependent version -->
@@ -142,33 +104,19 @@
       <groupId>cglib</groupId>
       <artifactId>cglib-nodep</artifactId>
       <version>2.1_3</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <version>1.2.14</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
-      <type>jar</type>
-      <!-- <scope>test</scope> -->
     </dependency>
   </dependencies>
-
   <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
-        </configuration>
-      </plugin>
-    </plugins>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
     <resources>
@@ -202,14 +150,5 @@
         <filtering>false</filtering>
       </resource>
     </resources>
-    <extensions>
-        <!-- Enable the use of external ssh for deploys -->
-           <extension>
-           <groupId>org.apache.maven.wagon</groupId>
-           <artifactId>wagon-ssh-external</artifactId>
-           <version>2.0</version>
-           </extension>
-    </extensions>
   </build>
 </project>
-

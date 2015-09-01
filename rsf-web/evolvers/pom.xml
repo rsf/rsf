@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>RSFComponents-evolvers</artifactId>
-  <name>RSFComponents Evolvers</name>
-  <packaging>jar</packaging>
-  <groupId>uk.org.ponder.rsfutil</groupId>
   <parent>
-    <groupId>uk.org.ponder.pure-poms</groupId>
-    <artifactId>rsf-components-base</artifactId>
-    <version>0.8.1-SNAPSHOT</version>
-    <relativePath>../</relativePath>
+    <groupId>uk.org.ponder.rsf</groupId>
+    <artifactId>rsf-web</artifactId>
+    <version>1.0-SNAPSHOT</version>
   </parent>
-  <version>0.8.1-SNAPSHOT</version>
+  <artifactId>rsf-web-evolvers</artifactId>
+  <groupId>uk.org.ponder.rsf</groupId>
   <organization>
     <name>CARET, University of Cambridge</name>
     <url>http://www.caret.cam.ac.uk/</url>
@@ -21,13 +17,6 @@
     Components package for RSF - produces a JAR containing the Java
     definitions of evolvers.
   </description>
-  <repositories>
-    <repository>
-      <id>UCT-Maven2</id>
-      <name>UCT Maven 2 Repository</name>
-      <url>http://source.cet.uct.ac.za/nexus/content/repositories/releases/</url>
-    </repository>
-  </repositories>
   <developers>
     <developer>
       <id>amb26</id>
@@ -41,7 +30,7 @@
         <role>Project Manager</role>
       </roles>
       <timezone>0</timezone>
-      <properties />
+      <properties/>
     </developer>
     <developer>
       <id>andrew</id>
@@ -54,7 +43,7 @@
         <role>Developer</role>
       </roles>
       <timezone>0</timezone>
-      <properties />
+      <properties/>
     </developer>
   </developers>
   <licenses>
@@ -68,31 +57,27 @@
   </licenses>
   <dependencies>
     <dependency>
-      <groupId>uk.org.ponder.rsfutil</groupId>
-      <artifactId>rsfutil</artifactId>
+      <groupId>uk.org.ponder.rsf</groupId>
+      <artifactId>rsf-core</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
       <version>3.1.2.RELEASE</version>
-      <type>jar</type>
-      <scope>provided</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <version>2.3</version>
-      <type>jar</type>
       <scope>provided</scope>
     </dependency>
   </dependencies>
-
   <build>
     <sourceDirectory>src/java</sourceDirectory>
     <resources>
@@ -118,30 +103,15 @@
       </testResource>
     </testResources>
     <plugins>
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-surefire-plugin</artifactId>
-			<configuration>
-				<excludes>
-					<exclude>**/*TestMessages.java</exclude>
-				</excludes>
-			</configuration>
-		</plugin>
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <source>1.4</source>
-          <target>1.4</target>
+          <excludes>
+            <exclude>**/*TestMessages.java</exclude>
+          </excludes>
         </configuration>
       </plugin>
     </plugins>
-     <extensions>
-         <!-- Enable the use of external ssh for deploys -->
-         <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh-external</artifactId>
-                <version>2.0</version>
-          </extension>
-    </extensions>
   </build>
 </project>

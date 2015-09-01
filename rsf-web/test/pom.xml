@@ -1,19 +1,25 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <name>RSF Components Test Base</name>
-  <groupId>uk.org.ponder.pure-poms</groupId>
-  <artifactId>rsf-components-test-base</artifactId>
-   <parent>
-    <groupId>uk.org.ponder.pure-poms</groupId>
-    <artifactId>rsf-components-base</artifactId>
-    <version>0.8.1-SNAPSHOT</version>
-    <relativePath>../</relativePath>
+  <parent>
+    <groupId>uk.org.ponder.rsf</groupId>
+    <artifactId>rsf-web</artifactId>
+    <version>1.0-SNAPSHOT</version>
   </parent>
-  <version>0.8.1-SNAPSHOT</version>
+  <groupId>uk.org.ponder.rsf</groupId>
+  <artifactId>rsf-web-test</artifactId>
   <packaging>pom</packaging>
   <modules>
     <module>base-webapp</module>
     <module>webapp</module>
   </modules>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>uk.org.ponder.rsf</groupId>
+        <artifactId>rsf-web-test-base-webapp</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 </project>
