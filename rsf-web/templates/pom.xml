@@ -3,10 +3,9 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>uk.org.ponder.rsf</groupId>
-    <artifactId>rsf-web</artifactId>
+    <artifactId>rsf-web-base</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>uk.org.ponder.rsf</groupId>
   <artifactId>rsf-web-templates</artifactId>
   <packaging>war</packaging>
   <organization>

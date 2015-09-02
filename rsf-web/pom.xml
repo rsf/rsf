@@ -3,12 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>uk.org.ponder.rsf</groupId>
-    <artifactId>rsf</artifactId>
+    <artifactId>rsf-base</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>uk.org.ponder.rsf</groupId>
-  <artifactId>rsf-web</artifactId>
-  <packaging>war</packaging>
+  <artifactId>rsf-web-base</artifactId>
+  <packaging>pom</packaging>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -16,12 +15,21 @@
     <module>evolvers</module>
     <module>templates</module>
     <module>test</module>
+    <module>web</module>
   </modules>
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>uk.org.ponder.rsf</groupId>
+        <artifactId>rsf-web-evolvers</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>uk.org.ponder.rsf</groupId>
+        <artifactId>rsf-web-templates</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 </project>
