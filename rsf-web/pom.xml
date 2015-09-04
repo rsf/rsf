@@ -15,7 +15,6 @@
     <module>evolvers</module>
     <module>templates</module>
     <module>test</module>
-    <module>web</module>
   </modules>
   <dependencyManagement>
     <dependencies>

@@ -14,7 +14,6 @@
   </properties>
   <modules>
     <module>ponderutilcore</module>
-    <module>rsfutil</module>
     <module>servletutil</module>
     <module>core</module>
   </modules>

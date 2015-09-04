@@ -57,7 +57,8 @@
   <dependencies>
     <dependency>
       <groupId>uk.org.ponder.rsf</groupId>
-      <artifactId>rsf-core-rsfutil</artifactId>
+      <artifactId>rsf-core</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>

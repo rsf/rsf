@@ -14,15 +14,6 @@
     <module>rsf-core</module>
     <module>rsf-web</module>
   </modules>
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <artifactId>rsf-core-rsfutil</artifactId>
-        <groupId>uk.org.ponder.rsf</groupId>
-        <version>${project.version}</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
   <build>
     <pluginManagement>
       <plugins>
