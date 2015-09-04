@@ -8,7 +8,6 @@
   </parent>
   <artifactId>rsf-core</artifactId>
   <packaging>jar</packaging>
-  <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -38,6 +37,7 @@
               <goal>shade</goal>
             </goals>
             <configuration>
+              <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
               <artifactSet>
                 <includes>
                   <include>uk.org.ponder.rsf:rsf-core-ponderutilcore</include>

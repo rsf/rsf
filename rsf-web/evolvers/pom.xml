@@ -7,7 +7,6 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>rsf-web-evolvers</artifactId>
-  <groupId>uk.org.ponder.rsf</groupId>
   <organization>
     <name>CARET, University of Cambridge</name>
     <url>http://www.caret.cam.ac.uk/</url>
@@ -58,12 +57,12 @@
   <dependencies>
     <dependency>
       <groupId>uk.org.ponder.rsf</groupId>
-      <artifactId>rsf-core</artifactId>
+      <artifactId>rsf-core-rsfutil</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
-      <version>3.1.2.RELEASE</version>
+      <version>${springframework.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>

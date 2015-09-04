@@ -8,6 +8,7 @@
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <springframework.version>3.1.2.RELEASE</springframework.version>
   </properties>
   <modules>
     <module>rsf-core</module>
@@ -16,7 +17,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <artifactId>rsf-core</artifactId>
+        <artifactId>rsf-core-rsfutil</artifactId>
         <groupId>uk.org.ponder.rsf</groupId>
         <version>${project.version}</version>
       </dependency>

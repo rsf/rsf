@@ -7,7 +7,6 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>rsf-web-test-base-webapp</artifactId>
-  <groupId>uk.org.ponder.rsf</groupId>
   <properties>
     <deploy.defeat>true</deploy.defeat>
   </properties>
@@ -23,49 +22,49 @@
   <dependencies>
     <dependency>
       <groupId>uk.org.ponder.rsf</groupId>
-      <artifactId>rsf-core</artifactId>
+      <artifactId>rsf-core-rsfutil</artifactId>
     </dependency>
     <!-- Suppress these from our WAR image -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-aop</artifactId>
-      <version>3.1.2.RELEASE</version>
+      <version>${springframework.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>3.1.2.RELEASE</version>
+      <version>${springframework.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-beans</artifactId>
-      <version>3.1.2.RELEASE</version>
+      <version>${springframework.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
-      <version>3.1.2.RELEASE</version>
+      <version>${springframework.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context-support</artifactId>
-      <version>3.1.2.RELEASE</version>
+      <version>${springframework.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
-      <version>3.1.2.RELEASE</version>
+      <version>${springframework.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
-      <version>3.1.2.RELEASE</version>
+      <version>${springframework.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

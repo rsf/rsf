@@ -7,7 +7,6 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>rsf-web-test-webapp</artifactId>
-  <groupId>uk.org.ponder.rsf</groupId>
   <packaging>war</packaging>
   <organization>
     <name>CARET</name>
@@ -24,8 +23,7 @@
     <dependency>
       <groupId>uk.org.ponder.rsf</groupId>
       <artifactId>rsf-web-evolvers</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+      </dependency>
   </dependencies>
   <build>
     <plugins>
