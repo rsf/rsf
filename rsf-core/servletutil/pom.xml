@@ -4,7 +4,7 @@
   <parent>
     <groupId>uk.org.ponder.rsf</groupId>
     <artifactId>rsf-core-base</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
   </parent>
   <artifactId>rsf-core-servletutil</artifactId>
   <properties>
