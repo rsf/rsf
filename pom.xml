@@ -14,6 +14,11 @@
     <module>rsf-core</module>
     <module>rsf-web</module>
   </modules>
+  <scm>
+    <connection>scm:git:git://github.com/rsf/rsf.git</connection>
+    <developerConnection>scm:git:git@github.com:rsf/rsf.git</developerConnection>
+    <url>scm:git:https://github.com/rsf/rsf</url>
+  </scm>  
   <build>
     <pluginManagement>
       <plugins>
