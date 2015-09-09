@@ -96,7 +96,7 @@ public class LexUtil {
   }
   
   /**
-   * @param lr
+   * @param lr PushbackRIS
    */
   public static void expectEmpty(PushbackRIS lr) {
     skipWhite(lr);

@@ -15,7 +15,11 @@ import uk.org.ponder.util.UniversalRuntimeException;
 
 public abstract class URLEncoder {
 
-  /** Encode the supplied URL into a UTF-8 based URL encoding */
+  /** Encode the supplied URL into a UTF-8 based URL encoding
+   * 
+   * @param s the url
+   * @return encoded url
+   */
 
   public static String encode(String s) {
     try {
@@ -42,11 +46,9 @@ public abstract class URLEncoder {
    * @param s what to encode
    * @param encoding name of the encoding to use;
    * @return URL-encoded version of <CODE>s</CODE>
-   * @throws java.io.UnsupportedEncodingException
+   * @throws UniversalRuntimeException
    *           if <CODE>encoding</CODE> isn't supported by the Java VM and/or
    *           class-libraries
-   * @pre s != null
-   * @pre encoding != null
    */
   public static String encode(String s, String encoding) {
     try {
@@ -59,11 +61,12 @@ public abstract class URLEncoder {
 
   static final int caseDiff = ('a' - 'A');
 
-  /**
-   * Converts a single character (byte) into its upper-case URL hex
-   * representation %E0, say.
+  /** 
+   * Converts a single character (byte) into its upper-case URL hex representation %E0, say.
+   * 
+   * @param c char to convert
+   * @param target appends the hex representation to {@link CharWrap}
    */
-
   public static void appendURLHex(char c, CharWrap target) {
     target.append('%');
     char ch = Character.forDigit((c >> 4) & 0xF, 16);

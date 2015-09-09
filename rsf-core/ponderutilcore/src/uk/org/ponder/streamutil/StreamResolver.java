@@ -7,7 +7,7 @@ import java.io.InputStream;
 
 /**
  * Maps a String path onto an InputStream, in a context-dependent manner. Sample implementation
- * is {@link SpringStreamResolver}.
+ * is @see SpringStreamResolver.
  * @author Antranig Basman (amb26@ponder.org.uk)
  */
 public interface StreamResolver {

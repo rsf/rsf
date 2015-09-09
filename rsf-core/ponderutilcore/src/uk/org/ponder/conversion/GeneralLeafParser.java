@@ -239,8 +239,6 @@ public class GeneralLeafParser implements PolymorphicLeafObjectParser {
    * method.
    * 
    * @param torender The object to be rendered.
-   * @param renderinto A vacant CharWrap object that the renderer may choose to
-   *            use for its rendering.
    * @return a CharWrap object containing the rendered text.
    */
   public String render(Object torender) {

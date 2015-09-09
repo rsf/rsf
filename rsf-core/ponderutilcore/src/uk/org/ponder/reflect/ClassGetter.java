@@ -32,8 +32,9 @@ public class ClassGetter {
    * Constructs an object of the given class with only a runtime exception in
    * the case of failure.
    * 
-   * @param class1
-   * @return
+   * @param clazz class to construct
+   * @exception UniversalRuntimeException runtime exception
+   * @return new instance
    */
   // TODO: replace with ReflectiveCache implementation.
   public static Object construct(Class clazz) {

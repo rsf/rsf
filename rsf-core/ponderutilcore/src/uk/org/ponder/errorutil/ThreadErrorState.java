@@ -31,6 +31,7 @@ public class ThreadErrorState {
   
   /** Determines whether any errors have occured during the processing of 
    * the current request.
+   * @return true if errors otherwise false
    */
   public static boolean isError() {
     return getErrorState().messages.isError();

@@ -37,7 +37,7 @@ public interface GenericSAX extends SAXalizableExtraAttrs, DeSAXalizable {
    */
   public void addChild (GenericSAX child);
   /** Finds the first (if any) child node having the specified tag.
-   * @param The required tag to be found.
+   * @param tagname The required tag to be found.
    * @return The first child node bearing the supplied tag, if any, or
    * <code>null</code> if no such child exists.  */
   public GenericSAXImpl findChild(String tagname);

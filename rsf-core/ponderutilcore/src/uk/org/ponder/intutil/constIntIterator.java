@@ -10,10 +10,16 @@ package uk.org.ponder.intutil;
  * of unmodifiable native integers.
  */
 public interface constIntIterator {
-  /** Does the sequence contain another integer?*/
+  /** Does the sequence contain another integer?
+   * 
+   * @return true if it contains another integer
+   */
   public boolean valid();
   /** Steps the iterator along to the next element of the sequence */
   public void next();
-  /** Returns the integer currently pointed at by this iterator */
+  /** Returns the integer currently pointed at by this iterator
+   * 
+   * @return int
+   */
   public int getInt();
 }

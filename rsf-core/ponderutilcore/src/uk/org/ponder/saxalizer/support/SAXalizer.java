@@ -337,7 +337,7 @@ public class SAXalizer extends HandlerBase {
    * stream will be directed at this object until the matching
    * <code>endElement</code> event.
    * 
-   * @param clazz
+   * @param rootobj
    *          Produce an object of this type.
    * @param attrlist
    *          The attribute list that was attached to the
@@ -347,8 +347,6 @@ public class SAXalizer extends HandlerBase {
    *          seeing of the <code>endElement</code> tag. At this point, he
    *          should stop forwarding <code>DocumentHandler</code> events to
    *          this object. This parameter may be <code>null</code>.
-   * @exception SAXException
-   *              If an error occured while parsing the supplied input source.
    */
   public void produceSubtree(Object rootobj, AttributeList attrlist,
       SAXalizerCallback callback) {

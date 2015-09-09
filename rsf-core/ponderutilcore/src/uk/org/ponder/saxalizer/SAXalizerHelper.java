@@ -72,8 +72,7 @@ public class SAXalizerHelper extends HandlerBase {
    * @param rootobj The required root object to receive the SAXalized subtree. This
    * class must implement (at least) the SAXalizable interface.
    * @param stream A stream attached to an XML document.
-   This stream WILL be closed by this call.
-   * @exception SAXException if the stream could not be parsed as XML.
+   * This stream WILL be closed by this call.
    * @return An object representing the XML root node.
    */
   // Currently closes the stream

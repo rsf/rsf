@@ -12,8 +12,12 @@ package uk.org.ponder.beanutil;
  * 
  */
 public interface BeanLocator {
-  /** Return the bean/object with the specified name.</p> 
+  /** 
+   * Return the bean/object with the specified name.
    * The supplied argument is a simple name, that is, a single path segment
-   * of an EL path. */
+   * of an EL path.
+   * @param name of the bean
+   * @return the bean instance
+   */
   public Object locateBean(String name);
 }

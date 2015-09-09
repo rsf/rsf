@@ -36,6 +36,7 @@ public class XMLDecoder {
    * decoding may be reported.
    * @return An XMLDecoderReturn object providing the client with everything required
    * to continue parsing the XML file.
+   * @exception IOException I/O error
    */
 
   public static XMLDecoderReturn stripDeclaration(InputStream is, EncodingErrorHandler handler)

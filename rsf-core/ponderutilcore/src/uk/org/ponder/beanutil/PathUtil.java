@@ -17,7 +17,12 @@ public class PathUtil {
   public static String getHeadPath(String path) {
     return getPathSegment(path, 0);
   }
-  /** Returns the first path segment, without performing unescaping **/
+  /**
+   * Returns the first path segment, without performing unescaping
+   * 
+   * @param path a path
+   * @return segment
+   */
   public static String getHeadPathEncoded(String path) {
     int firstdot = getPathSegment(null, path, 0);
     return path.substring(0, firstdot);
@@ -35,13 +40,23 @@ public class PathUtil {
         : path.substring(0, lastdot);
   }
 
-  /** Returns the very last path component of a bean path */
+  /** 
+   * Returns the very last path component of a bean path
+   * 
+   * @param path bean path
+   * @return last path segment
+   */
   public static String getTailPath(String path) {
     int lastdot = lastDotIndex(path);
     return getPathSegment(path, lastdot + 1);
   }
   
-  /** Parses a path into an array of decoded EL segments **/
+  /** 
+   * Parses a path into an array of decoded EL segments
+   * 
+   * @param path path to split
+   * @return array
+   */
   public static String[] splitPath(String path) {
     StringList togo = new StringList();
     CharWrap build = new CharWrap();
@@ -54,16 +69,25 @@ public class PathUtil {
     return togo.toStringArray();
   }
   
-  /** Builds an EL path of from an array of path segments. Particulary good when using
-   *  Strings of BeanLocators, Maps, and friends. Assumes none of the segments
-   *  have been escaped yet.
+  /** 
+   * Builds an EL path of from an array of path segments. Particulary good when using
+   * Strings of BeanLocators, Maps, and friends. Assumes none of the segments
+   * have been escaped yet.
+   * 
+   * @param segments array of paths
+   * @return el path
    */
   public static String buildPath(String[] segments) {
     return buildPath(segments, 0, segments.length);
   }
   
-  /** Builds an EL path of variable length, from a subsection of an array of
-   * segments. 
+  /** 
+   * Builds an EL path of variable length, from a subsection of an array of segments.
+   * 
+   * @param segments path segments
+   * @param start begin index
+   * @param finish end index
+   * @return el path
    */
   public static String buildPath(String[] segments, int start, int finish) {
     CharWrap toappend = new CharWrap();
@@ -79,6 +103,10 @@ public class PathUtil {
   /**
    * Compose a prefix and suffix EL path, where the prefix is already escaped.
    * Prefix may be empty, but not null. The suffix will become escaped.
+   * 
+   * @param prefix path prefix
+   * @param suffix path sufix
+   * @return el path
    */
   public static String composePath(String prefix, String suffix) {
     CharWrap toappend = new CharWrap(prefix);
@@ -89,7 +117,13 @@ public class PathUtil {
     return toappend.toString();
   }
 
-  /** Compose head and tail paths, where escaping is unnecessary * */
+  /** 
+   * Compose head and tail paths, where escaping is unnecessary
+   * 
+   * @param head the head
+   * @param tail the tail
+   * @return combined path head.tail
+   */
   public static String composePathEncoded(String head, String tail) {
     return head + '.' + tail;
   }

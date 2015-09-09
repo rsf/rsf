@@ -12,7 +12,7 @@ package uk.org.ponder.util;
 * <p>This interface has been introduced and removed from PonderUtilCore a number
 * of times under the name "ObjectGetter" - on every occasion before now 
 * it has been determined that its use represented some kind of design error. 
-* The only current use is in {@link BeanExploder} so that it may receive
+* The only current use is in @see BeanExploder so that it may receive
 * inner bean definitions delivered via RSAC, resulting in a more concise
 * Spring definition. This interface is defined here in PUC to avoid a dependence
 * at this level on Spring. 

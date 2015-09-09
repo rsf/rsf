@@ -94,6 +94,8 @@ public class BeanUtil {
    * Given a string representing an EL expression beginning #{ and ending },
    * strip these off returning the bare expression. If the bracketing characters
    * are not present, return null.
+   * @param el the expression
+   * @return bare expression
    */
   public static String stripEL(String el) {
     if (el == null) {

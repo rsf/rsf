@@ -34,7 +34,9 @@ public class TargettedMessageList implements Serializable {
   // at least, which are fairly clean in of themselves.
   private ArrayList errors = new ArrayList();
 
-  /** Returns the number of messages held in this list * */
+  /** Returns the number of messages held in this list
+   * @return number of errors 
+   */
   public int size() {
     return errors.size();
   }
@@ -43,6 +45,7 @@ public class TargettedMessageList implements Serializable {
    * Appends a new TargettedMessage to this list. The <code>targetid</code>
    * field will be interpreted as an EL path adjusted to take into account of
    * the current value of <code>nestedPath</code>
+   * @param message message to add
    */
   public void addMessage(TargettedMessage message) {
     if (nestedpath.length() != 0
@@ -60,6 +63,7 @@ public class TargettedMessageList implements Serializable {
   /**
    * Appends multiple messages to this list, through multiple calls to
    * {@link #addMessage(TargettedMessage)}.
+   * @param list List of messages to add
    */
 
   public void addMessages(TargettedMessageList list) {
@@ -72,6 +76,7 @@ public class TargettedMessageList implements Serializable {
    * Does the current state of the TML represent an error? This is determined by
    * checking for any individual message which is at the
    * {@link TargettedMessage#SEVERITY_ERROR} severity level.
+   * @return true if there is an error otherwise false
    */
   public boolean isError() {
     for (int i = 0; i < size(); ++i) {
@@ -84,7 +89,9 @@ public class TargettedMessageList implements Serializable {
 
   private String nestedpath = "";
 
-  /** Push the supplied path segment onto the hidden path base * */
+  /** Push the supplied path segment onto the hidden path base
+   * @param extrapath segment to add
+   */
   public void pushNestedPath(String extrapath) {
     if (extrapath == null) {
       extrapath = "";
@@ -145,6 +152,7 @@ public class TargettedMessageList implements Serializable {
 
   /**
    * Pack this list into a String for debugging purposes.
+   * @return a String containing the packed list
    */
   public String pack() {
     CharWrap togo = new CharWrap();
@@ -159,6 +167,8 @@ public class TargettedMessageList implements Serializable {
   /**
    * Renders the entire contents of this message list into a list of localised
    * messages, using the supplied <code>MessageLocator</code>
+   * @param locator messages
+   * @return localized messages
    */
   public StringList render(MessageLocator locator) {
     StringList togo = new StringList();
@@ -172,6 +182,7 @@ public class TargettedMessageList implements Serializable {
 
   /** Determines whether this message list contains a general action error entry, and
    * returns it.
+   * @return error or null if no error
    */
   public TargettedMessage findGeneralError() {
     for (int i = 0; i < size(); ++ i) {

@@ -23,6 +23,7 @@ public class RandomAccessReadWrapper implements RandomAccessRead {
   /** Constructs a RandomAccessFile from the supplied File object, and then 
    * wraps it with a RandomAccessReadWrapper.
    * @param file A file to be opened as a RandomAccessFile and wrapped.
+   * @exception IOException read error
    */
   public RandomAccessReadWrapper(File file) throws IOException {
     internalraf = new RandomAccessFile(file, "r");
@@ -31,6 +32,7 @@ public class RandomAccessReadWrapper implements RandomAccessRead {
   /** Constructs a RandomAccessFile for the specified filename, and then
    * wraps it with a RandomAccessReadWrapper.
    * @param filename A file to be opened as a RandomAccessFile and wrapped.
+   * @exception IOException read error
    */
   public RandomAccessReadWrapper(String filename) throws IOException {
     internalraf = new RandomAccessFile(filename, "r");

@@ -15,6 +15,14 @@ import uk.org.ponder.util.AssertionException;
  *
  * The class 
  */
+/**
+ * @author enietzel
+ *
+ */
+/**
+ * @author enietzel
+ *
+ */
 public class ListUtil {
   public static final List EMPTY_LIST = new ArrayList(0);
   
@@ -30,22 +38,32 @@ public class ListUtil {
     };
   } 
   
-  /** Construct a new List instance comprised of the single supplied entry **/
-  
+  /** 
+   * Construct a new List instance comprised of the single supplied entry
+   * @param entry to put in the list
+   * @return a List
+   */
   public static List instance(Object entry) {
     List togo = new ArrayList();
     togo.add(entry);
     return togo;
   }
 
-  /** Construct a new List instance filled with the supplied array of objects **/
+  /** 
+   * Construct a new List instance filled with the supplied array of objects
+   * @param init the intial objects
+   * @return a List
+   */
   public static List instance(Object[] init) {
     List togo = new ArrayList();
     append(togo, init);
     return togo;    
   }
   
-  /** Append the elements in the supplied array to the end of the supplied list **/
+  /** Append the elements in the supplied array to the end of the supplied list
+   * @param list to be appeneded to
+   * @param toappend array of objects to append
+   */
   public static void append(List list, Object[] toappend) {
     if (toappend != null) {
       for (int i = 0; i < toappend.length; ++ i) {
@@ -80,6 +98,7 @@ public class ListUtil {
       list.remove(i);
     }
   }
+
   public static void setSize(List list, int newsize) {
     if (newsize > list.size()) {
       expandSize(list, newsize);
@@ -88,6 +107,7 @@ public class ListUtil {
       restrictSize(list, newsize);
     }
   }
+  
   public static Object pop(List list) {
     int size = list.size();
     if (size == 0) {

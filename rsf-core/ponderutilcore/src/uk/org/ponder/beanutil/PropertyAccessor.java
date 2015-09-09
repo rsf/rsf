@@ -7,7 +7,8 @@ package uk.org.ponder.beanutil;
  * Wraps (probably reflective) operations performed on a single bean. Note that
  * these methods take the parent object as argument and hence PropertyAccessors
  * are generally immutable (per class), leading to great economies. 
- * @see BeanWrapperImpl for examples of incredible diseconomies.
+ * 
+ * see BeanWrapperImpl for examples of incredible diseconomies.
  * @author Antranig Basman (antranig@caret.cam.ac.uk)
  *
  */
@@ -34,6 +35,9 @@ public interface PropertyAccessor {
    * contained type of the collection rather than the collection type itself.
    * In this case, getProperty will return an object some enumerable or denumerable
    * object rather than one of this type.
+   * @param parent object
+   * @param name name of the property
+   * @return type
    */
   public Class getPropertyType(Object parent, String name);
 

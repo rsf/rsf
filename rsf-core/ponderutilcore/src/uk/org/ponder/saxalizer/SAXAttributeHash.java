@@ -31,7 +31,7 @@ public class SAXAttributeHash {
     attributes.put(name, new SAXAttribute(type, value));
     }
   /** Returns the attribute with the specified name.
-   * @param The name of the required attribute.
+   * @param name The name of the required attribute.
    * @return The required attribute.
    */
   public SAXAttribute get(String name) {

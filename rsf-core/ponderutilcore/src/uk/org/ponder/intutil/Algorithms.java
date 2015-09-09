@@ -103,12 +103,6 @@ public class Algorithms {
     return togo;
   }
   
-
-  /**
-   * @param size
-   * @param val
-   * @return
-   */
   public static int[] fill(int size, int val) { 
     int[] togo = new int[size];
     for (int i = 0; i < size; ++ i) {
@@ -130,7 +124,11 @@ public class Algorithms {
     return togo;
   }
   
-  /** Count the number of set bits in the argument, by the accepted method */
+  /** Count the number of set bits in the argument, by the accepted method
+   * 
+   * @param tocount the int to count
+   * @return the number of bits set
+   */
   public static int count_bits(int tocount) {
     int n = 0;
     for (; tocount != 0; n++) {

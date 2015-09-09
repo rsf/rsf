@@ -35,7 +35,7 @@ public class DateUtil {
     return twoDigitList(first, last, 1);
   }
   
-  /** Returns a "maximum length" list of days, currently simply 01..31 **/
+  /** @return a "maximum length" list of days, currently simply 01..31 **/
   public static String[] dayList() {
     Calendar c = new GregorianCalendar();
     int maxDay = c.getMaximum(Calendar.DAY_OF_MONTH);
@@ -54,6 +54,9 @@ public class DateUtil {
   /**
    * Takes the Date-defining fields from the source and applies them onto the
    * target, preserving its Time-defining fields, or the reverse
+   * @param datetarget destination date
+   * @param datesource source date
+   * @param fields date fields
    */
   public static void applyFields(Date datetarget, Date datesource, int fields) {
     // This *should* be a TZ-independent operation.

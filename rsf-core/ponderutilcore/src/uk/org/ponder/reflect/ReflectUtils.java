@@ -32,8 +32,8 @@ public class ReflectUtils {
   /**
    * Determine if the given type is assignable from the given value, assuming
    * setting by reflection. Considers primitive wrapper classes as assignable to
-   * the corresponding primitive types. <p/>For example used in a bean factory's
-   * constructor resolution. <p/>Taken from Spring Framework "BeanUtils.java"
+   * the corresponding primitive types. <p>For example used in a bean factory's
+   * constructor resolution. </p>Taken from Spring Framework "BeanUtils.java"
    * release version 2.0.5
    * 
    * @author Rod Johnson
@@ -64,7 +64,7 @@ public class ReflectUtils {
 
   /**
    * Determine a weight that represents the class hierarchy difference between
-   * types and arguments. A direct match, i.e. type Integer -> arg of class
+   * types and arguments. A direct match, i.e. type Integer -&gt; arg of class
    * Integer, does not increase the result - all direct matches means weight 0.
    * A match between type Object and arg of class Integer would increase the
    * weight by 2, due to the superclass 2 steps up in the hierarchy (i.e.
@@ -75,13 +75,12 @@ public class ReflectUtils {
    * constructor (Integer) would be preferred to a constructor (Number) which
    * would in turn be preferred to a constructor (Object). All argument weights
    * get accumulated.
-   * </p> This method will assign a penalty of 1024 to an invocation that would
+   * <p> This method will assign a penalty of 1024 to an invocation that would
    * require a type conversion (currently only default leaf conversions from String 
    * are considered)
    * </p>
    * This method adapted from Spring framework AutowireUtils.java release version
    * 2.0.5
-   * 
    * @author Juergen Hoeller
    * @param argTypes the argument types to match
    * @param args the arguments to match
@@ -135,6 +134,9 @@ public class ReflectUtils {
   /** Determines whether an object is capable of supporting a method invocation
    * with a given name. Used primarily to resolve potential ambiguity in EL
    * expressions that are being interpreted as method bindings.
+   * @param obj the object
+   * @param methodname name of method
+   * @return true if object has method with the name
    */
   public static boolean hasMethod(Object obj, String methodname) {
     if (obj instanceof MethodInvokingProxy) return true;
@@ -152,6 +154,8 @@ public class ReflectUtils {
    * These will be listed in order from the supplied class, all concrete
    * superclasses in ascending order, and then finally all interfaces in
    * recursive ascending order.
+   * @param clazz the class
+   * @return List of interfaces implemented by the class
    */
 
   public static List getSuperclasses(Class clazz) {
@@ -185,6 +189,10 @@ public class ReflectUtils {
    * Instantiates a "default" type of container conforming to a given interface
    * and of a given size. If asked to create an array of unknown size, will
    * return an zero-element array instead, signalling a "placeholder".
+   * @param declaredtype type
+   * @param size number of elements
+   * @param cache bean cache
+   * @return container
    */
   public static Object instantiateContainer(Class declaredtype, int size,
       ReflectiveCache cache) {

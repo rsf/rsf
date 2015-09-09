@@ -20,8 +20,10 @@ import java.util.ListIterator;
 
 public abstract class TypedListWrapper implements List {
   protected List wrapped = new ArrayList();
-  /** Implementors will override this method, and in addition provide some
+  /** 
+   * Implementors will override this method, and in addition provide some
    * typesafe add and get methods of their choosing *.
+   * @return the class of the wrapped type
    */
   public abstract Class getWrappedType();
   

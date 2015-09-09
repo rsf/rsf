@@ -167,13 +167,17 @@ public class StandardFieldDateTransit extends LocaleHolder implements FieldDateT
   public void setDate(Date date) {
     this.date = date;
   }
-  /** Render an ISO8601-formatted value, including timezone information **/
+  /** 
+   * @return an ISO8601-formatted value, including timezone information
+   */
   public String getISO8601TZ() {
     triggerParse();
     return isvalid? iso8601tz.format(date) : null;
   }
   /** Set an ISO 8601-formatted value for which the timezone is to be firmly
    * IGNORED.
+   * @param isoform date
+   * @exception ParseException error during parsing
    */
   public void setISO8601TZ(String isoform) throws ParseException {
     date = iso8601notz.parse(isoform);

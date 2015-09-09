@@ -32,14 +32,14 @@ import uk.org.ponder.stringutil.CharWrap;
  * problem and b) a set of increasingly detailed messages that can be accreted
  * onto the exception as it winds up the stack.
  * <p>The typical usage in client code looks as follows:
- * <xmp>
+ * &lt;xmp&gt;
  * try {
  *    .... block generated checked or unchecked exceptions 
  *  }
  * catch (Exception e) {
  *   throw UniversalRuntimeException.accumulate(e, "What I learned in this catch block" );
  *   }
- * </xmp>
+ * &lt;/xmp&gt;
  * A UniversalRuntimeException also contains a Class representing its
  * "category", a point in the inheritance hierarchy that may be used to classify
  * the nature of exceptions, as being distinct from the wrapped target exception
@@ -124,14 +124,14 @@ public class UniversalRuntimeException extends RuntimeException implements
    * object is returned.
    * <p>
    * If the supplied exception is a wrapping exception of one of the recognised
-   * kinds (InvocationTargetException, or if registered, ServletException &c), 
+   * kinds (InvocationTargetException, or if registered, ServletException), 
    * it is unwrapped and its target exception becomes the wrapped exception.
    * 
    * @param t
    *          An encountered exception, to be wrapped.
-   * @param fullmsg
+   * @param extradetail
    *          The message to be added to the exceptions information.
-   * @return
+   * @return exception
    */
   public static UniversalRuntimeException accumulate(Throwable t,
       String extradetail) {
@@ -140,7 +140,11 @@ public class UniversalRuntimeException extends RuntimeException implements
     return togo;
   }
 
-  /** Used to "pass-through" an exception leaving its message unchanged */
+  /** Used to "pass-through" an exception leaving its message unchanged
+   * 
+   * @param t {@link Throwable} to add
+   * @return {@link UniversalRuntimeException} with the added t
+   */
   public static UniversalRuntimeException accumulate(Throwable t) {
     UniversalRuntimeException togo = accumulateMsg(t, t.getClass(), t
         .getMessage());

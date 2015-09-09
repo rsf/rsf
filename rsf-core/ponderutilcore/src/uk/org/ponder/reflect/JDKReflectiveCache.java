@@ -12,12 +12,23 @@ import uk.org.ponder.util.UniversalRuntimeException;
 
 public class JDKReflectiveCache extends ReflectiveCache {
   
-  /** Invokes the supplied no-arg Method object on the supplied target */
+  /** 
+   * Invokes the supplied no-arg Method object on the supplied target
+   * @param method invoke method
+   * @param target object
+   * @return Object
+   */
   public static Object invokeMethod(Method method, Object target) {
     return invokeMethod(method, target, SAXAccessMethod.emptyobj);
   }
   
-  /** Invokes the supplied Method object on the supplied target */
+  /** 
+   * Invokes the supplied Method object on the supplied target
+   * @param method to invoke
+   * @param target object
+   * @param args method args
+   * @return Object
+   */
   public static Object invokeMethod(Method method, Object target, Object[] args) {
     try {
       return method.invoke(target, args);
@@ -28,7 +39,11 @@ public class JDKReflectiveCache extends ReflectiveCache {
   }
   
 
-  /** Invokes the supplied no-arg constructor to create a new object */
+  /** 
+   * Invokes the supplied no-arg constructor to create a new object
+   * @param cons constructor to invoke
+   * @return Object  
+   */
   public static Object invokeConstructor(Constructor cons) {
     Object togo = null;
     try {

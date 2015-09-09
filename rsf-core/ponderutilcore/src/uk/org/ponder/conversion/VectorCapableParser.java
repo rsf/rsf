@@ -39,6 +39,8 @@ public class VectorCapableParser {
   /**
    * Determines whether the supplied object is some kind of "List of Strings"
    * type, either String[] or StringList.
+   * @param o object to inspect
+   * @return true if o is some kind of List Of Strings, otherwise false
    */
   public static boolean isLOSType(Object o) {
     return ArrayUtil.stringArrayClass.isAssignableFrom(o.getClass())
@@ -56,9 +58,10 @@ public class VectorCapableParser {
    *          or any kind of Collection with String elements. {@link isLOSType}
    *          will return true for this argument.
    * @param target Some kind of collection or array
-   *          {@link EnumerationConverter.isDenumerable} will return true for
+   *          {@link EnumerationConverter#isDenumerable} will return true for
    *          this argument. The elements of this "collection" will be filled
    *          with parsed values.
+   * @param elemtype type
    * @return Either a List or Array of Object according to whether the second
    *         parameter  represents a Class or is null. 
    */
@@ -84,9 +87,10 @@ public class VectorCapableParser {
    * Converts some form of multiple objects into some form of multiple Strings.
    * 
    * @param torenders Either some form of Object array or a Collection.
-   * @param The object into which the rendered objects are to be placed as
+   * @param toreceive The object into which the rendered objects are to be placed as
    *          Strings - either a String[] array (of the correct size!) or a
    *          Collection.
+   * @param resolver the BeanResolver
    */
   // This code will go into ValueFixer.
   public void render(Object torenders, Object toreceive, BeanResolver resolver) {

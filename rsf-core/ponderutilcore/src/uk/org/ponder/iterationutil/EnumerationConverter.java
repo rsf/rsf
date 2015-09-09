@@ -72,6 +72,8 @@ public class EnumerationConverter {
    * be already either an Enumeration or Iterator, Collection or Array type. If
    * a Map, return an enumeration of its values, and in the default case, return
    * an enumeration consisting of just the single argument.
+   * @param o object to enumerate
+   * @return enumerated arguments
    */
   public static Enumeration getEnumeration(final Object o) {
     if (o instanceof Enumeration) {

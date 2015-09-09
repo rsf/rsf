@@ -3,7 +3,7 @@ package uk.org.ponder.saxalizer;
 /**
  * A SAXAccessMethodSpec identifies a mapping from an XML tag name to a Java
  * method name that is capable of either setting or getting an XML-serialised
- * subobject (the <it>target object </it). If it is a get method, the signature
+ * subobject (the <i>target object</i>). If it is a get method, the signature
  * of the method must be <code>
  * &lt;clazz&gt; &lt;methodname&gt;() </code>. If
  * it is a set method, the signature of the method must be <code>void
@@ -88,7 +88,7 @@ public class SAXAccessMethodSpec implements SAXalizable, SAXalizableAttrs {
    * returned from getSAXQqqMethod() in order to swap the name supplied for
    * "methodname" which defaults to referring to a get method into a set method.
    * 
-   * @param toconvert
+   * @param toconvert method name to convert
    */
   public static void convertToSetSpec(SAXAccessMethodSpec[] toconvert) {
     for (int i = 0; i < toconvert.length; ++i) {
@@ -106,7 +106,7 @@ public class SAXAccessMethodSpec implements SAXalizable, SAXalizableAttrs {
    * supplied for "tagname" which defaults to referring to a tag method into an
    * attribute.
    * 
-   * @param toconvert
+   * @param toconvert tag name to convert
    */
   public static void convertToAttrSpec(SAXAccessMethodSpec[] toconvert) {
     for (int i = 0; i < toconvert.length; ++i) {

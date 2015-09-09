@@ -36,8 +36,7 @@ public class StreamCopyUtil {
    *          The input stream to be copied.
    * @param dest
    *          The output stream where the input data is to be copied.
-   * @exception IOException
-   *              if an I/O error occurs.
+   * @param buffer initial buffer to use
    */
   public static final void inputToOutput(InputStream source, OutputStream dest,
       byte[] buffer) {
@@ -58,8 +57,7 @@ public class StreamCopyUtil {
    * @param closeoutput
    *          <code>true</code> if the output stream is to be closed on
    *          completion or error.
-   * @exception IOException
-   *              if an I/O error occurs.
+   * @param buffer initial buffer to use
    */
 
   public static final void inputToOutput(InputStream source, OutputStream dest,
@@ -99,8 +97,7 @@ public class StreamCopyUtil {
    *          The reader to be copied.
    * @param dest
    *          The writer where the input data is to be copied.
-   * @exception IOException
-   *              if an I/O error occurs.
+   * @exception IOException read error
    */
 
   public static final void readerToWriter(Reader source, Writer dest)
@@ -139,8 +136,6 @@ public class StreamCopyUtil {
    *          A reader containing the data to be read. This stream will be
    *          closed on completion or error.
    * @return A string holding the complete contents read from the reader.
-   * @exception IOException
-   *              if an I/O error occurs.
    */
 
   public static final String readerToString(Reader source) {
@@ -166,6 +161,8 @@ public class StreamCopyUtil {
 
   /** Return \n-delimited data from a reader and return as a list of Strings.
    * The supplied reader WILL be closed!
+   * @param source data source
+   * @return StringList
    */
   public static final StringList readerToStringList(Reader source) {
     BufferedReader br = new BufferedReader(source);
@@ -213,8 +210,8 @@ public class StreamCopyUtil {
    * string, assuming it to be encoded in UTF-8. The supplied stream WILL be
    * closed.
    * 
-   * @param source
-   * @return
+   * @param source input source
+   * @return contents
    */
   public static String streamToString(InputStream source) {
     DirectInputStreamReader disr = null;

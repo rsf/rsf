@@ -5,7 +5,6 @@
   <artifactId>rsf-base</artifactId>
   <version>1.0</version>
   <packaging>pom</packaging>
-  <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <springframework.version>3.1.2.RELEASE</springframework.version>
@@ -19,6 +18,100 @@
     <developerConnection>scm:git:git@github.com:rsf/rsf.git</developerConnection>
     <url>scm:git:https://github.com/rsf/rsf</url>
   </scm>  
+  <organization>
+    <name>CARET, University of Cambridge</name>
+    <url>http://www.caret.cam.ac.uk/</url>
+  </organization>
+  <inceptionYear>2005</inceptionYear>
+  <url>http://www2.caret.cam.ac.uk/rsfwiki/Wiki.jsp?page=SakaiRSF</url>
+  <description>Abstracts over Sakai dispatch cycle and tool state holders</description>
+  <licenses>
+    <license>
+      <name>BSD License</name>
+      <url>http://www.opensource.org/licenses/bsd-license.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>amb26</id>
+      <name>Antranig Basman</name>
+      <email>antranig@caret.cam.ac.uk</email>
+      <url>http://ponder.org.uk</url>
+      <organization>CARET</organization>
+      <organizationUrl>http://www.caret.cam.ac.uk/</organizationUrl>
+      <roles>
+        <role>Project Manager</role>
+        <role>Architect</role>
+        <role>Developer</role>
+      </roles>
+      <timezone>0</timezone>
+    </developer>
+  </developers>
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://www.caret.cam.ac.uk/jira/browse/RSF</url>
+  </issueManagement>
+  <ciManagement>
+    <system>Jenkins</system>
+    <url>http://builds.sakaiproject.org:8080/view/RSF/job/SakaiRSF/</url>
+    <notifiers>
+      <notifier>
+        <type>mail</type>
+        <sendOnError>true</sendOnError>
+        <sendOnFailure>true</sendOnFailure>
+        <sendOnSuccess>false</sendOnSuccess>
+        <sendOnWarning>false</sendOnWarning>
+      </notifier>
+    </notifiers>
+  </ciManagement>  
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <debug>true</debug>
+          <breakiterator>true</breakiterator>
+          <verbose>true</verbose>
+        </configuration>
+      </plugin>
+      <plugin>
+        <!-- jxr source code cross linking -->
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jxr-maven-plugin</artifactId>
+        <configuration>
+          <linkJavadoc>true</linkJavadoc>
+          <javadocDir>apidocs</javadocDir>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+  <profiles>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.10.3</version>
+            <configuration>
+            	<additionalparam>-Xdoclint:none</additionalparam>
+            </configuration>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>  
   <build>
     <pluginManagement>
       <plugins>

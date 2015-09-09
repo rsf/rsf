@@ -18,8 +18,8 @@ public class ObjArraySortFacade implements SortFacade {
   /** Construct a facade sorting an array of Objects with the supplied comparator.
    * Assumed to be an array of Comparable if a <code>null</code> Comparator is
    * supplied. 
-   * @param array
-   * @param comparator
+   * @param array to be sorted
+   * @param comparator the comparator used in sorting
    */
   public ObjArraySortFacade(Object[] array, Comparator comparator) {
     this.array = array;

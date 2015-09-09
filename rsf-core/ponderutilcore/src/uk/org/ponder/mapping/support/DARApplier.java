@@ -75,6 +75,7 @@ public class DARApplier implements BeanModelAlterer {
    * Spring-style container specified in XML. In particular will convert String values
    * into lists of Strings by splitting at commas, if they are applied to vector-valued
    * beans.
+   * @param springmode true enables more agressive type conversions
    */
   public void setSpringMode(boolean springmode) {
     impl.setSpringMode(springmode);
@@ -328,9 +329,7 @@ public class DARApplier implements BeanModelAlterer {
    * 
    * @param rootobj The object to which alterations are to be applied
    * @param toapply The list of alterations
-   * @param messages The list to which error messages accreted during application are to
-   *            be appended. This is probably the same as that in the ThreadErrorState,
-   *            but is supplied as an argument to reduce costs of ThreadLocal gets.
+   * @param darenv the alterations environment
    */
   public void applyAlterations(Object rootobj, DARList toapply, DAREnvironment darenv) {
     for (int i = 0; i < toapply.size(); ++i) {

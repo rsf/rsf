@@ -259,7 +259,7 @@ public class SAXAccessMethod implements AccessMethod {
   /**
    * Determines whether this method can be used for getting.
    * 
-   * @return
+   * @return true if has getter method
    */
   public boolean canGet() {
     return (field != null || getmethod != null);
@@ -268,7 +268,7 @@ public class SAXAccessMethod implements AccessMethod {
   /**
    * Determines whether this method can be used for setting.
    * 
-   * @return
+   * @return true if has setter method
    */
   public boolean canSet() {
     return (field != null || setmethod != null || isdevnull);

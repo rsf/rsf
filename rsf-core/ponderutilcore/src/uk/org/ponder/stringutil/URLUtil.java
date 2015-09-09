@@ -28,6 +28,10 @@ public class URLUtil {
   }
   /** Append the supplied name/value pair to the end of the supplied URL, 
    * after URLencoding name and value.
+   * @param url the url to append
+   * @param name the name of the parameter to append
+   * @param value the value to append
+   * @return the encoded url
    */
   
   public static String appendAttribute(String url, String name, String value) {
@@ -40,8 +44,11 @@ public class URLUtil {
   /** Append the supplied name/value pair to the end of the supplied URL, 
    * after URLencoding name and value. The attribute will use the ? or &amp; 
    * character according to whether <code>isfirst</code> is true or false.
+   * @param togo url
+   * @param isfirst if true used ? else &amp;
+   * @param name the name to append
+   * @param value value to append
    */
-  
   public static void appendAttribute(CharWrap togo, boolean isfirst, String name, String value) {
     togo.append(isfirst ? '?' : '&');
     togo.append(URLEncoder.encode(name));
@@ -49,8 +56,12 @@ public class URLUtil {
     togo.append(URLEncoder.encode(value));
   }
   
-  /** Convert list of URL-form name/value pairs into a Map representation */
-  // TODO: backport vector values code
+  /** Convert list of URL-form name/value pairs into a Map representation
+   * TODO: backport vector values code 
+   * @param extraparams url parameters
+   * @param target map
+   * @return map
+   */
   public static Map paramsToMap(String extraparams,
         Map target) {
       if (Logger.log.isDebugEnabled()) {
@@ -82,7 +93,11 @@ public class URLUtil {
     return togo;
   }
   
-  /** Convert a pathinfo array into an array of segments **/
+  /** Convert a pathinfo array into an array of segments
+   * 
+   * @param paths paths to convert
+   * @return array of segments
+   */
   public static String toPathInfo(String[] paths) {
     CharWrap togo = new CharWrap();
     for (int i = 0; i < paths.length; ++ i) {
@@ -91,7 +106,11 @@ public class URLUtil {
     return togo.toString();
   }
   
-  /** Decodes a URL assuming UTF-8, and wrapping any tedious exceptions */
+  /** Decodes a URL assuming UTF-8, and wrapping any tedious exceptions
+   * 
+   * @param url the url to decode
+   * @return the decoded url
+   */
   public static String decodeURL(String url) {
     try {
       return URLDecoder.decode(url, "UTF-8");
@@ -102,8 +121,11 @@ public class URLUtil {
     }
   }
   
-  /** URL-encodes only the whitespace characters in a URL (necessary for some
+  /** 
+   * URL-encodes only the whitespace characters in a URL (necessary for some 
    * faulty incomplete encodings).
+   * @param URL the url to encode
+   * @return encoded url
    */
   
   public static String deSpace(String URL) {   

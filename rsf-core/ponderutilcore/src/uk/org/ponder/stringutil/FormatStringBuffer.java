@@ -127,6 +127,7 @@ public class FormatStringBuffer {
    * Reset this <tt>FormatStringBuffer</tt>.
    *
    * @param format the format string.
+   * @return format reset
    */
   public FormatStringBuffer reset(String format) {
     reset();
@@ -139,7 +140,7 @@ public class FormatStringBuffer {
    * given in the constructor or last call to <tt>reset(String)</tt>.
    * This is automatically called after <tt>toString()</tt>.
    *
-   * @param format the format string.
+   * @return the formatted string.
    */
   public FormatStringBuffer reset() {
     this.buffer = new StringBuffer();
@@ -153,6 +154,7 @@ public class FormatStringBuffer {
    * Get the next format token from the format string. Copy every
    * character from <tt>format</tt> to <tt>buffer</tt> between
    * <tt>index</tt> and the next format token.
+   * @return format token
    */
   private Format getFormat() {
 
@@ -278,6 +280,7 @@ public class FormatStringBuffer {
 
   /**
    * Skip digits and return the number they form.
+   * @return int
    */
   private int skipDigits() {
     char ch;
@@ -299,6 +302,8 @@ public class FormatStringBuffer {
 
   /**
    * Format a <tt>char</tt>.
+   * @param ch char to format
+   * @return formatted char
    */
   public FormatStringBuffer format(char ch) {
 
@@ -319,6 +324,8 @@ public class FormatStringBuffer {
 
   /**
    * Format a <tt>float</tt>.
+   * @param flt float to format
+   * @return formatted float
    */
   public FormatStringBuffer format(float flt) {
 
@@ -328,6 +335,8 @@ public class FormatStringBuffer {
 
   /**
    * Format a <tt>double</tt>.
+   * @param dbl double to format
+   * @return formatted double
    */
   public FormatStringBuffer format(double dbl) {
 
@@ -373,6 +382,8 @@ public class FormatStringBuffer {
 
   /**
    * Format a <tt>float</tt>.
+   * @param i int to format
+   * @return formatted int
    */
   public FormatStringBuffer format(int i) {
 
@@ -382,6 +393,8 @@ public class FormatStringBuffer {
 
   /**
    * Format a <tt>float</tt>.
+   * @param l long to format
+   * @return formatted long
    */
   public FormatStringBuffer format(long l) {
 
@@ -468,6 +481,8 @@ public class FormatStringBuffer {
 
   /**
    * Format a <tt>String</tt>.
+   * @param str string to format
+   * @return formatted string
    */
   public FormatStringBuffer format(String str) {
 

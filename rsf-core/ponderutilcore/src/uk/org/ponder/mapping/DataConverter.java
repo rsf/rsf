@@ -8,7 +8,7 @@ import uk.org.ponder.mapping.support.DARApplier;
 
 /** Declaration of a policy on data conversion, applicable by the 
  * {@link DARApplier} for incoming requests, as well as for calls to
- * {@link DARApplier#getFlattenedValue(String, Object, Class, uk.org.ponder.beanutil.BeanResolver).
+ * {@link DARApplier#getFlattenedValue(String, Object, Class, uk.org.ponder.beanutil.BeanResolver)}.
  * Note that this is somewhat similar to the Spring structure PropertyEditorRegistry,
  * but has slightly different semantics, as well as accepting other forms of
  * converters than PropertyEditors.
@@ -33,6 +33,7 @@ public class DataConverter {
     * targetted within the model. At least one of this property and {@link #setTargetPath(String)} must be set.
     * If they are <i>both</i> set, the interpretation of targetPath is of a 
     * <i>relative</i> path to any instance of the specified class discovered. 
+    * @param targetClass class to target
     */
   public void setTargetClass(Class targetClass) {
     this.targetClass = targetClass;
@@ -45,7 +46,7 @@ public class DataConverter {
   /** If set, the converter will apply to beans at the specified path
    * expression which are targetted within the model. This path expression
    * may contain wildcard segments such as .*.
-   * @param targetPath
+   * @param targetPath path to target
    */
   public void setTargetPath(String targetPath) {
     this.targetPath = targetPath;
@@ -56,7 +57,7 @@ public class DataConverter {
   }
   /** Some Object which can be converted to a DARReshaper or BeanResolver - 
    * supported are PropertyEditor and LeafObjectParser.
-   * @param converter
+   * @param converter object to convert
    */
   public void setConverter(Object converter) {
     this.converter = converter;
@@ -66,7 +67,9 @@ public class DataConverter {
     return converterEL;
   }
 
-  /** An EL path from which the converter can be fetched **/
+  /** An EL path from which the converter can be fetched
+   * @param converterEL expression
+   */
   public void setConverterEL(String converterEL) {
     this.converterEL = converterEL;
   }

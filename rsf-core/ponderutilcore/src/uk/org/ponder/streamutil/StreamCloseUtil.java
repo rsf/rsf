@@ -42,7 +42,7 @@ public class StreamCloseUtil {
   /**
    * See comments for closeWriter.
    * 
-   * @param os
+   * @param os OutputStream to close
    */
   public static void closeOutputStream(OutputStream os) {
     if (os != null) {
@@ -62,7 +62,7 @@ public class StreamCloseUtil {
   /**
    * See comments for closeWriter.
    * 
-   * @param is
+   * @param is InputStream to close
    */
   public static void closeInputStream(InputStream is) {
     if (is != null) {
@@ -81,6 +81,7 @@ public class StreamCloseUtil {
   
   /**
    * See comments above.
+   * @param r Reader to close
    */
   public static void closeReader(Reader r) {
     if (r != null) {

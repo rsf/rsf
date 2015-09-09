@@ -27,7 +27,11 @@ public class XMLUtil {
     xmlw.writeRaw("\"");
   }
 
-  /** A slow method for XML-encoding text **/
+  /** A slow method for XML-encoding text
+   * 
+   * @param toencode text to encode
+   * @return encoded text
+   */
   public static String encode(String toencode) {
     StringPOS pos = new StringPOS();
     XMLWriter xmlw = new XMLWriter(pos);
@@ -38,6 +42,8 @@ public class XMLUtil {
   /** Flatten a id (assumed generated via the EighteenIDGenerator) into
    * one that may form a valid XML ID.
    * http://www.w3.org/TR/REC-xml/#NT-Name
+   * @param id the id
+   * @return xml id
    */
   public static String produceXMLID(String id) {
     int oldi = CharToByteBase64.pem_reverse_array[id.charAt(0)];

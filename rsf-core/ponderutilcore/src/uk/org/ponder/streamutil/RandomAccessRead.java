@@ -12,6 +12,7 @@ public interface RandomAccessRead {
    */
   public long length() throws IOException;
   /** Closes this RandomAccessFile.
+   * @exception IOException I/O error
    */
   public void close() throws IOException;
   /** Reads a byte of data from this file. This method blocks if no input is yet available. 

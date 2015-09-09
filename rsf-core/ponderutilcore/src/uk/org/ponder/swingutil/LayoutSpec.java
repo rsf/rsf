@@ -63,9 +63,6 @@ public class LayoutSpec {
     return defaultfont;
   }
 
-  /**
-   * @return
-   */
   public Component getHStrut() {
     return Box.createHorizontalStrut(strutwidth);
   }

@@ -50,6 +50,7 @@ public class ConsumerInfo {
   
   /** A method useful to breach proxy boundaries. Call if using this object
    * from an application-scope bean.
+   * @return this {@link ConsumerInfo}
    */
   public ConsumerInfo get() {
     return this;

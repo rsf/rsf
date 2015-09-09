@@ -8,8 +8,8 @@ public interface CharReceiver {
    * is filled and cannot accept further output for this round. We always
    * insist on sufficiently non-fiendish receivers that can always accept
    * at least one character of output...
-   * @param c
-   * @return
+   * @param c the char to receive
+   * @return true if the receiver cannot accept more for this round
    */
   public boolean receiveChar(char c);
 }

@@ -14,14 +14,14 @@ public interface AccessMethod {
   /**
    * Determines whether this method can be used for getting.
    * 
-   * @return
+   * @return is a getter
    */
   public boolean canGet();
 
   /**
    * Determines whether this method can be used for setting.
    * 
-   * @return
+   * @return if true if method is a getter
    */
   public boolean canSet();
 
@@ -29,6 +29,7 @@ public interface AccessMethod {
    * Determines whether the return type of this method is assignable to
    * Enumeration, which is interpreted as indicating a non-settable multiple
    * value, in the case that there is no individual set method.
+   * @return boolean
    */
   public boolean isEnumeration();
 
@@ -36,6 +37,7 @@ public interface AccessMethod {
    * Determines whether this set method may be used for the delivery of multiple
    * subobjects. If it is, the object delivered by Get may be converted into a
    * receiver by EnumerationConverter.getDenumeration(oldinstance).
+   * @return boolean
    */
   public boolean isDenumerable();
 
@@ -43,6 +45,7 @@ public interface AccessMethod {
    * Returns the accessed type for this method. If it is a collection or other
    * denumerable type for which we have a mapping or inference, this will be the
    * contained type of the collection rather than the collection type itself.
+   * @return Class
    */
   public Class getAccessedType();
 

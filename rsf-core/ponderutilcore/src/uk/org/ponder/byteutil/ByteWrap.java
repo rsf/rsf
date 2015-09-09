@@ -45,11 +45,13 @@ public class ByteWrap {
     this.size = size;
     }
   
-  /** Imbues an already existing ByteWrap to wrap a portion of another ByteWrap.
+  /** 
+   * Imbues an already existing ByteWrap to wrap a portion of another ByteWrap.
    * @param other The other ByteWrap containing the sequence to be wrapped.
    * @param index The index within the other ByteWrap's sequence of the sequence
    * to be wrapped.
    * @param length The length of the sequence to be wrapped.
+   * @return a ByteWrap
    */
 
   public ByteWrap imbue(ByteWrap other, int index, int length) {

@@ -37,7 +37,7 @@ public class DirectInputStreamReader extends Reader {
   private ByteToCharConverter converter;
 
   /**
-   * Returns the character set id for the conversion
+   * @return the character set id for the conversion
    */
   public String getCharacterEncoding() {
     return converter.getCharacterEncoding();

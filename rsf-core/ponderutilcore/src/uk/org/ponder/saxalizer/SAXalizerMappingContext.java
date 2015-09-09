@@ -22,9 +22,8 @@ import uk.org.ponder.saxalizer.support.MethodAnalyser;
  * <p>If a <code>SAXalizerMapperInferrer</code> has been 
  * provided, it will be asked to synthesize a "default" mapping
  * based on reflection of the class.
- * </ol>
- * @author Antranig Basman (antranig@caret.cam.ac.uk)
  * 
+ * @author Antranig Basman (antranig@caret.cam.ac.uk)
  */
 public class SAXalizerMappingContext {
   public SAXalizerMapperInferrer inferrer;
@@ -95,7 +94,7 @@ public class SAXalizerMappingContext {
    * context is supplied to the SAXalizer or DeSAXalizer. This
    * context may NOT be used in conjunction with any dynamic mapping 
    * information, only static or default-inferred mappings are permitted.
-   * @return
+   * @return the instance
    */
   public static SAXalizerMappingContext instance() {
     return instance;

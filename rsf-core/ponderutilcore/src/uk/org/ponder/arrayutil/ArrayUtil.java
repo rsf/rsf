@@ -116,8 +116,8 @@ public class ArrayUtil {
    * in the supplied array.
    * 
    * @param array1 The source array
-   * @param tolength The number of elements to be returned from the beginning of
-   *          the array.
+   * @param start index
+   * @param end  index
    * @return An array containing the elements from index <code>start</code>
    *         (inclusive) to index <code>end</code> (not inclusive) from the
    *         source array.
@@ -213,8 +213,6 @@ public class ArrayUtil {
    * 
    * @param array The array from which the element is to be removed.
    * @param index The index from which the element is to be removed.
-   * @return The same array that was input, with the elements past the specified
-   *         index shuffled back one place.
    */
 
   public static final void removeElementAtShift(Object[] array, int index) {
@@ -276,6 +274,7 @@ public class ArrayUtil {
   /**
    * Converts the supplied array into a String for debugging purposes.
    * 
+   * @param array to convert
    * @return A String formed from the results of the <code>.toString()</code>
    *         method on each array element, separated by single space characters.
    *         If the supplied array is null, returns the string <code>null</code>.

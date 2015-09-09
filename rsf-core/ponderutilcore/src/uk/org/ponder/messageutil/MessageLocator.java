@@ -11,14 +11,14 @@ import uk.org.ponder.beanutil.BeanResolver;
  * Spring's MessageSource, only with a greater flexibility of lookup, and the
  * dependency on the Locale has been factored off into a request-scope
  * dependency.
- * <p/>
+ * <p>
  * MessageLocator also supports use as either a BeanLocator (hence messages may
  * be addressed directly via EL as <code>#{messageLocator.message-key}</code>)
  * or as BeanResolver (hence messages may be automatically fetched during
  * component fixup stage in RSF by declaring the <code>resolver</code> field
  * in a <code>UIBound</code> to be targetted at the EL
  * <code>#{messageLocator}</code>.
- * 
+ * </p>
  * @author Antranig Basman (antranig@caret.cam.ac.uk)
  * 
  */
@@ -29,11 +29,21 @@ public abstract class MessageLocator implements BeanLocator, BeanResolver {
    * of priority. Each code will be looked up in turn and the resolved message
    * from the first which is found will be returned, if any. This strategy 
    * matches that of Spring's MessageSourceResolvable.
+   * @param args Array of arguments that will be filled in for params within the
+   *          message (params look like "{0}", "{1,date}", "{2,time}" within a
+   *          message), or <code>null</code> if none.
+   * @return message
    */
   public abstract String getMessage(String[] code, Object[] args);
 
   /** Resolve a defaultible message which takes no arguments 
-   * @see #getMessage(String[], Object[]) **/
+   * @see #getMessage(String[], Object[])
+   * @param code An array of potential message codes to be looked up, in order
+   * of priority. Each code will be looked up in turn and the resolved message
+   * from the first which is found will be returned, if any. This strategy 
+   * matches that of Spring's MessageSourceResolvable.
+   * @return message
+   */
   public String getMessage(String[] code) {
     return getMessage(code, null);
   }

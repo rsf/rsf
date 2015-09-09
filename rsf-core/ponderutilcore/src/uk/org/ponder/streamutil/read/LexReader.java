@@ -18,7 +18,9 @@ import java.io.Reader;
 public class LexReader extends PushbackReader {
   private int read = 0;
   private boolean EOF = false;
-  /** Creates a LexReader wrapping the supplied Reader */
+  /** Creates a LexReader wrapping the supplied Reader
+   * @param r reader to wrap
+   */
   public LexReader(Reader r) {
     super(r);
   }

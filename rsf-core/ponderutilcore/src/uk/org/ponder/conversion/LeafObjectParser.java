@@ -24,6 +24,8 @@ public interface LeafObjectParser {
    * <p>This method is useful since the JDK Object.clone() method is not only
    * vastly inefficient (costing around a microsecond per throw) but also
    * greatly intrusive.
+   * @param tocopy the object to be cloned
+   * @return clone of the object tocopy
    */
   public Object copy(Object tocopy);
   }

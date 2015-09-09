@@ -73,8 +73,6 @@ public class XMLWriter {
    *          The offset of the data to be written within the array.
    * @param length
    *          The length of the data to be written.
-   * @exception IOException
-   *              If an I/O error occurs while writing the data.
    */
 
   public void writeRaw(char[] towrite, int start, int length) {
@@ -84,10 +82,8 @@ public class XMLWriter {
   /**
    * Writes the supplied string to the wrapped stream without conversion.
    * 
-   * @param tag
-   *          The string to be written.
-   * @exception IOException
-   *              If an I/O error occurs while writing the string.
+   * @param tag The string to be written.
+   * @return the writer
    */
 
   public XMLWriter writeRaw(String tag) {
@@ -111,8 +107,6 @@ public class XMLWriter {
    * @param nestinglevel
    *          The multiplier for the <code>INDENT_WIDTH</code>, giving the
    *          number of spaces to be written before the supplied string.
-   * @exception IOException
-   *              If an I/O error occurs while writing the string.
    */
   public void writeRaw(String tag, int nestinglevel) {
     indent(nestinglevel, internalwriter);
@@ -147,9 +141,6 @@ public class XMLWriter {
 
   /**
    * Writes a default declaration to the wrapped stream.
-   * 
-   * @exception IOException
-   *              If an I/O error occurs while writing the declaration.
    */
 
   public void writeDeclaration() {
@@ -170,7 +161,7 @@ public class XMLWriter {
 
   /**
    * Writes the supplied data to the wrapped stream, escaping all mandatory
-   * XML entities, being &amp;, &lt;, &gt;, &quot.
+   * XML entities, being &amp;, &lt;, &gt;, &quot;.
    * NB apostrophe is no longer encoded, since this seems to give a measurable
    * Increase in speed. (&#39; is
    * escaped to &amp;#39; since HTML 4.0 does not define the &amp;apos; entity
@@ -305,14 +296,12 @@ public class XMLWriter {
 
   /**
    * Writes the supplied data to the wrapped stream, escaping all mandatory
-   * XML/HTML entities, being &amp;, &lt;, &gt;, &quot and &#39;. &#39; is
+   * XML/HTML entities, being &amp;, &lt;, &gt;, &quot; and &#39;. &#39; is
    * escaped to &amp;#39; since HTML 4.0 does not define the &amp;apos; entity
    * and does not plan to.
    * 
    * @param towrite
    *          The string to be written.
-   * @exception IOException
-   *              If an I/O error occurs while writing the string.
    */
 
   public void write(String towrite) {
@@ -322,9 +311,6 @@ public class XMLWriter {
 
   /**
    * Flushes the wrapped stream.
-   * 
-   * @exception IOException
-   *              If an I/O error occurs while flushing the stream.
    */
 
   public void flush() {
@@ -336,9 +322,6 @@ public class XMLWriter {
    * for any further write operations.
    * <p>
    * Closing this does not close the underlying input stream!
-   * 
-   * @exception IOException
-   *              If an I/O error occurs while closing the stream.
    */
   public void close() {
     if (internalwriter != null) {

@@ -279,6 +279,9 @@ abstract class PaddingMD extends MessageDigestSpi {
    *
    * The subclass is expected to write exactly <code>hashSize</code> bytes
    * in the given buffer. The buffer is guaranteed to be large enough.
+
+   * @param buf contains a single block (64 bytes, 512 bits) of data
+   * @param off starting at offset
    */
   protected abstract void coreDigest(byte[] buf, int off);
 
@@ -291,9 +294,9 @@ abstract class PaddingMD extends MessageDigestSpi {
 
   /**
    * Update the internal state with a single block.
-   *
-   * <code>buf</code> contains a single block (64 bytes, 512 bits) of data,
-   * starting at offset <code>off</code>.
+   * 
+   * @param buf contains a single block (64 bytes, 512 bits) of data
+   * @param off starting at offset
    */
   protected abstract void coreUpdate(byte[] buf, int off);
   }

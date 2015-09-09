@@ -78,7 +78,7 @@ public class ByteToCharBase64 {
    * big-endian byte sequence in the usual sane way.
    * @param out The CharWrap to receive the encoded characters.
    * @param towrite The <code>long</code> to be encoded as Base64.
-   * @param <code>true</code> if the characters are to be right-padded
+   * @param pad <code>true</code> if the characters are to be right-padded
    * with <code>A</code>
    */
 
@@ -97,7 +97,7 @@ public class ByteToCharBase64 {
    * big-endian byte sequence in the usual sane way.
    * @param out The CharWrap to receive the encoded characters.
    * @param towrite The <code>int</code> to be encoded as Base64.
-   * @param <code>true</code> if the characters are to be right-padded
+   * @param pad <code>true</code> if the characters are to be right-padded
    * with <code>A</code>
    */
 

@@ -18,6 +18,7 @@ import uk.org.ponder.beanutil.BeanModelAlterer;
 public interface DARReceiver {
   /** Adds the supplied AlterationRequest into the target's collection
    * (probably for later replay).
+   * @param toadd AlterationRequest to add
    * @return <code>false</code> if the DAR was NOT added, but should be
    * applied directly to the target.
    */

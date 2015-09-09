@@ -28,7 +28,7 @@ public class doubleVector {
   }
 
   /** Constructs an intVector with the specified initial capacity.
-   * @param initalcapacity The required initial capacity.
+   * @param initialcapacity The required initial capacity.
    */
   public doubleVector(int initialcapacity) {
     doubles = new double[initialcapacity];

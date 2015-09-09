@@ -12,7 +12,6 @@ public interface ReadInputStream {
   /** Reads a single character from the stream and returns it. If the stream
    * has reached the end of file, return the value (char)-1.
    * @return The character that was read.
-   * @throws IOException If a read error other than EOF occurs.
    */
   public char get();
   public int read(char[] target, int start, int length);

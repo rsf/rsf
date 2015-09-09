@@ -15,8 +15,7 @@ import uk.org.ponder.stringutil.CharWrap;
  * <li> Renders unprintable Unicode characters in a detectable form
  * <li> Can redirect output to console or to file </ul>
  * Coming soon: 
- * <li>
- * <ul> Some form of timestamping. </ul>
+ * <ul><li> Some form of timestamping. </li></ul>
  */
 
 public class Logger {
@@ -202,7 +201,7 @@ public class Logger {
   }
   // Den Bortkomne, by Hans-Ulrich Treichel?
   /** Prints the supplied message to the debug stream, followed by a newline.
-   * @param The message to be printed.
+   * @param toprint The message to be printed.
    */
 
   public static void println(String toprint) {
@@ -210,7 +209,7 @@ public class Logger {
   }
 
   /** Prints the supplied message to the debug stream.
-   * @param The message to be printed.
+   * @param toprint The message to be printed.
    */
 
   public static void print(String toprint) {

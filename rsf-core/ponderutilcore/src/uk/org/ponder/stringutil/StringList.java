@@ -115,8 +115,8 @@ public class StringList extends ArrayList {
    * Construct a StringList from a comma separated list of Strings, trimming
    * whitespace.
    * 
-   * @param commasep
-   * @return
+   * @param commasep comma separated string
+   * @return a StringList
    */
   public static StringList fromString(String commasep) {
     String[] strings = commasep.split(",");

@@ -9,7 +9,7 @@ import uk.org.ponder.beanutil.WriteableBeanLocator;
 
 /**
  * The common interface to the "in code" functionality of an EntityBeanLocator.
- * See @link {@link uk.org.ponder.rsf.state.entity.EntityBeanLocatorImpl}
+ * See uk.org.ponder.rsf.state.entity.support.EntityBeanLocatorImpl
  * for implementation details.
  * 
  * @author Antranig Basman (antranig@caret.cam.ac.uk)

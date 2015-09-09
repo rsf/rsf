@@ -181,10 +181,6 @@ public class DoubleArrayUtil {
     }
   }
 
-  /**
-   * @param buffer
-   * @param ds
-   */
   public static StringBuffer append(StringBuffer buffer, double[] arr) {
     for (int i = 0; i < arr.length; i++) {
       if (i != 0)

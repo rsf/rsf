@@ -59,6 +59,7 @@ public abstract class ReflectiveCache {
   /**
    * Returns a Constructor capable of constructing a multiple-concurrent-reader
    * HashMap.
+   * @return Constructor @see Constructor
    */
   public static Constructor getConcurrentNMapConstructor() {
     Class mapclass = ClassGetter
@@ -135,6 +136,10 @@ public abstract class ReflectiveCache {
   /**
    * Somewhat inefficient, but this scheme applies simple argument matching
    * to be able to invoke multi-arg methods.
+   * @param target target object
+   * @param name method name
+   * @param args method parameters
+   * @return result
    */
   public Object invokeMethod(Object target, String name, Object[] args) {
     if (args == null || args.length == 0) {
@@ -185,6 +190,8 @@ public abstract class ReflectiveCache {
    * Concurrency level 1 hashes are suitable for static application-wide caches,
    * e.g. for internal use of this class, to be either the root map or the map
    * for the default constructors of a particular class.
+   * @param concurrency level of concurrency
+   * @return new concurrent map
    */
   public Map getConcurrentMap(int concurrency) {
     // if map class is null, this is the first call for the entire system,

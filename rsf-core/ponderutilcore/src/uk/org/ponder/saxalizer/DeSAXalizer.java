@@ -95,6 +95,7 @@ public class DeSAXalizer {
    * 
    * @param root The object to be rendered as a string.
    * @param roottag The root tag of the rendered tree
+   * @param compactmode boolean
    * @return The supplied object rendered as a <code>String</code> of XML
    *         tags, minus declaration.
    */
@@ -253,18 +254,11 @@ public class DeSAXalizer {
    *          the <code>DeSAXalizable</code> interface, as must all
    *          descendents, or have types registered with the
    *          <code>SAXLeafParser</code>.
-   * @param roottag The tag to be supplied to the root object (all subobjects
+   * @param roottagname The tag to be supplied to the root object (all subobjects
    *          have their tags supplied through the <code>DeSAXalizable</code>
    *          interface.
    * @param os The output stream to receive the serialized data. The data will
    *          be written in UTF-8 format.
-   * @param forbidder An interface through which clients may countermand the
-   *          serialization of a particular subobject of the root. Each object
-   *          and tag will be supplied to this interface before serialization.
-   *          <code>null</code> if all objects to be serialized without
-   *          restriction.
-   * @param maxdepth If this is not -1, subobjects below this depth from the
-   *          root will not be serialized.
    * @param indentlevel The initial indent level in the XML output file to be
    *          applied to the tag representing the root object. If this is not 0,
    *          an XML declaration will not be written to the file. If this is

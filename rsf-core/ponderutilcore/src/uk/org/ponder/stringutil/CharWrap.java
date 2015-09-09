@@ -153,6 +153,8 @@ public class CharWrap {
   
   /** Appends the "toString" value of the supplied Object to this CharWrap.
    * The value will not be checked for <code>null</code>.
+   * @param o appends o.toString
+   * @return CharWrap
    */
   public CharWrap append(Object o) {
     return append(o.toString());
@@ -174,12 +176,12 @@ public class CharWrap {
   /**
    * Appends the specified character data onto this CharWrap.
    * 
-   * @param storage
+   * @param array
    *          The array holding the character data to be appended.
-   * @param offset
+   * @param start
    *          The offset within the array of the beginning of the character
    *          data.
-   * @param size
+   * @param length
    *          The length of the character data.
    * @return A reference to this CharWrap.
    */
@@ -208,6 +210,7 @@ public class CharWrap {
   
   /** Appends the specified character onto this CharWrap, without
    * bounds checks.
+   * @param c the char to append
    */
   
   public final void appendFast(char c) {
@@ -228,6 +231,7 @@ public class CharWrap {
 
   /**
    * Clears this CharWrap by setting its size to zero.
+   * @return this CharWrap
    */
 
   public CharWrap clear() {

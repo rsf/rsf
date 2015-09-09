@@ -30,7 +30,7 @@ class MatrixStorage {
  * A class for manipulation of numerical matrix objects with basic linear
  * algebra and eigen system methods.
  * 
- * @version @(#)Matrix.java 1.4 99/03/22, 17 Sep 1996
+ * Matrix.java 1.4 99/03/22, 17 Sep 1996
  * @author David G. Melvin
  */
 
@@ -186,7 +186,7 @@ public class Matrix implements Cloneable {
   /** An extremely dangerous method to get the underlying array storing
    * the data for this matrix, for clients who have good expectations it
    * is in a reasonable arrangement.
-   * @return
+   * @return array containing matrix data
    */
   public double[] getStorageDirty() {
     return storage.value;
@@ -252,8 +252,8 @@ public class Matrix implements Cloneable {
   /**
    * Construct a rectangular matrix object, with initial values set to zero.
    * 
-   * @param row number of row
-   * @param col number of column
+   * @param rows number of row
+   * @param cols number of column
    */
   public Matrix(int rows, int cols) {
     this(rows, cols, true);
@@ -264,8 +264,9 @@ public class Matrix implements Cloneable {
    * storage is shared with another Matrix, remember to adjust the reference
    * count of the storage.
    * 
-   * @param row number of row
-   * @param col number of column
+   * @param rows number of row
+   * @param cols number of column
+   * @param allocate allocate storage
    */
 
   Matrix(int rows, int cols, boolean allocate) {
@@ -280,7 +281,7 @@ public class Matrix implements Cloneable {
   /**
    * Construct a rectangular matrix object from a 2D array of doubles.
    * 
-   * @param data
+   * @param data 2D array
    */
 
   public Matrix(double[][] data) {
@@ -289,9 +290,9 @@ public class Matrix implements Cloneable {
 
   /** Constructs a matrix from a multidimensional double array, with 
    * specified space for padding.
-   * @param data 
-   * @param padrow
-   * @param padcol
+   * @param data 2D aaray
+   * @param padrow int
+   * @param padcol int
    */
   public Matrix(double[][] data, int padrow, int padcol) {
     this(data.length + padrow, (data.length == 0 ? 0
@@ -309,7 +310,7 @@ public class Matrix implements Cloneable {
    * array into a true matrix object. NB. if you want a row vector remember to
    * transpose it.
    * 
-   * @param data
+   * @param data array of doubles
    */
   public Matrix(double[] data) {
     this(data.length, 1);
@@ -320,6 +321,7 @@ public class Matrix implements Cloneable {
    * Create an identity matrix.
    * 
    * @param n size, both rows and columns
+   * @return Matrix
    */
   static public Matrix identity(int n) {
 
@@ -336,6 +338,7 @@ public class Matrix implements Cloneable {
    * Create a square matrix of all ones.
    * 
    * @param n the dimension of the required square matrix.
+   * @return Matrix
    */
   static public Matrix ones(int n) {
     return (ones(n, n));
@@ -346,6 +349,7 @@ public class Matrix implements Cloneable {
    * 
    * @param row Number of rows.
    * @param col Number of columns.
+   * @return Matrix
    */
   static public Matrix ones(int row, int col) {
 
@@ -362,6 +366,7 @@ public class Matrix implements Cloneable {
    * Create a square matrix of all zeros.
    * 
    * @param n the dimension of the required square matrix.
+   * @return Matrix
    */
   static public Matrix zeros(int n) {
     return (zeros(n, n));
@@ -372,6 +377,7 @@ public class Matrix implements Cloneable {
    * 
    * @param row Number of rows.
    * @param col Number of columns.
+   * @return Matrix
    */
   static public Matrix zeros(int row, int col) {
 
@@ -381,6 +387,7 @@ public class Matrix implements Cloneable {
 
   /**
    * Clone makes a deep copy of the matrix contents.
+   * @return the cloned object
    */
 
   public Object clone() {
@@ -400,6 +407,7 @@ public class Matrix implements Cloneable {
 
   /**
    * Perform a deep copy of the matrix.
+   * @return Matrix
    */
   public Matrix copy() {
 
@@ -409,7 +417,7 @@ public class Matrix implements Cloneable {
 
 
   /**
-   * @return
+   * @return Matrix
    */
   public Matrix copyUnshared() {
     Matrix ret = (Matrix) this.clone();
@@ -424,7 +432,7 @@ public class Matrix implements Cloneable {
   /**
    * Transpose: X'.
    * 
-   * @returns A copy of the matrix, transposed.
+   * @return A copy of the matrix, transposed.
    */
   public Matrix transpose() {
     int i, j;
@@ -439,9 +447,10 @@ public class Matrix implements Cloneable {
     return ret;
   }
 
-  /*
+  /**
    * Transpose the Matrix in place: X' @returns The original matrix, but
    * transposed.
+   * @return Matrix
    */
   // AMB NB - for 2x2 matrices and smaller, this is not worth it!
   public Matrix updateTranspose() {
@@ -456,6 +465,10 @@ public class Matrix implements Cloneable {
 
   /**
    * Linear conversion: a*X + b*Y.
+   * @param a double
+   * @param b double
+   * @param Y Matrix
+   * @return Matrix
    */
   public Matrix linearConv(double a, double b, Matrix Y)
       throws SizeMismatchException {
@@ -481,6 +494,9 @@ public class Matrix implements Cloneable {
 
   /**
    * Update by Linear conversion: X = a*X + b*Y.
+   * @param a double
+   * @param b double
+   * @param Y Matrix
    */
   public void updateLinearConv(double a, double b, Matrix Y)
       throws SizeMismatchException {
@@ -504,7 +520,7 @@ public class Matrix implements Cloneable {
    * Scalar product: B = aA;
    * 
    * @param a the scalar constant
-   * @returns a new matrix which is the result of the scalar multiply.
+   * @return a new matrix which is the result of the scalar multiply.
    */
 
   public Matrix multipliedBy(double a) {
@@ -517,7 +533,7 @@ public class Matrix implements Cloneable {
    * 
    * @param a the scalar constant
    * @param B the target matrix to be overwritten
-   * @returns the matrix B which is the result of the scalar multiply.
+   * @return the matrix B which is the result of the scalar multiply.
    */
 
   public Matrix multipliedByInto(Matrix B, double a) {
@@ -548,7 +564,7 @@ public class Matrix implements Cloneable {
    * Matrix multiplication: C=A*B.
    * 
    * @param B the matrix to multiply by
-   * @returns a new matrix which is the result of the matrix multiply.
+   * @return a new matrix which is the result of the matrix multiply.
    */
 
   public Matrix multipliedBy(Matrix B) {
@@ -561,7 +577,7 @@ public class Matrix implements Cloneable {
    * 
    * @param C the target matrix to be overwritten by the result
    * @param B the matrix to multiply by
-   * @returns a the matrix C which is the result of the matrix multiply.
+   * @return a the matrix C which is the result of the matrix multiply.
    */
 
   public Matrix multipliedByInto(Matrix C, Matrix B) {
@@ -649,6 +665,8 @@ public class Matrix implements Cloneable {
 
   /**
    * Matrix subtraction: C = A-B
+   * @param B Matrix
+   * @return Matrix
    */
 
   public Matrix subtract(Matrix B) {
@@ -658,6 +676,9 @@ public class Matrix implements Cloneable {
 
   /**
    * Matrix subtraction: C = A-B
+   * @param B Matrix
+   * @param C Matrix
+   * @return Matrix
    */
 
   public Matrix subtractinto(Matrix B, Matrix C) {
@@ -703,6 +724,9 @@ public class Matrix implements Cloneable {
    * Stores the addition of this matrix into the first argument into the second
    * argument. Either B or A may be equal to C.
    * Matrix addition: A+B = C
+   * @param B Matrix
+   * @param C Matrix
+   * @return Matrix
    */
 
   public Matrix addinto(Matrix B, Matrix C) {
@@ -745,6 +769,8 @@ public class Matrix implements Cloneable {
    * X is an N-by-N matrix and Y is a column vector with N components, or a
    * matrix with several such columns, then B = X\Y is the solution to the
    * equation X*B = Y.
+   * @param Y Matrix
+   * @return Matrix
    */
   public Matrix dividedBy(Matrix Y) {
     return this.dividedBy(Y, 2 * cols - 1);
@@ -752,6 +778,9 @@ public class Matrix implements Cloneable {
 
   /**
    * Matrix division with bandwidth: X\Y.
+   * @param Y Matrix
+   * @param bw int
+   * @return Matrix
    */
   public Matrix dividedBy(Matrix Y, int bw) {
 
@@ -818,6 +847,8 @@ public class Matrix implements Cloneable {
 
   /**
    * Cross squared Euclidean distance Matrix: Z_{ij} = ||X_i - Y_j||^2
+   * @param Y Matrix
+   * @return Matrix
    */
   public Matrix crossSqDistance(Matrix Y) throws SizeMismatchException {
     // Unoptimised. In fact, I can't even quite work out what it does!
@@ -865,6 +896,7 @@ public class Matrix implements Cloneable {
 
   /**
    * Update by square: (X_{ij})^2
+   * @return Matrix
    */
 
   public Matrix updateSqr() {
@@ -881,6 +913,7 @@ public class Matrix implements Cloneable {
 
   /**
    * Create a horizontal-summation vector.
+   * @return Matrix
    */
   public Matrix horizontalSum() {
     int i, j, Aindex = topleft;
@@ -905,6 +938,7 @@ public class Matrix implements Cloneable {
 
   /**
    * Create a vertical-summation vector.
+   * @return Matrix
    */
   public Matrix verticalSum() {
     int i, j, Aindex = topleft;
@@ -929,6 +963,7 @@ public class Matrix implements Cloneable {
 
   /**
    * Summation of all entries.
+   * @return double
    */
   public double sumEntries() {
 
@@ -952,6 +987,7 @@ public class Matrix implements Cloneable {
 
   /**
    * Summation of squared entries.
+   * @return double
    */
   public double sumSqrEntries() {
 
@@ -976,6 +1012,8 @@ public class Matrix implements Cloneable {
 
   /**
    * Elementwise multiplication.
+   * @param B Matrix
+   * @return Matrix
    */
   public Matrix multipliedEntriesBy(Matrix B) {
     Matrix C = new Matrix(B.cols, B.rows);
@@ -1019,6 +1057,8 @@ public class Matrix implements Cloneable {
 
   /**
    * X_{ij} = X_{ij}/v_{j}.
+   * @param vec Matrix
+   * @return Matrix
    */
   public Matrix updateScaleRowsByInvVector(Matrix vec) {
 
@@ -1050,6 +1090,7 @@ public class Matrix implements Cloneable {
 
   /**
    * X_{ij} = X_{ij}*v_{j}, no summation.
+   * @param vec Matrix
    */
   // Should really make into and non-into versions of these.
   public void updateScaleRowsByColVector(Matrix vec) {
@@ -1082,6 +1123,8 @@ public class Matrix implements Cloneable {
    * Subtract a row vector from each row in this matrix. The number of entries
    * in the vector must match the number of columns in the matrix. X_{ij} =
    * X_{ij}-v_{j}.
+   * @param vec matrix
+   * @return Matrix
    */
   public Matrix updateSubtractRowVector(Matrix vec) {
     int i, j;
@@ -1114,6 +1157,7 @@ public class Matrix implements Cloneable {
   /**
    * If the matrix is a row or column vector, make a diagonal matrix from it.
    * Otherwise extract its diagonal as a row vector.
+   * @return Matrix
    */
   // AMB - Hmm... That could be an unfortunate duplication of functions...
   public Matrix diagonal() {
@@ -1146,6 +1190,8 @@ public class Matrix implements Cloneable {
   /**
    * Compute Tr(AB) - note this is done in n^2 time, as opposed to the n^3 time
    * of multiplying AB and taking trace
+   * @param B Matrix
+   * @return double
    */
 
   public double traceProduct(Matrix B) {
@@ -1175,6 +1221,7 @@ public class Matrix implements Cloneable {
    * Invert the matrix if possible. There is lazy evaluation of the LU
    * decomposition. So the first routine to require its presence causes its
    * creation.
+   * @return Matrix
    */
   public Matrix inverse() throws SingularException {
 
@@ -1189,6 +1236,7 @@ public class Matrix implements Cloneable {
    * Compute the determinant of this matrix if possible. This routine also makes
    * use of the LU decomposition. It is party to the lazy evaluation of the LUD
    * variable if it has not already been done.
+   * @return double
    */
   public double determinant() throws SingularException {
     if (LUD == null) {
@@ -1201,6 +1249,7 @@ public class Matrix implements Cloneable {
   /**
    * Return a copy of the array as a 2D array of doubles. This is a new copy of
    * the contents not just a reference to the internals of the matrix object.
+   * @return double[][]
    */
   public double[][] asArray() {
     // Unoptimised
@@ -1219,7 +1268,7 @@ public class Matrix implements Cloneable {
    * are computed as a side effect the results of both computations are cached
    * if the other value is requested.
    * 
-   * @returns The matrix of eigen values sorted into increasing magnitude.
+   * @return The matrix of eigen values sorted into increasing magnitude.
    */
   public Matrix eigenValues() {
     if (eigenVal == null)
@@ -1233,7 +1282,7 @@ public class Matrix implements Cloneable {
    * are computed as a side effect the results of both computations are cached
    * if the other is requested.
    * 
-   * @returns The matrix of eigen vectors (as columns of the matrix) with the
+   * @return The matrix of eigen vectors (as columns of the matrix) with the
    *          same ordering as that found in the eigen values.
    */
   public Matrix eigenVectors() {
@@ -1447,7 +1496,8 @@ public class Matrix implements Cloneable {
    * Allow the matrix to be converted to a string representation for debugging
    * purposes.
    * 
-   * @returns String form of the matrix.
+   * @param limit int
+   * @return String form of the matrix.
    */
   public String toString(int limit) {
     if (limit > 0 && rows * cols > limit)
@@ -1511,7 +1561,7 @@ public class Matrix implements Cloneable {
   /**
    * Return the number of rows in the matrix.
    * 
-   * @returns n the number of rows in the matrix.
+   * @return n the number of rows in the matrix.
    */
   public int rows() {
     return rows;
@@ -1520,7 +1570,7 @@ public class Matrix implements Cloneable {
   /**
    * Return the number of columns in the matrix.
    * 
-   * @returns n the number of columns in the matrix.
+   * @return n the number of columns in the matrix.
    */
   public int cols() {
     return cols;
@@ -1535,7 +1585,7 @@ public class Matrix implements Cloneable {
    * @param x the x coordinate of the top left corner
    * @param width the number of cells to extract in the x direction
    * @param height the number of cells to extract in the y direction.
-   * @returns the submatrix.
+   * @return the submatrix.
    */
 
   // NB AMB - might be better to swap width and height arguments for consistency
@@ -1612,7 +1662,7 @@ public class Matrix implements Cloneable {
    * 
    * @param y row index
    * @param x column index
-   * @returns the value at this location.
+   * @return the value at this location.
    */
   public double getValue(int y, int x) {
     if (x <= 0 || y <= 0) { // Negative or zero index errors.
@@ -1630,6 +1680,7 @@ public class Matrix implements Cloneable {
    * 
    * @param y row index
    * @param x column index
+   * @param val value
    */
   public void setValue(int y, int x, double val) {
     if (x <= 0 || y <= 0) { // Negative or zero index errors.

@@ -26,6 +26,8 @@ public class NestedTransactionWrapper implements Transaction {
    * @param listenerfactory A factory producing a "listener" transaction
    * that requires (synchronous) notification AFTER successful conclusion 
    * of transation events. This parameter may be <code>null</code>
+   * @param transmap thread map
+   * @return wrapper
    */
   public static NestedTransactionWrapper beginNestedTransaction(
       TransactionFactory mainfactory, TransactionFactory listenerfactory,
@@ -49,8 +51,9 @@ public class NestedTransactionWrapper implements Transaction {
    * listener receiving notification second and with lower priority in the case
    * of exceptions.
    * 
-   * @param target
-   * @param listener
+   * @param target transaction
+   * @param listener listener
+   * @param transmap thread map
    */
   public NestedTransactionWrapper(Transaction target, Transaction listener,
       TransactionThreadMap transmap) {

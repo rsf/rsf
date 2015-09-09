@@ -30,18 +30,22 @@ public abstract class ByteToCharConverter {
   /** Convert as many bytes from <code>inbuffer</code> to characters in <code>outbuffer</code>
    * as possible. The return codes from this method are listed above, indicating
    * which out of the input and the output was actually exhausted.
+   * @return int
    */
 
   public abstract int convert();
 
   /** Returns the name of the byte to character (UTF-16) encoding performed by this
-   * converter */
+   * converter
+   * @return the character encoding 
+   */
   public abstract String getCharacterEncoding();
 
   /** Returns the maximum possible number of characters that could be decoded from
    * an input byte sequence of the specified length. Currently disused.
    * @param inputsize The number of input bytes for which the maximum decoded characters
    * are required.
+   * @return int
    */
   public abstract int getMaxOutput(int inputsize);
   /*

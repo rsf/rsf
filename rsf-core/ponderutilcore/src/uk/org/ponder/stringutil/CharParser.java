@@ -19,6 +19,7 @@ public class CharParser {
    * @exception NumberFormatException If the specified array section includes non-numeric
    *                characters or represents an integer out of range for a positive signed
    *                32-bit integer.
+   * @return int
    */
 
   public static int parsePositiveInt(char[] buffer, int start, int length)
@@ -45,6 +46,7 @@ public class CharParser {
   /**
    * Parses a single hex digit as its integer equivalent.
    * 
+   * @param digit char to parse
    * @return The integer corresponding to the supplied hex digit, or -1 if the character
    *         is not a valid hex digit.
    */
@@ -69,6 +71,7 @@ public class CharParser {
    * @exception NumberFormatException If the specified array section includes
    *                non-hexadecimal characters or represents an integer out of range for a
    *                positive signed 32-bit integer.
+   * @return int
    */
 
   public static int parseHexInt(char[] buffer, int start, int length)

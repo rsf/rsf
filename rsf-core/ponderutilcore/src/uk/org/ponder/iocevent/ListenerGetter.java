@@ -12,7 +12,7 @@ public interface ListenerGetter {
    * acquired. This would probably be an interface type implemented by the listener.
    * @param targetkey A key identifying the type of target requesting the listeners.
    * This would probably be a String representing the target's function.
-   * @return
+   * @return listeners
    */
   public List getListeners(Object listenerkey, Object targetkey);
 }

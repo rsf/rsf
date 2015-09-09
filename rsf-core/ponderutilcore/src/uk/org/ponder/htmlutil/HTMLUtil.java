@@ -20,6 +20,8 @@ public class HTMLUtil {
   /**
    * Parses a CSS string (separated by ; with keys named with :) into a
    * key/value map of Strings to Strings
+   * @param style CSS stylesheet
+   * @param toreceive map CSS elements are added to
    */
   public static void parseStyle(String style, Map toreceive) {
     String[] styles = style.split(";");
@@ -53,6 +55,7 @@ public class HTMLUtil {
    * 
    * @param name The Javascript name of the required array
    * @param elements The values of the elements to be rendered.
+   * @return text
    * @deprecated Use the JSON encoder directly
    */
   public static String emitJavascriptArray(String name, String[] elements) {
@@ -72,14 +75,21 @@ public class HTMLUtil {
 
   /** Emits the text for a single Javascript call taking a single argument 
    * @see #emitJavascriptCall(String, String[])
-   * **/
+   * @param name The name of the JS function to be invoked.
+   * @param argument The function argument to be applied.
+   * @param quote <code>true</code> if the arguments are to be quoted as Javascript strings
+   * @return text
+   */
   public static String emitJavascriptCall(String name, String argument, boolean quote) {
     return emitJavascriptCall(name, new String[] {argument});
   }
 
   /** Emits the text for a single Javascript call taking a single argument 
    * @see #emitJavascriptCall(String, String[])
-   * **/
+   * @param name The name of the JS function to be invoked.
+   * @param argument The function argument to be applied.
+   * @return text
+   */
   public static String emitJavascriptCall(String name, String argument) {
     return emitJavascriptCall(name, new String[] {argument}, true);
   }
@@ -88,6 +98,7 @@ public class HTMLUtil {
    * <code>name(arguments[0], arguments[1]) ...)</code> 
    * @param name The name of the JS function to be invoked
    * @param arguments The function arguments to be applied.
+   * @return text
    */
   public static String emitJavascriptCall(String name, String[] arguments) {
     return emitJavascriptCall(name, arguments, true);
@@ -98,6 +109,7 @@ public class HTMLUtil {
    * @param name The name of the JS function to be invoked
    * @param arguments The function arguments to be applied.
    * @param quote <code>true</code> if the arguments are to be quoted as Javascript strings
+   * @return text
    */
   public static String emitJavascriptCall(String name, String[] arguments, boolean quote) {
     CharWrap togo = new CharWrap();

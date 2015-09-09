@@ -10,10 +10,11 @@ package uk.org.ponder.beanutil.entity;
  */
 
 public interface EntityIDRewriter {
-  /** Called after changes to the object model have been commited to 
+  /** 
+   * Called after changes to the object model have been committed to 
    * persistent state - the ID field will need to be adjusted if it referred
    * to a previously unsaved entity.
-   * @param toadjust
+   * @param toadjust persisted entity
    */
   public void postCommit(EntityID toadjust);
 }

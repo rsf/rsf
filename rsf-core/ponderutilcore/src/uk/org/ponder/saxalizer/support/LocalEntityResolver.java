@@ -38,7 +38,7 @@ public class LocalEntityResolver {
   /**
    * Sets the URL from which the required entity may be resolved.
    * 
-   * @param entityURL The required entity URL.
+   * @param path The required entity URL.
    */
   public void setPath(String path) {
     this.path = path;

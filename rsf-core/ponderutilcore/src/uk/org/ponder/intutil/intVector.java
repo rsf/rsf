@@ -35,7 +35,7 @@ public class intVector implements Comparable {
   }
 
   /** Constructs an intVector with the specified initial capacity.
-   * @param initalcapacity The required initial capacity.
+   * @param initialcapacity The required initial capacity.
    */
   public intVector(int initialcapacity) {
     ints = new int[initialcapacity];
@@ -126,7 +126,9 @@ public class intVector implements Comparable {
     ++size;
   }
   
-  /** Appends all the elements from the supplied intVector */
+  /** Appends all the elements from the supplied intVector
+   * @param toadd elements to add
+   */
   public void addAll(intVector toadd) {
     int newsize = size + toadd.size; 
     if (newsize >= ints.length) {
@@ -152,6 +154,7 @@ public class intVector implements Comparable {
   }
   /** Removes the element at the specified index.
    * @param i The index of the element to be removed from this vector.
+   * @return removed element
    */
   public int removeElementAt(int i) {
     int togo = ints[i];

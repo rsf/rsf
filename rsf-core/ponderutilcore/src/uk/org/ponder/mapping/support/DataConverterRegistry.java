@@ -23,12 +23,11 @@ import uk.org.ponder.util.Logger;
  * A registry of {@link DataConverter} elements, capable of resolving them into
  * the canonical forms of {@link DARReshaper}s and {@link BeanResolver}s, and
  * assessing for any proposed operation which of the converters are applicable.
- * </p>
+ * <p>
  * The registry of converters is assumed static and will be fully evaluated when
  * this bean starts up.
- * 
+ * </p>
  * @author Antranig Basman (amb26@ponder.org.uk)
- * 
  */
 public class DataConverterRegistry {
   // A false key representing the converters which are registered at the root

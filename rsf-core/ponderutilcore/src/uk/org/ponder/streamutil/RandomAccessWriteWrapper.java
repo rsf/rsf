@@ -22,6 +22,7 @@ public class RandomAccessWriteWrapper extends RandomAccessReadWrapper
   /** Constructs a RandomAccessFile from the supplied File object, and then 
    * wraps it with a RandomAccessWriteWrapper.
    * @param file A file to be opened as a RandomAccessFile and wrapped.
+   * @exception IOException write error
    */
 
   public RandomAccessWriteWrapper(File file) throws IOException {
@@ -31,6 +32,7 @@ public class RandomAccessWriteWrapper extends RandomAccessReadWrapper
   /** Constructs a RandomAccessFile for the specified filename, and then
    * wraps it with a RandomAccessWriteWrapper.
    * @param filename A file to be opened as a RandomAccessFile and wrapped.
+   * @exception IOException write error
    */
   
   public RandomAccessWriteWrapper(String filename) throws IOException {

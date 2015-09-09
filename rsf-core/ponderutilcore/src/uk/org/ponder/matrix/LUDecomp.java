@@ -20,6 +20,7 @@ public class LUDecomp extends Matrix {
 	 * LU Decomposition of a Matrix a. Specalised case of a Matrix
 	 * operator. This constructor performs the LU decomposition of
 	 * the supplied matrix and creates an instance of its decomposition.
+	 * @param m Matrix to decompose
 	 */
 
 	public LUDecomp(Matrix m) throws SingularException, NotSquareException {
@@ -147,7 +148,8 @@ public class LUDecomp extends Matrix {
 	 * Perform back substitution based on this LU decomposed matrix. This
 	 * effectively solves a set of N linear equations A.X = B.
 	 * @param data The 1 x N data vector. (RHS vector B)
-	 * @returns solution vector X.
+	 * @return solution vector X.
+	 * @exception SizeMismatchException size mismatch
 	 */
 	public double[] backSubstitute(double[] data) throws SizeMismatchException {
 
@@ -197,8 +199,9 @@ public class LUDecomp extends Matrix {
 	 * Return the inverse of the original matrix used in the construction
 	 * of this LUDecomp object. Simply involves back substitution of the
 	 * identity matrix.
-	 * @returns The inverse matrix of that used in the creation of this
+	 * @return The inverse matrix of that used in the creation of this
 	 * LUDecomp object.
+	 * @exception SizeMismatchException size mismatch
 	 */
 	public Matrix luinvert() throws SizeMismatchException {
 

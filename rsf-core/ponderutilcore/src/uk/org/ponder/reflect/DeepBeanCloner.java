@@ -50,7 +50,10 @@ public class DeepBeanCloner {
     return reflectivecache;
   }
 
-  /** Simply produce another object of the same type as the argument * */
+  /** Simply produce another object of the same type as the argument
+   * @param toclone object to clone
+   * @return the clone
+   */
   public Object emptyClone(Object toclone) {
     return reflectivecache.construct(toclone.getClass());
   }
@@ -86,6 +89,9 @@ public class DeepBeanCloner {
   /**
    * Copies the source object onto the destination - must not be a leaf or
    * container object.
+   * @param source object to copy
+   * @param target destination object
+   * @param exceptions exlcude from copy
    */
   public void copyTrunk(Object source, Object target, String[] exceptions) {
     MethodAnalyser ma = mappingcontext.getAnalyser(source.getClass());
@@ -122,7 +128,9 @@ public class DeepBeanCloner {
    * Produce a deep clone of the supplied object
    * 
    * @param toclone The object to be cloned
-   * @param A list of property names to be excluded from the top-level bean.
+   * @param exceptions A list of property names to be excluded from the top-level bean.
+   * @param defeatLeaf skip leaf
+   * @return deep cloned Object
    */
   public Object cloneBean(Object toclone, String[] exceptions, boolean defeatLeaf) {
     if (toclone == null)

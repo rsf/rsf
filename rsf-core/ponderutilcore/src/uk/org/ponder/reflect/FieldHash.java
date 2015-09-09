@@ -46,6 +46,8 @@ public class FieldHash {
   /** Select those fields from the supplied map which match keys stored in
    * this fieldhash, and set them in the supplied target object. Can deal with 
    * either String[]-valued parameters or String-valued ones.
+   * @param from fields used for selection
+   * @param targetobj the object
    */
   public void fromMap(Map from, Object targetobj) {
     for (Iterator keys = from.keySet().iterator(); keys.hasNext();) {
@@ -68,6 +70,8 @@ public class FieldHash {
   }
   /** Returns a 2-element array of StringLists, the first holding key names,
    * the second holding values.
+   * @param targetobj the object
+   * @return array containing key names and values 
    */
   public StringList[] fromObj(Object targetobj) {
     StringList[] togo = new StringList[2];

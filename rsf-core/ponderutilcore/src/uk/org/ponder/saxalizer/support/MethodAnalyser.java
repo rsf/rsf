@@ -38,7 +38,7 @@ import uk.org.ponder.util.UniversalRuntimeException;
  * from the dinosaur SAXalizer days of 2000, with the retrofit of the
  * <code>PropertyAccessor</code> interface. Its structure still needs a little
  * work though, since it still maintains separate collections for "tag" and
- * "attribute" methods &c.
+ * "attribute" methods.
  */
 public class MethodAnalyser implements PropertyAccessor {
   public Class targetclass;
@@ -157,9 +157,11 @@ public class MethodAnalyser implements PropertyAccessor {
    * <code>context</code> stores a hash of these analysers so they are only
    * ever computed once per context per object class analysed.
    * 
-   * @param o Either an object instance to be investigated, or an object class.
+   * @param objclass Either an object instance to be investigated, or an object class.
    *          If a class is specified and no analyser is registered, a new
    *          object will be created using newInstance() to be queried.
+   * @param context the context
+   * @return a MethodAnalyser
    */
 
   public static MethodAnalyser constructMethodAnalyser(Class objclass,

@@ -17,8 +17,8 @@ public class SAMSList extends ArrayList {
   /** Returns the first SAXAccessMethodSpec object that matches the
    * given XML name, or <code>null</code> if none is found. There 
    * should be at most one such entry at any time.
-   * @param tagname
-   * @return
+   * @param tagname to match
+   * @return SAXAccessMethodSpec
    */
   public SAXAccessMethodSpec byXMLName(String tagname) {
     for (int i = 0; i < size(); ++ i) {
