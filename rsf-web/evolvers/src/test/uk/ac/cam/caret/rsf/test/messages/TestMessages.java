@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.junit.Assert;
+
 import uk.org.ponder.dateutil.FieldDateTransit;
 import uk.org.ponder.messageutil.TargettedMessage;
 import uk.org.ponder.messageutil.TargettedMessageList;
@@ -45,7 +47,7 @@ public class TestMessages extends MultipleRSFTests {
     boolean isDateInput = style.equals(FormatAwareDateInputEvolver.DATE_INPUT); 
 
     if (isDateInput) {
-      assertEquals(null, timeInput);
+      Assert.assertEquals(null, timeInput);
     }
     else {
       timeInput.updateValue("09:00");
@@ -64,20 +66,20 @@ public class TestMessages extends MultipleRSFTests {
 
     DateHolder holder = (DateHolder) response.requestContext.locateBean("dateHolder");
 
-    assertEquals(expected, holder.getDate0());
+    Assert.assertEquals(expected, holder.getDate0());
     RenderResponse render2 = 
        getRequestLauncher().renderView((ViewParameters) response.ARIResult.resultingView);
     if (expected == null) {
       TargettedMessageList tml = (TargettedMessageList) response.requestContext
           .locateBean("targettedMessageList");
-      assertEquals(1, tml.size());
+      Assert.assertEquals(1, tml.size());
       TargettedMessage tm = tml.messageAt(0);
       String dateID = dateInput.getFullID();
       dateID = dateID.substring(0, dateID.lastIndexOf(':'));
-      assertTrue(tm.targetid.startsWith(dateID));
+      Assert.assertTrue(tm.targetid.startsWith(dateID));
       String code = tm.messagecodes[0];
       if (!late) {
-        assertEquals(dateKey == null? FieldDateTransit.INVALID_DATE_KEY : dateKey, code);
+    	Assert.assertEquals(dateKey == null? FieldDateTransit.INVALID_DATE_KEY : dateKey, code);
       }
       // test for properly scoped message-for branch
       assertContains(render2, "date-branch::rsf-messages::error-messages::");

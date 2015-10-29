@@ -3,6 +3,8 @@
  */
 package uk.org.ponder.rsf.test.cancellation;
 
+import org.junit.Assert;
+
 import uk.org.ponder.messageutil.TargettedMessageList;
 import uk.org.ponder.rsf.bare.ActionResponse;
 import uk.org.ponder.rsf.bare.RenderResponse;
@@ -34,14 +36,14 @@ public class TestCancellation extends MultipleRSFTests {
     assertActionError(response, true);
     
     RequestWrapper wrapper = (RequestWrapper) response.requestContext.locateBean("requestWrapper");
-    assertTrue(wrapper.cancelled);
+    Assert.assertTrue(wrapper.cancelled);
     
     TargettedMessageList tml = (TargettedMessageList) response.requestContext.locateBean("targettedMessageList");
-    assertEquals(1, tml.size());
+    Assert.assertEquals(1, tml.size());
     
     ARIResult result = response.ARIResult;
-    assertTrue(result.resultingView instanceof ViewParameters);
+    Assert.assertTrue(result.resultingView instanceof ViewParameters);
     ViewParameters resultingView = (ViewParameters) result.resultingView;
-    assertEquals(RequestLauncher.TEST_VIEW, resultingView.viewID);
+    Assert.assertEquals(RequestLauncher.TEST_VIEW, resultingView.viewID);
   }
 }

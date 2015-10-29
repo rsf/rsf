@@ -3,6 +3,8 @@
  */
 package uk.org.ponder.rsf.test.badtree;
 
+import org.junit.Assert;
+
 import uk.org.ponder.rsf.bare.RenderResponse;
 import uk.org.ponder.rsf.bare.junit.MultipleRSFTests;
 import uk.org.ponder.rsf.viewstate.SimpleViewParameters;
@@ -23,7 +25,7 @@ public class TestBadTree extends MultipleRSFTests {
     assertRenderError(render, true);
     
     RecordingFatalErrorHandler handler = (RecordingFatalErrorHandler) this.applicationContext.getBean("fatalErrorHandler");
-    assertFalse(handler.error instanceof StackOverflowError);
+    Assert.assertFalse(handler.error instanceof StackOverflowError);
   }
   
   public void testBadTree2() {

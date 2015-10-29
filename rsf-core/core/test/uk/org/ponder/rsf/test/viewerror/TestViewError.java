@@ -3,6 +3,8 @@
  */
 package uk.org.ponder.rsf.test.viewerror;
 
+import org.junit.Assert;
+
 import uk.org.ponder.messageutil.TargettedMessage;
 import uk.org.ponder.messageutil.TargettedMessageList;
 import uk.org.ponder.rsf.bare.RenderResponse;
@@ -24,8 +26,8 @@ public class TestViewError extends MultipleRSFTests {
     RenderResponse render = getRequestLauncher().renderView();
     assertRenderError(render, true);
     TargettedMessageList list = (TargettedMessageList) render.requestContext.locateBean("targettedMessageList");
-    assertEquals(1, list.size());
+    Assert.assertEquals(1, list.size());
     TargettedMessage general = list.findGeneralError();
-    assertNull(general);
+    Assert.assertNull(general);
   }
 }

@@ -6,19 +6,24 @@ package uk.org.ponder.rsac.test;
 import java.util.Properties;
 
 import org.apache.log4j.PropertyConfigurator;
+import org.junit.After;
+import org.junit.Before;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
+import org.springframework.context.annotation.AnnotationConfigUtils;
+import org.springframework.context.support.GenericApplicationContext;
 
 import uk.org.ponder.arrayutil.ArrayUtil;
 import uk.org.ponder.rsac.RSACBeanLocator;
 
 /** A base class for deriving test fixtures which interact with an RSAC request cycle * */
 
-public abstract class AbstractRSACTests extends
-    AbstractDependencyInjectionSpringContextTests {
+public abstract class AbstractRSACTests {
 
+  protected ConfigurableApplicationContext applicationContext;
   private RSACBeanLocator rsacbl;
   protected String[] configLocations = new String[] {};
   protected String[] requestConfigLocations = new String[] {};
@@ -92,16 +97,21 @@ public abstract class AbstractRSACTests extends
     final LocalRSACResourceLocator resourceLocator = new LocalRSACResourceLocator();
     resourceLocator.setConfigLocations(getRequestConfigLocations());
 
-    final ConfigurableApplicationContext cac = new ClassPathXmlApplicationContext(
-        locations, false) {
-      protected void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
-        resourceLocator.setApplicationContext(this);
-        beanFactory.registerSingleton("RSACResourceLocator", resourceLocator);
-      }
-    };
+    final GenericApplicationContext context = new GenericApplicationContext();
+    context.addBeanFactoryPostProcessor(new BeanFactoryPostProcessor() {
+		
+		@Override
+		public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+	        resourceLocator.setApplicationContext(context);
+	        beanFactory.registerSingleton("RSACResourceLocator", resourceLocator);
+		}
+	});
+    
+    new XmlBeanDefinitionReader(context).loadBeanDefinitions(locations);
+    AnnotationConfigUtils.registerAnnotationConfigProcessors(context);
+    context.refresh();
 
-    cac.refresh();
-    return cac;
+    return context;
   }
 
   public RSACBeanLocator getRSACBeanLocator() {
@@ -126,7 +136,26 @@ public abstract class AbstractRSACTests extends
 
   protected void onTearDown() throws Exception {
     if (isSingleShot()) {
-      rsacbl.endRequest();
+      if (rsacbl != null) {
+        rsacbl.endRequest();
+      }
     }
+  }
+  
+  @Before
+  public final void setUp() throws Exception {
+	  if (applicationContext == null) {
+		  applicationContext = loadContextLocations(getConfigLocations());
+	  }
+	  onSetUp();
+  }
+  
+  @After
+  public final void tearDown() throws Exception {
+	  onTearDown();
+	  if (applicationContext != null) {
+		  applicationContext.close();
+		  applicationContext = null;
+	  }
   }
 }

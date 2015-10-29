@@ -3,6 +3,8 @@
  */
 package uk.org.ponder.rsf.test.diminish;
 
+import org.junit.Assert;
+
 import uk.org.ponder.rsf.bare.ActionResponse;
 import uk.org.ponder.rsf.bare.RenderResponse;
 import uk.org.ponder.rsf.bare.ViewWrapper;
@@ -58,9 +60,9 @@ public class TestDiminish extends MultipleRSFTests {
     RenderResponse response2 = getRequestLauncher().renderView((ViewParameters) ariresult.resultingView);
     View view2 = queryView(response2.viewWrapper);
     
-    assertEquals(view2.int1.getValue(), "1");
-    assertEquals(view2.int2.getValue(), "2");
-    assertEquals(view2.int3.getValue(), "3");
+    Assert.assertEquals(view2.int1.getValue(), "1");
+    Assert.assertEquals(view2.int2.getValue(), "2");
+    Assert.assertEquals(view2.int3.getValue(), "3");
     
     view2.int1.setValue("2");
     view2.int2.setValue("3");
@@ -71,9 +73,9 @@ public class TestDiminish extends MultipleRSFTests {
     
     ActionResponse result2 = getRequestLauncher().submitForm(view2.form, null);
     Diminisher diminish = (Diminisher) result2.requestContext.locateBean("diminisher");
-    assertEquals(new Integer("2"), diminish.int1);
-    assertEquals(new Integer("3"), diminish.int2);
-    assertEquals(new Integer("3"), diminish.int3);
+    Assert.assertEquals(new Integer("2"), diminish.int1);
+    Assert.assertEquals(new Integer("3"), diminish.int2);
+    Assert.assertEquals(new Integer("3"), diminish.int3);
     
     ARIResult ariresult2 = result2.ARIResult;
     
@@ -86,8 +88,8 @@ public class TestDiminish extends MultipleRSFTests {
     // This application should be successful
     ActionResponse result3 = getRequestLauncher().submitForm(view3.form, null);
     Diminisher diminish2 = (Diminisher) result3.requestContext.locateBean("diminisher");    
-    assertEquals(null, diminish2.int1);
-    assertEquals(new Integer("3"), diminish2.int2);
-    assertEquals(new Integer("3"), diminish2.int3);
+    Assert.assertEquals(null, diminish2.int1);
+    Assert.assertEquals(new Integer("3"), diminish2.int2);
+    Assert.assertEquals(new Integer("3"), diminish2.int3);
   }
 }

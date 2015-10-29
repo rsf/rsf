@@ -5,6 +5,8 @@ package uk.org.ponder.rsf.test.opacity;
 
 import java.util.Arrays;
 
+import org.junit.Assert;
+
 import uk.org.ponder.beanutil.BeanLocator;
 import uk.org.ponder.errorutil.CoreMessages;
 import uk.org.ponder.messageutil.TargettedMessage;
@@ -69,21 +71,21 @@ public class TestOpacity extends MultipleRSFTests {
 
     if (oldvalue == null || oldvalue.getClass() == value.getClass()) {
       if (value instanceof String) {
-        assertEquals(value, newvalue);
+    	Assert.assertEquals(value, newvalue);
       }
       else {
-        assertTrue(Arrays.equals((Object[]) value, (Object[]) newvalue));
+    	Assert.assertTrue(Arrays.equals((Object[]) value, (Object[]) newvalue));
       }
     }
     else {
       if (oldvalue instanceof String[] && value instanceof String) {
         String[] newarray = (String[]) newvalue;
-        assertEquals(newarray.length, 1);
-        assertEquals(newarray[0], value);
+        Assert.assertEquals(newarray.length, 1);
+        Assert.assertEquals(newarray[0], value);
       }
       if (value instanceof String[] && oldvalue instanceof String) {
         String[] valuearray = (String[]) value;
-        assertEquals(valuearray, newvalue);
+        Assert.assertEquals(valuearray, newvalue);
       }
     }
     return null;
@@ -95,10 +97,10 @@ public class TestOpacity extends MultipleRSFTests {
     String[] valnulls = new String[] {null, "value"};
     TargettedMessageList list1 = testSubmit(valnulls, "general", true, false);
     
-    assertEquals(1, list1.size());
+    Assert.assertEquals(1, list1.size());
     TargettedMessage message1 = list1.messageAt(0);
-    assertEquals(1, message1.messagecodes.length);
-    assertEquals("invalid.data", message1.messagecodes[0]);
+    Assert.assertEquals(1, message1.messagecodes.length);
+    Assert.assertEquals("invalid.data", message1.messagecodes[0]);
   }
   
   public void testOpacity() {
@@ -108,11 +110,11 @@ public class TestOpacity extends MultipleRSFTests {
     
     String wrongEL = "el.expression";
     TargettedMessageList list = testSubmit(wrongEL, "inconvertible.producer", true, false);
-    assertEquals(1, list.size());
+    Assert.assertEquals(1, list.size());
     TargettedMessage message = list.messageAt(0);
-    assertTrue(message.exception.getMessage().indexOf(wrongEL) != -1);
-    assertEquals(1, message.messagecodes.length);
-    assertEquals(CoreMessages.GENERAL_ACTION_ERROR, message.messagecodes[0]);
+    Assert.assertTrue(message.exception.getMessage().indexOf(wrongEL) != -1);
+    Assert.assertEquals(1, message.messagecodes.length);
+    Assert.assertEquals(CoreMessages.GENERAL_ACTION_ERROR, message.messagecodes[0]);
 
     testSubmit("el.expression", "inconvertible");
 

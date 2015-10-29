@@ -108,4 +108,10 @@ public class RSACBeanFactory implements BeanFactory {
     }
   }
 
+  @Override
+  // this method appeared in spring 4.1
+  public <T> T getBean(Class<T> requiredType, Object... args) throws BeansException {
+	throw new NoSuchBeanDefinitionException("Unsupported method getBean(Class) for RSACBeanFactory");
+  }
+
 }

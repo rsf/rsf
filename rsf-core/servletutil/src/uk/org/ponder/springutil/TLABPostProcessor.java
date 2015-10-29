@@ -34,7 +34,7 @@ import uk.org.ponder.util.Logger;
 public class TLABPostProcessor implements BeanPostProcessor,
     ApplicationContextAware {
 
-  private Map targetMap = new HashMap();
+  private Map<String, TargetListAggregatingBean> targetMap = new HashMap<>();
 
   private SAXalizerMappingContext mappingContext;
   private ApplicationContext applicationContext;
@@ -83,22 +83,6 @@ public class TLABPostProcessor implements BeanPostProcessor,
 
   public void setApplicationContext(ApplicationContext applicationContext) {
     this.applicationContext = applicationContext;
-    // We do this here so that fewer will have to come after us!
-    String[] viewbeans = applicationContext.getBeanNamesForType(
-        TargetListAggregatingBean.class, false, false);
-    for (int i = 0; i < viewbeans.length; ++i) {
-      String viewbean = viewbeans[i];
-      TargetListAggregatingBean tlab = (TargetListAggregatingBean) applicationContext
-          .getBean(viewbean);
-      validateTLAB(tlab, viewbean);
-
-      MapUtil.putMultiMap(targetMap, tlab.getTargetBean(), tlab);
-    }
-
-    for (Iterator values = targetMap.values().iterator(); values.hasNext();) {
-      List tlabs = (List) values.next();
-      sortTLABs(tlabs);
-    }
   }
 
   private void validateTLAB(TargetListAggregatingBean tlab, String viewbean) {
@@ -161,6 +145,18 @@ public class TLABPostProcessor implements BeanPostProcessor,
   }
 
   public Object postProcessAfterInitialization(Object bean, String beanName) {
+
+	String[] viewbeans = applicationContext.getBeanNamesForType(TargetListAggregatingBean.class, false, false);
+    for (String viewbean : viewbeans) {
+      TargetListAggregatingBean tlab = (TargetListAggregatingBean) applicationContext.getBean(viewbean);
+      validateTLAB(tlab, viewbean);
+      MapUtil.putMultiMap(targetMap, tlab.getTargetBean(), tlab);
+    }
+
+    for (TargetListAggregatingBean tlabs : targetMap.values()) {
+      sortTLABs((List) tlabs);
+    }
+
     return bean;
   }
 

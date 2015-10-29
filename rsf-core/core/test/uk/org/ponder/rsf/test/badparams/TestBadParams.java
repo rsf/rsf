@@ -3,6 +3,8 @@
  */
 package uk.org.ponder.rsf.test.badparams;
 
+import org.junit.Assert;
+
 import uk.org.ponder.rsf.bare.junit.MultipleRSFTests;
 import uk.org.ponder.rsf.viewstate.support.ViewParamsValidator;
 
@@ -20,11 +22,11 @@ public class TestBadParams extends MultipleRSFTests {
     
     ViewParamsValidator validator = (ViewParamsValidator) applicationContext.getBean("viewParamsValidator");
     
-    assertEquals(2, validator.errors.size());
+    Assert.assertEquals(2, validator.errors.size());
     // Test http://www.caret.cam.ac.uk/jira/browse/RSF-50
-    assertNotNull(validator.errors.get(BadParams1.class));
+    Assert.assertNotNull(validator.errors.get(BadParams1.class));
     // Test http://www.caret.cam.ac.uk/jira/browse/RSF-23 as well as testing ViewParamsRegistrar
-    assertNotNull(validator.errors.get(BadParams2.class));
+    Assert.assertNotNull(validator.errors.get(BadParams2.class));
     
   }
   

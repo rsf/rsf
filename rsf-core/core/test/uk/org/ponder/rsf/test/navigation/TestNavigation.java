@@ -3,6 +3,8 @@
  */
 package uk.org.ponder.rsf.test.navigation;
 
+import org.junit.Assert;
+
 import uk.org.ponder.rsf.bare.ActionResponse;
 import uk.org.ponder.rsf.bare.RenderResponse;
 import uk.org.ponder.rsf.bare.junit.MultipleRSFTests;
@@ -23,11 +25,11 @@ public class TestNavigation extends MultipleRSFTests {
   }
    
   public void testRender() {
-    assertEquals("default", submitForm("nullMethod"));
-    assertEquals("first", submitForm("stringMethod.'first'"));
-    assertEquals("default", submitForm("stringMethod.'" + Constants.NULL_STRING + "'"));
-    assertEquals("default", submitForm("stringMethod.'third'"));
-    assertEquals("third", submitForm("stringMethod.'second'"));
+	Assert.assertEquals("default", submitForm("nullMethod"));
+	Assert.assertEquals("first", submitForm("stringMethod.'first'"));
+	Assert.assertEquals("default", submitForm("stringMethod.'" + Constants.NULL_STRING + "'"));
+	Assert.assertEquals("default", submitForm("stringMethod.'third'"));
+	Assert.assertEquals("third", submitForm("stringMethod.'second'"));
   }
 
   private String submitForm(String el) {

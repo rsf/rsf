@@ -3,6 +3,7 @@
  */
 package uk.org.ponder.rsf.bare.junit;
 
+import org.junit.Assert;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import uk.org.ponder.beanutil.WriteableBeanLocator;
@@ -77,7 +78,7 @@ public class PlainRSFTests extends AbstractRSACTests {
    */
   protected void assertActionError(ActionResponse response, boolean error) {
     TargettedMessageList tml = (TargettedMessageList) response.requestContext.locateBean("targettedMessageList");
-    assertTrue(errorString(error), !tml.isError() ^ error);
+    Assert.assertTrue(errorString(error), !tml.isError() ^ error);
   }
 
   /** Assert whether the render cycle in question has completed without error
@@ -104,7 +105,7 @@ public class PlainRSFTests extends AbstractRSACTests {
         wasError = true;
       }
     }
-    assertFalse(errorString(error), wasError ^ error);
+    Assert.assertFalse(errorString(error), wasError ^ error);
   }
   
   /** Assert that the markup rendered from the render cycle in question contains the
@@ -114,7 +115,7 @@ public class PlainRSFTests extends AbstractRSACTests {
    */
   protected void assertContains(RenderResponse response, String expected) {
     int index = response.markup.indexOf(expected);
-    assertTrue("Expected text " + expected + " not found", index != -1);
+    Assert.assertTrue("Expected text " + expected + " not found", index != -1);
   }
   
   

@@ -7,5 +7,4 @@
       <null/>
     </property>
   </bean>
-  <bean id="invalidClassTest" class="uk.org.ponder.InvalidClass"/>
 </beans>

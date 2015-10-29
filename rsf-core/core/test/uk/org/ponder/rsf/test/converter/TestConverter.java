@@ -3,6 +3,8 @@
  */
 package uk.org.ponder.rsf.test.converter;
 
+import org.junit.Assert;
+
 import uk.org.ponder.rsf.bare.ActionResponse;
 import uk.org.ponder.rsf.bare.RenderResponse;
 import uk.org.ponder.rsf.bare.ViewWrapper;
@@ -31,14 +33,14 @@ public class TestConverter extends MultipleRSFTests {
     UIForm form = (UIForm) wrapper.queryComponent(new UIForm());
     ActionResponse response2 = getRequestLauncher().submitForm(form, null);
     StringHolder holder = (StringHolder) response2.requestContext.locateBean("stringHolder");
-    assertEquals("effectiveValue", holder.string);
+    Assert.assertEquals("effectiveValue", holder.string);
     
     UIBoundBoolean check = (UIBoundBoolean) wrapper.queryComponent(new UIBoundBoolean());
     check.setValue(false);
 
     ActionResponse response3 = getRequestLauncher().submitForm(form, null);
     StringHolder holder2 = (StringHolder) response3.requestContext.locateBean("stringHolder");
-    assertNull(holder2.string);
+    Assert.assertNull(holder2.string);
     
   }
   
@@ -67,7 +69,7 @@ public class TestConverter extends MultipleRSFTests {
     ActionResponse result = getRequestLauncher().submitForm(form, command);
     DateHolder dateHolder = (DateHolder) result.requestContext.locateBean("dateHolder");
     
-    assertEquals(dateHolder.date, defaultHolder.date);
+    Assert.assertEquals(dateHolder.date, defaultHolder.date);
     
     // Now test the correct operation of the DataConverter (DateConverter) in
     // parsing this simulated user input into the required Date object, in a 3rd
@@ -81,7 +83,7 @@ public class TestConverter extends MultipleRSFTests {
     DateHolder dateHolder2 = (DateHolder) result2.requestContext.locateBean("dateHolder");
   
     DateConverter converter = new DateConverter();
-    assertEquals(dateHolder2.date, converter.parse(testDate));
+    Assert.assertEquals(dateHolder2.date, converter.parse(testDate));
   }
   
   /** Test for RSF-57. The condition is that the form should submit correctly without
