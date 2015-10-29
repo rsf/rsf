@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
-  "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
-  <bean id="idholder" class="uk.org.ponder.rsf.test.rvb.IDHolder"/>
-  
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="idholder" class="uk.org.ponder.rsf.test.rvb.IDHolder"/>  
   <bean class="uk.org.ponder.rsf.test.rvb.TestProducer" />
-  
 </beans>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
-	"http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
   <!-- This file contains request scope beans which are specific to RSF -->
 
   <!-- A request scope bean locator locating beans from THIS container! -->
@@ -157,8 +158,8 @@ to intercept bindings -->
     <property name="targetMethod" value="parse" />
     <property name="arguments">
       <list>
-        <ref local="requestPathInfo" />
-        <ref local="requestMap" />
+        <ref bean="requestPathInfo" />
+        <ref bean="requestMap" />
       </list>
     </property>
   </bean>
