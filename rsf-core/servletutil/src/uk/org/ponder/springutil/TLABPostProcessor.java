@@ -14,6 +14,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
 
 import uk.org.ponder.arrayutil.MapUtil;
 import uk.org.ponder.beanutil.BeanLocator;
@@ -34,8 +36,7 @@ import uk.org.ponder.util.Logger;
 public class TLABPostProcessor implements BeanPostProcessor,
     ApplicationContextAware {
 
-  private Map<String, TargetListAggregatingBean> targetMap = new HashMap<>();
-
+  private Map<String, List<TargetListAggregatingBean>> targetMap = new HashMap<>();
   private SAXalizerMappingContext mappingContext;
   private ApplicationContext applicationContext;
 
@@ -62,10 +63,10 @@ public class TLABPostProcessor implements BeanPostProcessor,
   }
 
   // VERY temporary method just to get support for bindbefore/bindafter="*"
-  private void sortTLABs(List tlabs) {
+  private void sortTLABs(List<TargetListAggregatingBean> tlabs) {
     int limit = tlabs.size();
     for (int i = 0; i < limit; ++i) {
-      TargetListAggregatingBean tlab = (TargetListAggregatingBean) tlabs.get(i);
+      TargetListAggregatingBean tlab = tlabs.get(i);
       Object bindafter = tlab.getBindAfter();
       if ("*".equals(bindafter)) {
         tlabs.remove(i);
@@ -145,7 +146,11 @@ public class TLABPostProcessor implements BeanPostProcessor,
   }
 
   public Object postProcessAfterInitialization(Object bean, String beanName) {
-
+	processTLABs();
+    return bean;
+  }
+  
+  private void processTLABs() {
 	String[] viewbeans = applicationContext.getBeanNamesForType(TargetListAggregatingBean.class, false, false);
     for (String viewbean : viewbeans) {
       TargetListAggregatingBean tlab = (TargetListAggregatingBean) applicationContext.getBean(viewbean);
@@ -153,11 +158,9 @@ public class TLABPostProcessor implements BeanPostProcessor,
       MapUtil.putMultiMap(targetMap, tlab.getTargetBean(), tlab);
     }
 
-    for (TargetListAggregatingBean tlabs : targetMap.values()) {
-      sortTLABs((List) tlabs);
+    for (List<TargetListAggregatingBean> tlab : targetMap.values()) {
+      sortTLABs(tlab);
     }
-
-    return bean;
   }
 
   public Object postProcessBeforeInitialization(Object bean, String beanName)
@@ -198,5 +201,4 @@ public class TLABPostProcessor implements BeanPostProcessor,
     }
     return bean;
   }
-
 }

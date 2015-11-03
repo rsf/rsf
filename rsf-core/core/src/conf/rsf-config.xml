@@ -343,8 +343,11 @@
     </bean>
   -->
 
+  <bean id="TLABDependsOnProcessor" class="uk.org.ponder.springutil.TLABDependsOnProcessor"/>
+  
   <bean id="TLABPostProcessorLoader"
-    class="uk.org.ponder.springutil.TLABLoaderListener">
+    class="uk.org.ponder.springutil.TLABLoaderListener"
+    depends-on="TLABDependsOnProcessor">
     <property name="mappingContext" ref="ELMappingContext" />
   </bean>
 
