@@ -202,7 +202,7 @@ with a client redirect rather than an internal reinterpretation -->
     <property name="bindAfter" value="*"/>
   </bean>
   
-  <bean id="RESTfulVESPredicate" class="org.springframework.beans.factory.config.BeanReferenceFactoryBean" >
+  <bean id="RESTfulVESPredicate" class="uk.org.ponder.springutil.BeanReferenceFactoryBean" >
     <property name="targetBeanName" value="dataViewPredicate"/>
   </bean>
   

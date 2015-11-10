@@ -348,7 +348,7 @@ to intercept bindings -->
   <!-- End beans for FlowLite -->
 
   <bean id="pageBasicProducer"
-    class="org.springframework.beans.factory.config.BeanReferenceFactoryBean">
+    class="uk.org.ponder.springutil.BeanReferenceFactoryBean">
     <property name="targetBeanName" value="viewCollector" />
   </bean>
 
