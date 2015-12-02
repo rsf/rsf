@@ -3,6 +3,8 @@
  */
 package uk.org.ponder.rsf.test.dar;
 
+import org.junit.Assert;
+
 import uk.org.ponder.arrayutil.ArrayUtil;
 import uk.org.ponder.beanutil.WriteableBeanLocator;
 import uk.org.ponder.mapping.DAREnvironment;
@@ -26,13 +28,13 @@ public class TestDARApplier extends PlainRSFTests {
   
   public void testStringVector() {    
     DARTestBean testBean = testApplication("value");
-    assertNotNull(testBean.values);
-    assertEquals(testBean.values.length, 1);
-    assertEquals(testBean.values[0], "value");
+    Assert.assertNotNull(testBean.values);
+    Assert.assertEquals(testBean.values.length, 1);
+    Assert.assertEquals(testBean.values[0], "value");
     
     testBean = testApplication(new String[] {"value1", "value2"});
-    assertNotNull(testBean.values);
-    assertEquals(testBean.values.length, 2); 
+    Assert.assertNotNull(testBean.values);
+    Assert.assertEquals(testBean.values.length, 2); 
   }
 
   

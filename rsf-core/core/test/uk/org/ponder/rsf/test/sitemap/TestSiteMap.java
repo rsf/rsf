@@ -3,6 +3,8 @@
  */
 package uk.org.ponder.rsf.test.sitemap;
 
+import org.junit.Assert;
+
 import uk.org.ponder.rsf.bare.junit.PlainRSFTests;
 import uk.org.ponder.rsf.viewstate.EntityCentredViewParameters;
 import uk.org.ponder.rsf.viewstate.SimpleViewParameters;
@@ -16,8 +18,8 @@ public class TestSiteMap extends PlainRSFTests {
   public void testParseECVP() {
     SiteMap map = (SiteMap) applicationContext.getBean("siteMap");
     
-    assertEquals(EntityCentredViewParameters.class, map.view.get("recipe").getClass());
-    assertEquals(SimpleViewParameters.class, map.view.get("recipes").getClass());
+    Assert.assertEquals(EntityCentredViewParameters.class, map.view.get("recipe").getClass());
+    Assert.assertEquals(SimpleViewParameters.class, map.view.get("recipes").getClass());
     
  }
 

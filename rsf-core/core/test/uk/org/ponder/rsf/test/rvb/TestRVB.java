@@ -3,6 +3,8 @@
  */
 package uk.org.ponder.rsf.test.rvb;
 
+import org.junit.Assert;
+
 import uk.org.ponder.rsf.bare.ActionResponse;
 import uk.org.ponder.rsf.bare.RenderResponse;
 import uk.org.ponder.rsf.bare.junit.MultipleRSFTests;
@@ -31,10 +33,10 @@ public class TestRVB extends MultipleRSFTests {
     ActionResponse result = getRequestLauncher().submitForm(form, command);
     ARIResult ariresult = result.ARIResult;
     
-    assertTrue(ariresult.resultingView instanceof EntityCentredViewParameters);
+    Assert.assertTrue(ariresult.resultingView instanceof EntityCentredViewParameters);
     EntityCentredViewParameters ecvp = (EntityCentredViewParameters) ariresult.resultingView;
     // If the test is successful, the id of the "freshly created entity" now appears
     // in the outgoing view state.
-    assertEquals(IDHolder.NEW_ID, ecvp.entity.ID);
+    Assert.assertEquals(IDHolder.NEW_ID, ecvp.entity.ID);
   }
 }

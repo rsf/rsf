@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
-	"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
 <!-- The purpose of this file is to provide an "default" completion of
   the request scope portion of 
   RSF's Spring API, so that the project will validate self-consistently in,
@@ -8,7 +10,6 @@
   might well want to override, as opposed to more core dependencies in the main
   RSF configuration files. -->
 
-<beans>
   <!-- A collection of static renderers that is expected to be dynamically
     writeable - filters and the like might populate it before request handling
     with consumer-specific rewriters. -->
@@ -34,7 +35,7 @@
   
   <!--  Don't use an alias for this since we imagine it will be overridden -->
   <bean name="pageProducer" 
-    class="org.springframework.beans.factory.config.BeanReferenceFactoryBean">
+    class="uk.org.ponder.springutil.BeanReferenceFactoryBean">
       <property name="targetBeanName" value="layoutCollector"/>
   </bean>
   

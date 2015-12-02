@@ -5,6 +5,8 @@ package uk.org.ponder.rsf.test.selection;
 
 import java.util.Arrays;
 
+import org.junit.Assert;
+
 import uk.org.ponder.conversion.GeneralLeafParser;
 import uk.org.ponder.conversion.VectorCapableParser;
 import uk.org.ponder.rsf.bare.ActionResponse;
@@ -64,8 +66,8 @@ public class TestSelection extends MultipleRSFTests {
     if (userselection.equals(GeneralLeafParser.NULL_STRING)) {
       // if the user made the null selection, the effect will be to fetch the recipe,
       // but the nested category will remain null
-      assertNotNull(recipe);
-      assertNull(recipe.category);
+      Assert.assertNotNull(recipe);
+      Assert.assertNull(recipe.category);
     }
     else {
 
@@ -73,11 +75,11 @@ public class TestSelection extends MultipleRSFTests {
           && (initselection == null ^ userselection == null)
           || !userselection.equals(initselection.toString());
       if (differ) {
-        assertEquals(recipe.category.id, userselection);
-        assertNotNull(recipe.category.name);
+        Assert.assertEquals(recipe.category.id, userselection);
+        Assert.assertNotNull(recipe.category.name);
       }
       else {
-        assertNull(recipe);
+    	  Assert.assertNull(recipe);
       }
     }
   }
@@ -123,27 +125,27 @@ public class TestSelection extends MultipleRSFTests {
 
     if (primitive) {
       if (unchanged) {
-        assertNull(intBean.primitive);
+    	Assert.assertNull(intBean.primitive);
       }
       else {
-        assertNotNull(intBean.primitive);
+    	  Assert.assertNotNull(intBean.primitive);
         for (int i = 0; i < userselection.length; ++i) {
-          assertEquals(intBean.primitive[i], Integer.parseInt(userselection[i]));
+          Assert.assertEquals(intBean.primitive[i], Integer.parseInt(userselection[i]));
         }
       }
     }
     else {
       if (unchanged) {
-        assertNull(intBean.reference);
+    	Assert.assertNull(intBean.reference);
       }
       else {
-        assertNotNull(intBean.reference);
+    	Assert.assertNotNull(intBean.reference);
         for (int i = 0; i < userselection.length; ++i) {
           if (userselection[i].equals(GeneralLeafParser.NULL_STRING)) {
-            assertNull(intBean.reference[i]);
+        	Assert.assertNull(intBean.reference[i]);
           }
           else {
-            assertEquals(intBean.reference[i], new Integer(userselection[i]));
+        	Assert.assertEquals(intBean.reference[i], new Integer(userselection[i]));
           }
         }
       }

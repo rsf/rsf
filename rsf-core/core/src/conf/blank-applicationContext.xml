@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
-	"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
 <!-- The purpose of this file is to provide reasonable "default" completion of
   the application scope portion of 
   RSF's Spring API, so that the project will validate self-consistently in,
   for example, Spring IDE.  Dependencies resolved here are ones that clients
   might well want to override, as opposed to more 
   core dependencies in the main RSF configuration file rsf-config.xml. -->
-<beans>
   <bean id="messageSource" parent="messageSourceParent" />
   
   <bean id="messageSourceParent" abstract="true"
@@ -201,7 +202,7 @@ with a client redirect rather than an internal reinterpretation -->
     <property name="bindAfter" value="*"/>
   </bean>
   
-  <bean id="RESTfulVESPredicate" class="org.springframework.beans.factory.config.BeanReferenceFactoryBean" >
+  <bean id="RESTfulVESPredicate" class="uk.org.ponder.springutil.BeanReferenceFactoryBean" >
     <property name="targetBeanName" value="dataViewPredicate"/>
   </bean>
   

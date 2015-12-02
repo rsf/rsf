@@ -19,20 +19,19 @@ import uk.org.ponder.rsac.RSACResourceLocator;
  * @author Antranig Basman (antranig@caret.cam.ac.uk)
  *
  */
-public class ServletRSACResourceLocator implements RSACResourceLocator, 
-    ApplicationContextAware {
+public class ServletRSACResourceLocator implements RSACResourceLocator, ApplicationContextAware {
+  
   public static final String REQUEST_CONTEXT_CONFIG_LOCATION = "requestContextConfigLocation";
   
   private String[] configlocations;
   private ApplicationContext applicationcontext;
-  public void setApplicationContext(ApplicationContext applicationContext)
-      throws BeansException {
+  
+  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
     this.applicationcontext = applicationContext;
     WebApplicationContext wac = (WebApplicationContext) applicationContext;
     ServletContext context = wac.getServletContext();
     String configlocation = context.getInitParameter(REQUEST_CONTEXT_CONFIG_LOCATION);
-    configlocations = StringUtils.tokenizeToStringArray(configlocation,
-        ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS);
+    configlocations = StringUtils.tokenizeToStringArray(configlocation, ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS);
   }
 
   public String[] getConfigLocations() {

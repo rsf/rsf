@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
-  "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
 <!-- This file is RSF-static configuration - common and invariant to 
   all applications using RSF -->
-<beans>
   <bean id="reflectiveCache"
     class="uk.org.ponder.reflect.JDKReflectiveCache" />
 
@@ -238,7 +239,7 @@
   <bean id="RSACBeanLocatorFactory"
     class="uk.org.ponder.rsac.support.RSACBeanLocatorFactory">
     <property name="RSACResourceLocator">
-      <ref local="RSACResourceLocator" />
+      <ref bean="RSACResourceLocator" />
     </property>
   </bean>
 
@@ -342,8 +343,11 @@
     </bean>
   -->
 
+  <bean id="TLABDependsOnProcessor" class="uk.org.ponder.springutil.TLABDependsOnProcessor"/>
+  
   <bean id="TLABPostProcessorLoader"
-    class="uk.org.ponder.springutil.TLABLoaderListener">
+    class="uk.org.ponder.springutil.TLABLoaderListener"
+    depends-on="TLABDependsOnProcessor">
     <property name="mappingContext" ref="ELMappingContext" />
   </bean>
 
@@ -705,7 +709,7 @@
       <bean
         class="org.springframework.aop.target.LazyInitTargetSource">
         <property name="targetBeanName">
-          <idref local="viewParamsLeafParserTarget" />
+          <idref bean="viewParamsLeafParserTarget" />
         </property>
       </bean>
     </property>
@@ -719,7 +723,7 @@
       <bean
         class="org.springframework.aop.target.LazyInitTargetSource">
         <property name="targetBeanName">
-          <idref local="rawViewParamsLeafParserTarget" />
+          <idref bean="rawViewParamsLeafParserTarget" />
         </property>
       </bean>
     </property>
