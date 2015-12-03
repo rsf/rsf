@@ -135,9 +135,9 @@ public class BasicTemplateResolver implements TemplateResolver {
             }
             
             if (thispri == highestpriority && thispri != 0) {
-              if (xcvt.roottemplate != null) {
+              if (xcvt.roottemplate != null && template != xcvt.roottemplate) {
                 Logger.log.warn("Duplicate root TemplateResolverStrategy " + trs
-                    + " found at priority " + thispri +", using first entry");
+				+ " found at priority " + thispri +", using first entry");
               }
             }
             if (thispri > highestpriority) {
