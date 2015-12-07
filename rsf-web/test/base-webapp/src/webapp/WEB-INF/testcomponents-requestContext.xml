@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">"http://www.springframework.org/dtd/spring-beans.dtd">
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<!-- The "request scope application context" file  -->
-
-<beans>
 
   <bean id="dataBean" class="uk.ac.cam.caret.rsf.testcomponents.beans.DataBean" />
 
@@ -27,10 +24,10 @@
     factory-method="getTextInputEvolver" />
 
   <bean id="dateEvolver" factory-bean="componentChoiceManager"
-    factory-method="getDateInputEvolver" singleton="false" />
+    factory-method="getDateInputEvolver" scope="prototype" />
     
   <bean id="selectEvolver" factory-bean="componentChoiceManager"
-    factory-method="getSelectEvolver" singleton="false" />
+    factory-method="getSelectEvolver" scope="prototype" />
 
   <bean id="requestLocale" factory-bean="localeSetter" factory-method="getLocale"/>
 
