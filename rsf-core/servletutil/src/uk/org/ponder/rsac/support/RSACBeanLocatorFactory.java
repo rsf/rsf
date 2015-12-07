@@ -11,6 +11,7 @@ import org.springframework.core.io.Resource;
 
 import uk.org.ponder.arrayutil.ArrayUtil;
 import uk.org.ponder.rsac.RSACResourceLocator;
+import uk.org.ponder.springutil.GenericAndReasonableApplicationContext;
 import uk.org.ponder.util.UniversalRuntimeException;
 
 /**
@@ -35,7 +36,7 @@ public class RSACBeanLocatorFactory {
    */
   public static ConfigurableApplicationContext readContext(String[] configLocations,
       ApplicationContext parent) {
-    GenericApplicationContext initialContext = new GenericApplicationContext();
+    GenericApplicationContext initialContext = new GenericAndReasonableApplicationContext();
     XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(
         initialContext);
 

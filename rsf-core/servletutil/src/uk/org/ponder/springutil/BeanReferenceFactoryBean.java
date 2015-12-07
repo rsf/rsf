@@ -23,6 +23,15 @@ import org.springframework.beans.factory.FactoryBeanNotInitializedException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.SmartFactoryBean;
 
+// Note: This definition was rescued from Spring 3.2 since it has now been abolished
+// from Spring's core. It is essential to RSF since bean aliases, the proposed replacement
+// feature, do not override between application contexts.
+
+// Deprecation comment was: 
+//  * @deprecated as of Spring 3.2, in favor of using regular bean name aliases
+// * (which support placeholder parsing since Spring 2.5)
+// Way to go, Spring, in deprecating a feature in favor of a replacement which doesn't work!
+
 /**
  * FactoryBean that exposes an arbitrary target bean under a different name.
  *
@@ -42,10 +51,7 @@ import org.springframework.beans.factory.SmartFactoryBean;
  * @since 1.2
  * @see #setTargetBeanName
  * @see PropertyPlaceholderConfigurer
- * @deprecated as of Spring 3.2, in favor of using regular bean name aliases
- * (which support placeholder parsing since Spring 2.5)
  */
-@Deprecated
 public class BeanReferenceFactoryBean implements SmartFactoryBean, BeanFactoryAware {
 
 	private String targetBeanName;
