@@ -2,6 +2,10 @@ package uk.org.ponder.saxalizer.support;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import uk.org.ponder.iterationutil.EnumerationConverter;
 import uk.org.ponder.saxalizer.AccessMethod;
@@ -67,15 +71,45 @@ public class SAXAccessMethod implements AccessMethod {
   // is trying to automatically infer set types.
   private static Method findSetMethod(Class tosearch, String methodname) {
     Method[] methods = tosearch.getMethods();
+    List<Method> matches = null;
     for (int i = 0; i < methods.length; ++i) {
       Method thismethod = methods[i];
       if (thismethod.getName().equals(methodname)
           && thismethod.getParameterTypes().length == 1
           && thismethod.getReturnType().equals(Void.TYPE)) {
-        return thismethod;
+          if (matches == null) {
+              matches = Collections.singletonList(thismethod);
+          } else {
+              if (matches.size() == 1) {
+                  matches = new ArrayList<Method>(matches);
+              }
+              matches.add(thismethod);
+          }
       }
     }
-    return null;
+    if (matches == null) {
+        return null;
+    } else {
+        if (matches.size() > 1) {
+            // This is done to make the results predictable, previously it wasn't deterministic and so could result
+            // in different behaviour. Changing the method to throw an exception might cause some calling code to
+            // stop working.
+            Collections.sort(matches, new Comparator<Method>() {
+                @Override
+                public int compare(Method o1, Method o2) {
+                    // We ignore the classloader and the declaring class and just sort on name and parameters
+                    // as we know they are all from the same class.
+                    int val = o1.getName().compareTo(o2.getName());
+                    if (val != 0) {
+                        return val;
+                    }
+                    // We can also assume there is only one parameter as we checked this earlier
+                    return o1.getParameterTypes()[0].getName().compareTo(o2.getParameterTypes()[0].getName());
+                }
+            });
+        }
+        return matches.get(0);
+    }
   }
 
   protected SAXAccessMethod() {
