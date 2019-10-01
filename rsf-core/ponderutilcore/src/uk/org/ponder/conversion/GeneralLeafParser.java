@@ -133,6 +133,8 @@ public class GeneralLeafParser implements PolymorphicLeafObjectParser {
     registerParser(java.sql.Timestamp.class, new DateParser());
     registerParser(DateParser.class, new DateParserParser());
     registerParser(Class.class, new ClassParser());
+    // Handle List objects using the StringParser
+    registerParser(List.class, new StringParser());
     
     if (historical) {
       registerParser(ArrayUtil.intArrayClass, new intArrayParser());
