@@ -3,8 +3,6 @@
  */
 package uk.ac.cam.caret.rsf.evolverimpl;
 
-import java.util.List;
-
 import uk.org.ponder.beanutil.BeanGetter;
 import uk.org.ponder.rsf.components.UIBasicListMember;
 import uk.org.ponder.rsf.components.UIBoundString;
@@ -42,15 +40,7 @@ public class StandardDynamicListInputEvolver implements
     // Note that a bound value is NEVER null, an unset value is detected via
     // this standard call
     if (UITypes.isPlaceholder(value)) {
-      Object beanValue = rbg.getBean(toevolve.valuebinding.value);
-      if (beanValue instanceof String[]) {
-    	  value = (String[]) beanValue;
-      }
-      else if (beanValue instanceof List) {
-    	  // This will still throw an exception if it's not a List <String>
-    	  value = (String[]) ((List) beanValue).toArray(new String[0]);
-      }
-
+      value = (String[]) rbg.getBean(toevolve.valuebinding.value);
       // May as well save on later fixups
       toevolve.setValue(value);
     }
