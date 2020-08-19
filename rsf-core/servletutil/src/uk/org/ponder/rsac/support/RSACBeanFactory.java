@@ -9,6 +9,8 @@ import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanNotOfRequiredTypeException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.core.ResolvableType;
 
 import uk.org.ponder.beanutil.BeanLocator;
 
@@ -61,21 +63,29 @@ public class RSACBeanFactory implements BeanFactory {
   }
 
   // This peculiar method appeared in Spring 2.0
-  public boolean isTypeMatch(String name, Class<?> targetType)
-      throws NoSuchBeanDefinitionException {
+  @Override
+  public boolean isTypeMatch(String name, Class<?> typeToMatch) throws NoSuchBeanDefinitionException {
+    return isTypeMatch(name, ResolvableType.forRawClass(typeToMatch));
+  }
+
+  @Override
+  public boolean isTypeMatch(String name, ResolvableType typeToMatch) throws NoSuchBeanDefinitionException {
     Object bean = getBean(name);
-    Class typeToMatch = (targetType != null ? targetType
-        : Object.class);
     return typeToMatch.isAssignableFrom(bean.getClass());
   }
 
+  @Override
   public Class<?> getType(String name) throws NoSuchBeanDefinitionException {
+    return getType(name, true);
+  }
+
+  @Override
+  public Class<?> getType(String name, boolean allowFactoryBeanInit) throws NoSuchBeanDefinitionException {
     Class staticclazz = rsacbl.getBeanClass(name);
     if (staticclazz == null) {
       Object bean = getBean(name);
       return bean.getClass();
-    }
-    else
+    } else
       return staticclazz;
   }
 
@@ -112,6 +122,17 @@ public class RSACBeanFactory implements BeanFactory {
   // this method appeared in spring 4.1
   public <T> T getBean(Class<T> requiredType, Object... args) throws BeansException {
 	throw new NoSuchBeanDefinitionException("Unsupported method getBean(Class) for RSACBeanFactory");
+  }
+
+  @Override
+  public <T> ObjectProvider<T> getBeanProvider(Class<T> requiredType) {
+    return getBeanProvider(ResolvableType.forRawClass(requiredType));
+  }
+
+  @Override
+  // this method appear in spring 5
+  public <T> ObjectProvider<T> getBeanProvider(ResolvableType requiredType) {
+    throw new NoSuchBeanDefinitionException("Unsupported method getBeanProvider(ResolvableType) for RSACBeanFactory");
   }
 
 }
