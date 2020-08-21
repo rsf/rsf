@@ -3,6 +3,9 @@
  */
 package uk.org.ponder.saxalizer.mapping;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 import uk.org.ponder.saxalizer.DeSAXalizable;
 import uk.org.ponder.saxalizer.SAMSList;
 import uk.org.ponder.saxalizer.SAXAccessMethodSpec;
@@ -60,8 +63,9 @@ SAXalizableAttrs {
     addTagHandler(newspec);
   }
   public SAMSList getSAMSList() {
+    Collections.sort(subtagentries, Comparator
+            .comparing(i -> ((SAXAccessMethodSpec) i).xmlname)
+            .thenComparing(i -> ((SAXAccessMethodSpec) i).setmethodname == null));
     return subtagentries;
   }
-
-
 }
