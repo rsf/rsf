@@ -5,7 +5,7 @@ package uk.org.ponder.rsf.view.support;
 
 import java.io.ByteArrayOutputStream;
 
-import org.apache.log4j.Level;
+import org.apache.logging.log4j.Level;
 
 import uk.org.ponder.conversion.SerializationProvider;
 import uk.org.ponder.rsf.flow.jsfnav.NavigationCaseReceiver;
