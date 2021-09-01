@@ -5,6 +5,8 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import org.apache.logging.log4j.core.LoggerContext;
+
 import uk.org.ponder.arrayutil.ArrayUtil;
 import uk.org.ponder.intutil.intVector;
 import uk.org.ponder.stringutil.CharWrap;
@@ -21,7 +23,8 @@ import uk.org.ponder.stringutil.CharWrap;
 public class Logger {
   // The ponder Logger is now deprecated. 
   // All logging should be done using this standard Log4j logger.
-  public static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger("PonderUtilCore");
+  public static LoggerContext loggerContext = LoggerContext.getContext(false);
+  public static org.apache.logging.log4j.core.Logger log = loggerContext.getLogger("PonderUtilCore");
   static {
     //FineFormatter.configureLogger(log);
   }

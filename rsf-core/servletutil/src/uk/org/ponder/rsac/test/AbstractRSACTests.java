@@ -3,9 +3,6 @@
  */
 package uk.org.ponder.rsac.test;
 
-import java.util.Properties;
-
-import org.apache.log4j.PropertyConfigurator;
 import org.junit.After;
 import org.junit.Before;
 import org.springframework.beans.BeansException;
@@ -56,31 +53,7 @@ public abstract class AbstractRSACTests {
         this.requestConfigLocations, requestConfigLocation);
   }
 
-  private static boolean loggingInited = false;
-
   public AbstractRSACTests() {
-    if (!loggingInited) {
-      initLogging();
-      loggingInited = true;
-    }
-  }
-
-  protected void initLogging() {
-    // These are being hardcoded due to various classpath issues with Maven 2 Testing
-    // String log4jprops = "uk/org/ponder/rsac/test/log4j.test.properties";
-    // URL url = this.getClass().getClassLoader().getResource(log4jprops);
-    // PropertyConfigurator.configure(url);
-
-    Properties props = new Properties();
-    props.put("log4j.rootCategory", "warn");
-    props.put("log4j.rootLogger", "warn, stdout");
-    props.put("log4j.logger.org.springframework", "warn");
-    props.put("log4j.logger.PonderUtilCore", "info");
-    props.put("log4j.appender.stdout", "org.apache.log4j.ConsoleAppender");
-    props.put("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
-    props.put("log4j.appender.stdout.layout.ConversionPattern", "%d %p (%F:%L) - <%m>%n");
-
-    PropertyConfigurator.configure(props);
   }
 
   /**
