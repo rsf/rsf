@@ -3,8 +3,8 @@
  */
 package uk.org.ponder.rsac.servlet;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import uk.org.ponder.rsac.RSACBeanLocator;
 import uk.org.ponder.servletutil.ServletRequestWrapper;

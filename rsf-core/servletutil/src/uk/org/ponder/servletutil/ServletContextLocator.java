@@ -3,7 +3,7 @@
  */
 package uk.org.ponder.servletutil;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 public interface ServletContextLocator {
   /** Looks up a context registered under the supplied name, returning

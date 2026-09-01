@@ -5,7 +5,7 @@ package uk.org.ponder.servletutil;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartResolver;

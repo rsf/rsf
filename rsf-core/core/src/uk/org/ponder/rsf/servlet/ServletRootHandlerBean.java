@@ -6,8 +6,8 @@ package uk.org.ponder.rsf.servlet;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import uk.org.ponder.rsf.processor.support.RootHandlerBeanBase;
 import uk.org.ponder.rsf.renderer.RenderUtil;

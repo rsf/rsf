@@ -3,7 +3,7 @@
  */
 package uk.org.ponder.rsf.servlet;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import uk.org.ponder.rsf.viewstate.BaseURLProvider;
 import uk.org.ponder.rsf.viewstate.support.StaticBaseURLProvider;

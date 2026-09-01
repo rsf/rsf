@@ -7,3 +7,17 @@
 **/.git
 .idea
 **/*.iml
+**/.flattened-pom.xml
+
+# Maven
+**/dependency-reduced-pom.xml
+release.properties
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+
+# Logs
+*.log
+
+# Editors
+*.swp
+.vscode/

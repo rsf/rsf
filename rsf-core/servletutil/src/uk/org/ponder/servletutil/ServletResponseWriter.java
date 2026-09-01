@@ -6,7 +6,7 @@ package uk.org.ponder.servletutil;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import uk.org.ponder.streamutil.StreamCloseUtil;
 import uk.org.ponder.util.UniversalRuntimeException;

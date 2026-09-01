@@ -6,7 +6,7 @@ package uk.org.ponder.springutil;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.BeansException;
 import org.springframework.web.servlet.handler.AbstractHandlerMapping;

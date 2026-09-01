@@ -6,7 +6,7 @@ package uk.org.ponder.servletutil;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import uk.org.ponder.conversion.GeneralLeafParser;
 import uk.org.ponder.messageutil.TargettedMessage;

@@ -5,7 +5,7 @@ package uk.org.ponder.rsf.servlet;
 
 import java.io.PrintStream;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import uk.org.ponder.errorutil.PermissionException;
 import uk.org.ponder.rsf.flow.errors.ViewExceptionStrategy;

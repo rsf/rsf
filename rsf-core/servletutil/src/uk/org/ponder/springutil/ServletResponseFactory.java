@@ -5,7 +5,7 @@ package uk.org.ponder.springutil;
 
 import java.io.UnsupportedEncodingException;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.mock.web.MockHttpServletResponse;
 

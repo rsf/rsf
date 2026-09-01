@@ -3,7 +3,7 @@
  */
 package uk.org.ponder.servletutil;
 
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 
 import uk.org.ponder.util.ExceptionUnwrapper;
 
@@ -25,7 +25,7 @@ public class ServletExceptionUnwrapper implements ExceptionUnwrapper {
   public boolean isValid() {
     try {
       Thread.currentThread().getContextClassLoader().loadClass(
-          "javax.servlet.ServletException");
+          "jakarta.servlet.ServletException");
     }
     catch (Exception e) {
       return false;

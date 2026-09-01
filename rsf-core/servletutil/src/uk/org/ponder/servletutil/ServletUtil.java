@@ -6,8 +6,8 @@ package uk.org.ponder.servletutil;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
 
 import uk.org.ponder.stringutil.URLUtil;
 import uk.org.ponder.util.UniversalRuntimeException;
@@ -16,8 +16,8 @@ import uk.org.ponder.util.UniversalRuntimeException;
  * A collection of primitive utilities for working with Servlets, in particular
  * for inferring various parts of path components. This link is particularly
  * useful in sorting out the various meanings of HttpServletRequest returns: <a
- * href="http://javaalmanac.com/egs/javax.servlet/GetReqUrl.html?l=new">
- * http://javaalmanac.com/egs/javax.servlet/GetReqUrl.html?l=new</a>
+ * href="http://javaalmanac.com/egs/jakarta.servlet/GetReqUrl.html?l=new">
+ * http://javaalmanac.com/egs/jakarta.servlet/GetReqUrl.html?l=new</a>
  * 
  * @author Antranig Basman (antranig@caret.cam.ac.uk)
  * 
