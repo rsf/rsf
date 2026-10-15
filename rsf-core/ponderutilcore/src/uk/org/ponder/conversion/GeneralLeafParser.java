@@ -223,7 +223,7 @@ public class GeneralLeafParser implements PolymorphicLeafObjectParser {
    */
 
   public Object parse(Class returntype, String bulk) {
-    if (bulk.equals(NULL_STRING)) {
+    if (bulk == null || bulk.equals(NULL_STRING)) {
       return null;
     }
     LeafObjectParser parser = fetchParser(returntype);

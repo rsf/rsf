@@ -3,6 +3,8 @@
  */
 package uk.org.ponder.rsf.test.vpi;
 
+import org.junit.Test;
+
 import uk.org.ponder.rsf.bare.RenderResponse;
 import uk.org.ponder.rsf.bare.junit.MultipleRSFTests;
 import uk.org.ponder.rsf.viewstate.SimpleViewParameters;
@@ -17,6 +19,7 @@ public class TestVPI extends MultipleRSFTests {
     contributeConfigLocation("classpath:uk/org/ponder/rsf/test/vpi/vpi-application-context.xml");
   }
    
+  @Test
   public void testVPI() {
     RenderResponse response = getRequestLauncher().renderView(new SimpleViewParameters(View1Producer.VIEW_ID));
     assertRenderError(response, false);

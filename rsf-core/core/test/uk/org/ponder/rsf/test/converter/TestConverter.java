@@ -4,6 +4,7 @@
 package uk.org.ponder.rsf.test.converter;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import uk.org.ponder.rsf.bare.ActionResponse;
 import uk.org.ponder.rsf.bare.RenderResponse;
@@ -26,6 +27,7 @@ public class TestConverter extends MultipleRSFTests {
   }
 
   
+  @Test
   public void testBooleanLOR() {
     RenderResponse response = getRequestLauncher().renderView(new SimpleViewParameters(TestProducer3.VIEW_ID));
     ViewWrapper wrapper = response.viewWrapper;
@@ -54,6 +56,7 @@ public class TestConverter extends MultipleRSFTests {
   * and submission of a pure component tree.
   */
   
+  @Test
   public void testConverterInapplicable() {
     // Fire an initial request to render the view from TestProducer.java
     RenderResponse response = getRequestLauncher().renderView();
@@ -91,6 +94,7 @@ public class TestConverter extends MultipleRSFTests {
    */
   // TODO: construct tests for various other DataConverter matching edge cases - 
   // type-based matches and those which expire incomplete etc.
+  @Test
   public void testConverterPathMatch() {
     RenderResponse response = getRequestLauncher().renderView(new SimpleViewParameters(TestProducer2.VIEW_ID));
     ViewWrapper wrapper = response.viewWrapper;

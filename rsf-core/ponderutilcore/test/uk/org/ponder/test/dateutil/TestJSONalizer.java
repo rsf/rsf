@@ -3,7 +3,10 @@
  */
 package uk.org.ponder.test.dateutil;
 
+import java.io.StringWriter;
+
 import uk.org.ponder.conversion.SerializationProvider;
+import uk.org.ponder.json.JSONWriter;
 import uk.org.ponder.json.support.JSONProvider;
 import uk.org.ponder.saxalizer.SAXalizerMappingContext;
 import junit.framework.TestCase;
@@ -61,6 +64,17 @@ public class TestJSONalizer extends TestCase {
     
   }
 
+
+  public void testControlCharacters() {
+    String text = "line\ncolumn\treturn\rback\bform\f\u0000\u001f\u03bb";
+    String encoded = json.toString(text);
+    assertEquals("\"line\\u000acolumn\\u0009return\\u000dback\\u0008form\\u000c\\u0000\\u001f\u03bb\"", encoded);
+    assertEquals(text, json.fromString(encoded));
+    StringWriter slice = new StringWriter();
+    new JSONWriter(slice).write("skip\ntext".toCharArray(), 4, 5);
+    assertEquals("\\u000atext", slice.toString());
+    assertEquals("\n\t\r\b\f\u03bb", json.fromString("\"\\n\\t\\r\\b\\f\\u03bb\""));
+  }
 
   private void assertArrays(String[] one, String[] two) {
     assertEquals(one.length, two.length);

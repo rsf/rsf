@@ -76,8 +76,6 @@ public class PostDecoder {
         .hasNext();) {
       String key = (String) keyit.next();
       String[] values = (String[]) normalizedrequest.get(key);
-      Logger.log.info("PostInit: key " + key + " value " + (values == null? 
-          "null" : (values.length == 0 ? "[]" : values[0])));
       if (fossilizedconverter.isNonComponentBinding(key)) {
         for (int i = 0; i < values.length; ++i) {
           // EL binding key is fixed, there may be many values
@@ -91,12 +89,10 @@ public class PostDecoder {
             else {
               rsvc.addEntry(sve);
             }
-            Logger.log.info("Discovered noncomponent binding for "
-                + sve.valuebinding + " rvalue " + sve.newvalue);
           }
           catch (Exception e) {
-            Logger.log.warn("Error parsing binding key " + key + " value "
-                + values[i], e);
+            // Parsing exceptions can themselves contain the submitted value.
+            Logger.log.warn("Unable to parse submitted binding ({})", e.getClass().getName());
           }
         }
       }
@@ -118,9 +114,6 @@ public class PostDecoder {
           sve.reshaperbinding = reshaper[0];
         }
 
-        Logger.log.info("Discovered fossilised binding for " + sve.valuebinding
-            + " for component " + sve.componentid + " with old value "
-            + sve.oldvalue);
         rsvc.addEntry(sve);
       }
     }
