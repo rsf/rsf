@@ -10,17 +10,22 @@ on:
 
 jobs:
   maven-build:
+    name: Maven Build (Java ${{ matrix.java }})
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        java: ['17', '21']
     steps:
       - name: Git Checkout
         uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
           fetch-depth: 0
-      - name: JDK 17
+      - name: JDK ${{ matrix.java }}
         uses: actions/setup-java@v4
         with:
-          java-version: 17
+          java-version: ${{ matrix.java }}
           distribution: temurin
           cache: maven
       - name: Build and test
