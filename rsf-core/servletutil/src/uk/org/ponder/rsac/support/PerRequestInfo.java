@@ -38,6 +38,7 @@ class PerRequestInfo {
     // whole entry away. But we NEED to cache the lazytargets, so what the
     // heck...
     beans.clear();
+    seedbeans.clear();
     todestroy.clear();
     postprocessors.clear();
   }
@@ -50,6 +51,7 @@ class PerRequestInfo {
       }
 
       public boolean remove(String beanname) {
+        seedbeans.remove(beanname);
         return beans.remove(beanname);
       }
 

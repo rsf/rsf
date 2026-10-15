@@ -902,6 +902,7 @@
   </bean>
 
   <bean id="destroyedScopeMapProxy" parent="RSACBridgeProxy">
+    <property name="targetClass" value="java.util.Map" />
     <property name="targetBeanName" value="destroyedScopeMap" />
   </bean>
 

@@ -118,16 +118,18 @@ public class DeJSONalizer {
         if (c2 == 'b')
           cw.append('\b');
         else if (c2 == 't')
-          cw.append('t');
+          cw.append('\t');
         else if (c2 == 'n')
-          cw.append('n');
+          cw.append('\n');
         else if (c2 == 'r')
-          cw.append('r');
+          cw.append('\r');
+        else if (c2 == 'f')
+          cw.append('\f');
         else if (c2 == 'u') {
           for (int i = 0; i < 4; ++i) {
             chars[i] = lr.get();
           }
-          cw.append(CharParser.parseHexInt(chars, 0, 4));
+          cw.append((char) CharParser.parseHexInt(chars, 0, 4));
         }
         else {
           cw.append(c2);

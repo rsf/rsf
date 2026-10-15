@@ -5,12 +5,12 @@ package uk.org.ponder.rsac;
 
 import java.lang.reflect.Method;
 
-import net.sf.cglib.proxy.Callback;
-import net.sf.cglib.proxy.CallbackFilter;
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
-import net.sf.cglib.proxy.NoOp;
+import org.springframework.cglib.proxy.Callback;
+import org.springframework.cglib.proxy.CallbackFilter;
+import org.springframework.cglib.proxy.Enhancer;
+import org.springframework.cglib.proxy.MethodInterceptor;
+import org.springframework.cglib.proxy.MethodProxy;
+import org.springframework.cglib.proxy.NoOp;
 
 import org.springframework.aop.TargetSource;
 
@@ -60,7 +60,12 @@ public class RSACPeaProxyFactory implements MethodInterceptor {
   public Object intercept(Object obj, Method method, Object[] args,
       MethodProxy proxy) throws Throwable {
     Object target = targetsource.getTarget();
-    return proxy.invoke(target, args);
+    try {
+      return proxy.invoke(target, args);
+    }
+    finally {
+      targetsource.releaseTarget(target);
+    }
   }
 
 }

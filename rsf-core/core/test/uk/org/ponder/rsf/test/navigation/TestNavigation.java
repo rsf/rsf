@@ -4,6 +4,7 @@
 package uk.org.ponder.rsf.test.navigation;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import uk.org.ponder.rsf.bare.ActionResponse;
 import uk.org.ponder.rsf.bare.RenderResponse;
@@ -24,6 +25,7 @@ public class TestNavigation extends MultipleRSFTests {
     contributeConfigLocation("classpath:uk/org/ponder/rsf/test/navigation/navigation-application-context.xml");
   }
    
+  @Test
   public void testRender() {
 	Assert.assertEquals("default", submitForm("nullMethod"));
 	Assert.assertEquals("first", submitForm("stringMethod.'first'"));

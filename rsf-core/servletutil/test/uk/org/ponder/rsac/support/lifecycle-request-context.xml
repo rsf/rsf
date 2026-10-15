@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+  <bean id="httpServletFactory" class="uk.org.ponder.rsac.servlet.StaticHttpServletFactory"/>
+  <bean id="RSACLazarusList" class="uk.org.ponder.rsac.support.RSACLazarusList">
+    <property name="RSACBeanLocator" ref="RSACBeanLocator"/>
+  </bean>
+  <bean id="recordSeed" class="uk.org.ponder.rsac.support.TestRequestLifecycle$RecordingSeed" init-method="record">
+    <property name="value" ref="seed"/>
+    <property name="values" ref="recordedValues"/>
+  </bean>
+</beans>

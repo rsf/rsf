@@ -4,6 +4,7 @@
 package uk.org.ponder.rsf.test.diminish;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import uk.org.ponder.rsf.bare.ActionResponse;
 import uk.org.ponder.rsf.bare.RenderResponse;
@@ -44,6 +45,7 @@ public class TestDiminish extends MultipleRSFTests {
     return togo;
   }
   
+  @Test
   public void testDiminishment() {
     RenderResponse response = getRequestLauncher().renderView();
     

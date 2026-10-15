@@ -4,6 +4,7 @@
 package uk.org.ponder.rsf.test.sitemap;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import uk.org.ponder.rsf.bare.junit.PlainRSFTests;
 import uk.org.ponder.rsf.viewstate.EntityCentredViewParameters;
@@ -15,6 +16,7 @@ public class TestSiteMap extends PlainRSFTests {
     contributeConfigLocation("classpath:uk/org/ponder/rsf/test/sitemap/sitemap-context.xml");
   }
    
+  @Test
   public void testParseECVP() {
     SiteMap map = (SiteMap) applicationContext.getBean("siteMap");
     

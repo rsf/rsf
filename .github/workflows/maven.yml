@@ -5,7 +5,7 @@ name: Maven Build
 
 on:
   push:
-    branches: [ jakarta ]
+    branches: [ master ]
   pull_request:
 
 jobs:
