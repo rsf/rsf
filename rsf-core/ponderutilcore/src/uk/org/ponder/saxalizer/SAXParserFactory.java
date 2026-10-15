@@ -12,8 +12,9 @@ import uk.org.ponder.util.UniversalRuntimeException;
 public class SAXParserFactory {
   public static Parser newParser() {
     try {
+      // Sakai's Xerces 2.12.2 provider rejects these JAXP access restrictions.
       javax.xml.parsers.SAXParserFactory factory =
-          javax.xml.parsers.SAXParserFactory.newInstance();
+          javax.xml.parsers.SAXParserFactory.newDefaultInstance();
       factory.setValidating(false);
       factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
       javax.xml.parsers.SAXParser parser = factory.newSAXParser();
