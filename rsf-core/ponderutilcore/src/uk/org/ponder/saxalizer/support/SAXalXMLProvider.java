@@ -33,13 +33,11 @@ public class SAXalXMLProvider implements MappableXMLProvider {
     return mappingcontext;
   }
 
-  private ThreadLocal saxalizergetter = new ThreadLocal() {
-    public Object initialValue() {
-      SAXalizerHelper togo = new SAXalizerHelper(mappingcontext);
-      togo.setEntityResolverStash(entityresolverstash);
-      return togo;
-    }
-  };
+  private SAXalizerHelper getSAXalizer() {
+    SAXalizerHelper togo = new SAXalizerHelper(mappingcontext);
+    togo.setEntityResolverStash(entityresolverstash);
+    return togo;
+  }
   
   private DeSAXalizer getDeSAXalizer() {
     return new DeSAXalizer(mappingcontext); 
@@ -75,7 +73,7 @@ public class SAXalXMLProvider implements MappableXMLProvider {
   }
   
   public Object readObject(Object classorobject, InputStream is, Reader reader) {
-    SAXalizerHelper saxalizer = (SAXalizerHelper) saxalizergetter.get();
+    SAXalizerHelper saxalizer = getSAXalizer();
     Class objclass = classorobject == null? null : classorobject instanceof Class? (Class)classorobject : classorobject.getClass();
     try {
       Object toread = classorobject == null? null : classorobject == objclass? objclass.newInstance() : classorobject;
@@ -83,9 +81,6 @@ public class SAXalXMLProvider implements MappableXMLProvider {
           saxalizer.produceSubtree(toread, is);
     }
     catch (Throwable t) {
-      // Xerces appears to be crap and will not clear its parsing condition once it has 
-      // been set - throw the whole helper away and start again.
-      saxalizergetter.set(new SAXalizerHelper(mappingcontext));
       throw UniversalRuntimeException.accumulate(t,
           "Error reading object of class " + objclass);
     }
@@ -149,7 +144,7 @@ public class SAXalXMLProvider implements MappableXMLProvider {
     Class objclass = findClass(roottag);
     
     StringReader sr = new StringReader(toread);
-    SAXalizerHelper saxalizer = (SAXalizerHelper) saxalizergetter.get();
+    SAXalizerHelper saxalizer = getSAXalizer();
     try {
       return saxalizer.produceSubtree(objclass.newInstance(), sr);
     }

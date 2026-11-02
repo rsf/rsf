@@ -4,6 +4,7 @@
 package uk.org.ponder.rsf.test.badparams;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import uk.org.ponder.rsf.bare.junit.MultipleRSFTests;
 import uk.org.ponder.rsf.viewstate.support.ViewParamsValidator;
@@ -18,6 +19,7 @@ public class TestBadParams extends MultipleRSFTests {
     contributeConfigLocation("classpath:uk/org/ponder/rsf/test/badparams/badparams-application-context.xml");
   }
   
+  @Test
   public void testBadParams() {
     
     ViewParamsValidator validator = (ViewParamsValidator) applicationContext.getBean("viewParamsValidator");

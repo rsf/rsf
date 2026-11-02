@@ -6,6 +6,7 @@ package uk.org.ponder.rsf.test.selection;
 import java.util.Arrays;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import uk.org.ponder.conversion.GeneralLeafParser;
 import uk.org.ponder.conversion.VectorCapableParser;
@@ -152,6 +153,7 @@ public class TestSelection extends MultipleRSFTests {
     }
   }
 
+  @Test
   public void testMultiple() {
     // test primitive list
     testOneMultipleSelection(3, new Integer[] { new Integer(1) }, new int[] {0, 1},
@@ -171,6 +173,7 @@ public class TestSelection extends MultipleRSFTests {
         false);
   }
 
+  @Test
   public void testSelection() {
     testOneSelection(3, new Integer(1), 2, true);
 

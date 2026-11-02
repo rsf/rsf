@@ -4,6 +4,7 @@
 package uk.org.ponder.rsf.test.cancellation;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import uk.org.ponder.messageutil.TargettedMessageList;
 import uk.org.ponder.rsf.bare.ActionResponse;
@@ -25,6 +26,7 @@ public class TestCancellation extends MultipleRSFTests {
     contributeConfigLocation("classpath:uk/org/ponder/rsf/test/cancellation/cancellation-application-context.xml");
   }
   
+  @Test
   public void testCancellation() {
     
     RenderResponse render = getRequestLauncher().renderView();

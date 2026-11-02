@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import uk.org.ponder.dateutil.FieldDateTransit;
 import uk.org.ponder.messageutil.TargettedMessage;
@@ -104,6 +105,7 @@ public class TestMessages extends MultipleRSFTests {
     }
   }
 
+  @Test
   public void testMessages() {
     testSubmit("/////", null, false);
     testSubmit("02/01/06", null, true);

@@ -4,6 +4,7 @@
 package uk.org.ponder.rsf.test.dar;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import uk.org.ponder.arrayutil.ArrayUtil;
 import uk.org.ponder.beanutil.WriteableBeanLocator;
@@ -26,6 +27,7 @@ public class TestDARApplier extends PlainRSFTests {
     return togo;
   }
   
+  @Test
   public void testStringVector() {    
     DARTestBean testBean = testApplication("value");
     Assert.assertNotNull(testBean.values);

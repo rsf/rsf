@@ -8,7 +8,6 @@ import java.util.Collections;
 import uk.org.ponder.rsf.flow.FlowIDHolder;
 import uk.org.ponder.rsf.state.LockGetter;
 import uk.org.ponder.stringutil.StringList;
-import uk.org.ponder.util.Logger;
 import uk.org.ponder.util.RunnableInvoker;
 
 /**
@@ -60,12 +59,7 @@ public class BasicScopedAlterationWrapper implements RunnableInvoker {
       return;
     }
     Collections.sort(completelocks); // Avoid potential Dedlocks!
-    try {
-      lockUUPP(completelocks, towrap, 0);
-    }
-    finally {
-      lockgetter.returnLock(flowtoken);
-    }
+    lockUUPP(completelocks, towrap, 0);
   }
 
   private void lockUUPP(StringList completelocks, Runnable towrap, int i) {
@@ -75,9 +69,13 @@ public class BasicScopedAlterationWrapper implements RunnableInvoker {
     else {
       String lockname = completelocks.stringAt(i);
       Object lock = lockgetter.getLock(lockname);
-      Logger.log.info("Acquiring lock " + lock + " for scope name " + lockname);
-      synchronized (lock) {
-        lockUUPP(completelocks, towrap, i + 1);
+      try {
+        synchronized (lock) {
+          lockUUPP(completelocks, towrap, i + 1);
+        }
+      }
+      finally {
+        lockgetter.returnLock(lockname);
       }
     }
   }

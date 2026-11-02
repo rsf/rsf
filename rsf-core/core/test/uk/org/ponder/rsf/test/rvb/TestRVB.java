@@ -4,6 +4,7 @@
 package uk.org.ponder.rsf.test.rvb;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import uk.org.ponder.rsf.bare.ActionResponse;
 import uk.org.ponder.rsf.bare.RenderResponse;
@@ -24,6 +25,7 @@ public class TestRVB extends MultipleRSFTests {
     contributeConfigLocation("classpath:uk/org/ponder/rsf/test/rvb/rvb-application-context.xml");
   }
   
+  @Test
   public void testResultingViewBindings() {
     
     RenderResponse render = getRequestLauncher().renderView();

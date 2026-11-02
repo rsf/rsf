@@ -76,12 +76,6 @@
       <version>1.0</version>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>cglib</groupId>
-      <artifactId>cglib-nodep</artifactId>
-      <version>3.3.0</version>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
   <build>
     <sourceDirectory>src/java</sourceDirectory>

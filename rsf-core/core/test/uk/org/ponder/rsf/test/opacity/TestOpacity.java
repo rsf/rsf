@@ -6,6 +6,7 @@ package uk.org.ponder.rsf.test.opacity;
 import java.util.Arrays;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import uk.org.ponder.beanutil.BeanLocator;
 import uk.org.ponder.errorutil.CoreMessages;
@@ -91,11 +92,12 @@ public class TestOpacity extends MultipleRSFTests {
     return null;
   }
 
+  @Test
   public void testNullMessage() {
     // Test not only that null values can be correctly encoded in the request,
     // but also raw exception conversion with "msg="
     String[] valnulls = new String[] {null, "value"};
-    TargettedMessageList list1 = testSubmit(valnulls, "general", true, false);
+    TargettedMessageList list1 = testSubmit(valnulls, "nullarray", true, false);
     
     Assert.assertEquals(1, list1.size());
     TargettedMessage message1 = list1.messageAt(0);
@@ -103,6 +105,7 @@ public class TestOpacity extends MultipleRSFTests {
     Assert.assertEquals("invalid.data", message1.messagecodes[0]);
   }
   
+  @Test
   public void testOpacity() {
 
     String[] values = new String[] { "value1", "value2" };

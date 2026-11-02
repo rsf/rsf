@@ -4,6 +4,7 @@
 package uk.org.ponder.rsf.test.viewerror;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import uk.org.ponder.messageutil.TargettedMessage;
 import uk.org.ponder.messageutil.TargettedMessageList;
@@ -21,6 +22,7 @@ public class TestViewError extends MultipleRSFTests {
     contributeConfigLocation("classpath:uk/org/ponder/rsf/test/viewerror/viewerror-application-context.xml");
   }
   
+  @Test
   public void testResultingViewBindings() {
     
     RenderResponse render = getRequestLauncher().renderView();

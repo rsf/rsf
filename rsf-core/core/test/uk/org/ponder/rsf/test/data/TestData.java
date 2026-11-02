@@ -3,6 +3,8 @@
  */
 package uk.org.ponder.rsf.test.data;
 
+import org.junit.Test;
+
 import uk.org.ponder.rsf.bare.ActionResponse;
 import uk.org.ponder.rsf.bare.RenderResponse;
 import uk.org.ponder.rsf.bare.ViewWrapper;
@@ -59,6 +61,7 @@ public class TestData extends MultipleRSFTests {
   }
   
   
+  @Test
   public void testData() {
     ActionResponse response = tryLogon("Edward", "Shambleshanks");
     assertActionError(response, true);
@@ -74,8 +77,13 @@ public class TestData extends MultipleRSFTests {
     
   }
   
+  @Test
   public void testParams() {
-    RenderResponse render = getRequestLauncher().renderView(new SimpleViewParameters(ParamsDataView.VIEW_ID));
+    ActionResponse login = tryLogon("Edward", "Longshanks");
+    assertActionError(login, false);
+    ViewParameters params = (ViewParameters) login.ARIResult.resultingView;
+    params.viewID = ParamsDataView.VIEW_ID;
+    RenderResponse render = getRequestLauncher().renderView(params);
     assertRenderError(render, false);
     assertContains(render, "\"contextView\": \"\\/templates\\/images\\/image.jpg");
     assertContains(render, "\"selfView\": \"\\/paramdata\"");

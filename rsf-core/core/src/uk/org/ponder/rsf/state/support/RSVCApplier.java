@@ -127,8 +127,8 @@ public class RSVCApplier {
               unchangedValue = true;
           }
           catch (Exception e) {
-            Logger.log.warn("Error flattening value" + sve.newvalue + " into "
-                + sve.oldvalue.getClass(), e);
+            Logger.log.warn("Unable to flatten submitted value to {} ({})",
+                sve.oldvalue.getClass().getName(), e.getClass().getName());
           }
         }
       }
@@ -166,7 +166,7 @@ public class RSVCApplier {
           dar = reshaper.reshapeDAR(dar);
         }
         catch (Exception e) {
-          Logger.log.info("Error reshaping value", e);
+          Logger.log.warn("Unable to reshape submitted value ({})", e.getClass().getName());
           // errors initially accumulated referring to paths
           targettedMessageList.addMessage(new TargettedMessage(e.getMessage(),
               e, dar.path));

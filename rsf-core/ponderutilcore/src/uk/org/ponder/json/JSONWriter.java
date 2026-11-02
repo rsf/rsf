@@ -65,11 +65,11 @@ public class JSONWriter {
     int limit = start + length;
     for (; length > 0; --length) {
       char c = towrite[limit - length];
-      if (c == '"' || c == '\\' || c == '/') break;
+      if (c < 0x20 || c == '"' || c == '\\' || c == '/') break;
     }
     internalwriter.write(towrite, start, limit - start - length);
     if (length > 0) {
-      writeSlow(towrite, start + limit - length, length);
+      writeSlow(towrite, limit - length, length);
     }
   }
 
@@ -86,7 +86,15 @@ public class JSONWriter {
         svb.ensureCapacity(svb.size + i);
         break;
       default:
-        svb.appendFast(c);
+        if (c < 0x20) {
+          svb.append("\\u00");
+          svb.append(Character.forDigit(c >> 4, 16));
+          svb.append(Character.forDigit(c & 0xf, 16));
+          svb.ensureCapacity(svb.size + i);
+        }
+        else {
+          svb.appendFast(c);
+        }
       }
     }
     internalwriter.write(svb.storage, svb.offset, svb.size);

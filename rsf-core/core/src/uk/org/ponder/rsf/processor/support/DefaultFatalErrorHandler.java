@@ -3,14 +3,10 @@
  */
 package uk.org.ponder.rsf.processor.support;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import uk.org.ponder.rsf.processor.FatalErrorHandler;
 import uk.org.ponder.streamutil.write.PrintOutputStream;
 import uk.org.ponder.util.Logger;
 import uk.org.ponder.util.UniversalRuntimeException;
-import uk.org.ponder.xml.XMLWriter;
 
 /**
  * The default FatalErrorHandler for RSF. In addition to logic to print a hardwired
@@ -38,12 +34,9 @@ public class DefaultFatalErrorHandler implements FatalErrorHandler {
     // IKAT to format this error message
     Logger.log.fatal("Completely fatal error populating view root", t);
 
-    pos.println("<html><head><title>Internal Error</title></head></body><pre>");
+    pos.println("<html><head><title>Internal Error</title></head><body><pre>");
     pos.println(ERROR_STRING);
-    StringWriter todump = new StringWriter();
-    t.printStackTrace(new PrintWriter(todump));
-    XMLWriter xml = new XMLWriter(pos);
-    xml.write(todump.toString());
+    pos.println("The request could not be completed. Please contact your administrator.");
     pos.println("</pre></body></html>");
     pos.close();
     return HANDLED;

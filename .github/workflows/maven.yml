@@ -5,22 +5,27 @@ name: Maven Build
 
 on:
   push:
-    branches: [ jakarta ]
+    branches: [ master ]
   pull_request:
 
 jobs:
   maven-build:
-    runs-on: ubuntu-22.04
+    name: Maven Build (Java ${{ matrix.java }})
+    runs-on: ubuntu-26.04
+    strategy:
+      fail-fast: false
+      matrix:
+        java: ['17', '21']
     steps:
       - name: Git Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
         with:
           ref: ${{ github.ref }}
           fetch-depth: 0
-      - name: JDK 17
-        uses: actions/setup-java@v4
+      - name: JDK ${{ matrix.java }}
+        uses: actions/setup-java@v6.1.0
         with:
-          java-version: 17
+          java-version: ${{ matrix.java }}
           distribution: temurin
           cache: maven
       - name: Build and test

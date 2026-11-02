@@ -18,25 +18,31 @@ import uk.org.ponder.rsf.state.LockGetter;
  */
 
 public class InMemoryLockGetter implements LockGetter {
-  // Maps flow tokens onto lock objects, while they are active
-  private Map flowlockmap = new HashMap();
+  // Count both holders and waiting requests before exposing a monitor.
+  private final Map<String, LockEntry> flowlockmap = new HashMap<>();
+
+  private static class LockEntry {
+    int users;
+  }
 
   public Object getLock(String flowtoken) {
-    // It appears it is completely impossible to avoid a genuine lock here, so
-    // no point waiting for a Doug Lea solution. The point is that we expect
-    // that by far the most likely case is where there is a single lock, and
-    // the map is empty.
     synchronized (flowlockmap) {
-      Object lock = flowlockmap.get(flowtoken);
+      LockEntry lock = flowlockmap.get(flowtoken);
       if (lock == null) {
-        lock = new Object();
+        lock = new LockEntry();
         flowlockmap.put(flowtoken, lock);
       }
+      ++lock.users;
       return lock;
     }
   }
 
   public void returnLock(String flowtoken) {
-    flowlockmap.remove(flowtoken);
+    synchronized (flowlockmap) {
+      LockEntry lock = flowlockmap.get(flowtoken);
+      if (lock != null && --lock.users == 0) {
+        flowlockmap.remove(flowtoken);
+      }
+    }
   }
 }

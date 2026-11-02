@@ -10,6 +10,9 @@ package uk.org.ponder.rsf.state;
  */
 
 public interface LockGetter {
+  /** Reserves the monitor for a holder or waiter. Each call must be paired with
+   * returnLock after leaving the synchronized block, including on failure.
+   */
   public Object getLock(String lockname);
   public void returnLock(String lockname);
 }

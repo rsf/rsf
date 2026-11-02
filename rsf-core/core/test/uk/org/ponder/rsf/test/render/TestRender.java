@@ -3,6 +3,8 @@
  */
 package uk.org.ponder.rsf.test.render;
 
+import org.junit.Test;
+
 import uk.org.ponder.rsf.bare.RenderResponse;
 import uk.org.ponder.rsf.bare.junit.MultipleRSFTests;
 
@@ -17,6 +19,7 @@ public class TestRender extends MultipleRSFTests {
     contributeConfigLocation("classpath:uk/org/ponder/rsf/test/render/render-application-context.xml");
   }
    
+  @Test
   public void testRender() {
     RenderResponse response = getRequestLauncher().renderView();
     assertRenderError(response, false);
@@ -39,7 +42,7 @@ public class TestRender extends MultipleRSFTests {
     assertContains(response, "select-2-selection");
     // For RSF-115
     assertContains(response, "<span > <a  href=\"http://place\">Link Text</a> </span>");
-    assertContains(response, "<input  value=\"Button\" type=\"button\"/>");
+    assertContains(response, "<input  type=\"button\" value=\"Button\"/>");
     assertContains(response, "class=\"one\"");
   }
 }

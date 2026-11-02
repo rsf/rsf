@@ -3,8 +3,6 @@
  */
 package uk.org.ponder.rsf.servlet;
 
-import java.io.PrintStream;
-
 import jakarta.servlet.http.HttpServletResponse;
 
 import uk.org.ponder.errorutil.PermissionException;
@@ -35,17 +33,11 @@ public class RESTfulViewExceptionStrategy implements ViewExceptionStrategy {
       try {
         if (e instanceof SecurityException || e instanceof PermissionException) {
           Logger.log.info("Sending HTTP status 401 for exception ", e);
-          httpServletResponse.sendError(401, e.toString());
+          httpServletResponse.sendError(401);
         }
         else {
           Logger.log.error("Sending HTTP status 500 for exception ", e);
-          httpServletResponse.sendError(500, e.toString());
-        }
-        try { // Jetty will refuse to allow access to Writer after sendError 
-          e.printStackTrace(httpServletResponse.getWriter());
-        }
-        catch (IllegalStateException e3) {
-          e.printStackTrace(new PrintStream(httpServletResponse.getOutputStream()));
+          httpServletResponse.sendError(500);
         }
       }
       catch (Exception e2) {

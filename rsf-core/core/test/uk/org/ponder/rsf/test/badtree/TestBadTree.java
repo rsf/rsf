@@ -4,6 +4,7 @@
 package uk.org.ponder.rsf.test.badtree;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import uk.org.ponder.rsf.bare.RenderResponse;
 import uk.org.ponder.rsf.bare.junit.MultipleRSFTests;
@@ -19,6 +20,7 @@ public class TestBadTree extends MultipleRSFTests {
     contributeConfigLocation("classpath:uk/org/ponder/rsf/test/badtree/badtree-application-context.xml");
   }
   
+  @Test
   public void testBadTree() {
     // Test for http://www.caret.cam.ac.uk/jira/browse/RSF-94
     RenderResponse render = getRequestLauncher().renderView();
@@ -28,6 +30,7 @@ public class TestBadTree extends MultipleRSFTests {
     Assert.assertFalse(handler.error instanceof StackOverflowError);
   }
   
+  @Test
   public void testBadTree2() {
     // Test for http://www.caret.cam.ac.uk/jira/browse/RSF-39
     RenderResponse render = getRequestLauncher().renderView(new SimpleViewParameters(TestProducer2.VIEW_ID));

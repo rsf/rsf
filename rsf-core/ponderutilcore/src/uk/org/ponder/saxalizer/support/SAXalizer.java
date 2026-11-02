@@ -364,11 +364,14 @@ public class SAXalizer extends HandlerBase {
 
   /** ******* Begin methods for the DocumentHandler interface ******* */
 
-  public InputSource resolveEntity(String publicID, String systemID) {
+  public InputSource resolveEntity(String publicID, String systemID) throws SAXException {
     Logger.println("SAXalizer was asked to resolve public ID " + publicID
         + " systemID " + systemID, Logger.DEBUG_INFORMATIONAL);
-    return entityresolverstash == null ? null
-        : entityresolverstash.resolve(publicID);
+    InputSource source = entityresolverstash == null ? null : entityresolverstash.resolve(publicID);
+    if (source == null) {
+      throw new SAXException("External XML entity is not registered locally");
+    }
+    return source;
   }
 
   private Locator locator;

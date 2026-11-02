@@ -242,8 +242,7 @@ public class DARApplier implements BeanModelAlterer {
 
   public void applyAlteration(final Object rootobj, final DataAlterationRequest dar,
       final DAREnvironment darenv) {
-    Logger.log.debug("Applying DAR " + dar.type + " to path " + dar.path + ": "
-        + dar.data);
+    Logger.log.debug("Applying DAR {} to path {}", dar.type, dar.path);
     checkAccess(dar.path, darenv == null ? null
         : darenv.addressibleModel, "Writing to");
     if (dar.data instanceof CoreELReference) {
@@ -283,7 +282,7 @@ public class DARApplier implements BeanModelAlterer {
 
     }
     catch (Exception e) {
-      String emessage = "Error applying value " + dar.data + " to path " + dar.path;
+      String emessage = "Error applying value to path " + dar.path;
       if (darenv != null) {
         if (darenv.writeDepends != null) {
           List depends = (List) darenv.writeDepends.get(dar.path);
@@ -314,7 +313,10 @@ public class DARApplier implements BeanModelAlterer {
           }
           darenv.messages.addMessage(message);
         }
-        Logger.log.info(emessage, e);
+        // Conversion exceptions may contain submitted values; retain details in
+        // the validation result rather than copying them into application logs.
+        Logger.log.warn("Unable to apply data alteration to path {} ({})",
+            dar.path, e.getClass().getName());
       }
       else
         throw UniversalRuntimeException.accumulate(e, emessage);

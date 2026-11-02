@@ -4,6 +4,7 @@
 package uk.org.ponder.rsac.support;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,7 +53,7 @@ public class RSACLazarusList implements Runnable {
   public Runnable getLazarusRunnable(final Map newbeans,
       final String rootbeanname) {
     return new Runnable() {
-      Map seedbeans = rsacbl.getSeedMap();
+      final Map seedbeans = new HashMap(rsacbl.getSeedMap());
 
       public void run() {
         rsacbl.startRequest();

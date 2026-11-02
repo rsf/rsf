@@ -147,9 +147,13 @@ public class SAXalizerHelper extends HandlerBase {
     parserstash.setDocumentHandler(saxer);
   }
 
-  public InputSource resolveEntity(String publicID, String systemID) {
+  public InputSource resolveEntity(String publicID, String systemID) throws SAXException {
     //    System.out.println("Helper was asked to resolve public ID "+publicID+" systemID "+systemID);
-    return entityresolverstash == null ? null : entityresolverstash.resolve(publicID);
+    InputSource source = entityresolverstash == null ? null : entityresolverstash.resolve(publicID);
+    if (source == null) {
+      throw new SAXException("External XML entity is not registered locally");
+    }
+    return source;
   }
 
 }
